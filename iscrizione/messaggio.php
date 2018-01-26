@@ -28,7 +28,7 @@
             $err=Session::get("errIscrizione");
             switch($err) {
                 case "fine": //iscrizione completata
-                    $msg="<h2>Congratulazioni!</h2><h4>Ti sei iscritto con successo a ".$info["titolo"].".</h4><p class='text-justify'>Clicca <a href='".getBaseURL()."/i-miei-corsi'>qui</a> per visualizzare un promemoria dei corsi da te scelti, oppure torna alla <a href='../'>homepage</a>.</p>";
+                    $msg="<h2>Congratulazioni!</h2><h4>Ti sei iscritto con successo a ".$info["titolo"].".</h4><p class='text-justify'>Clicca <a href='".getBaseURL()."/i-miei-corsi/'>qui</a> per visualizzare un promemoria dei corsi da te scelti, oppure torna alla <a href='../'>homepage</a>.</p>";
                     break;
                 case "sessioneCorso": //corso non disponibile (posti terminati)
                     $msg="<h2>Siamo spiacenti!</h1><h4>I posti disponibili nel corso da te selezionato sono terminati.</h4><p class='text-justify'>Clicca <a href='/'>qui</a> per tornare ad iscriverti.</p>";

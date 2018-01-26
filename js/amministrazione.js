@@ -1,67 +1,60 @@
 function ricercaID() {
-    var nome=$("input#nome_ricerca").val();
-    var cognome=$("input#cognome_ricerca").val();
+    const nome=$("input#nome_ricerca").val();
+    const cognome=$("input#cognome_ricerca").val();
     if(nome !== "" && cognome !== "") {
         $.post("/amministrazione/getID_Persona.php",{cognome: cognome,nome: nome},function(result) {
+            const $input=$("input#risultatoRicercaID");
             if(result.trim() !== "false") {
-                var vID=$.parseJSON(result);
+                const vID=$.parseJSON(result);
                 if(vID.length == 1) {
-                    $("input#risultatoRicercaID").val(vID[0].ID_Persona);
+                    $input.val(vID[0].ID_Persona);
                 } else if(vID.length > 1) {
                     var lista_ID="";
-                    for(var i=0;i<vID.length;i++) {
-                        lista_ID+=vID[i].ID_Persona+" - ";
+                    var alertContent="";
+                    for(let i=0,l=vID.length;i<l;i++) {
+                        if(i != (vID.length-1)) {   
+                            lista_ID+=vID[i].ID_Persona+" - ";    
+                            alertContent+=vID[i].Classe+vID[i].Sezione+" "+vID[i].Indirizzo+" - Codice: "+vID[i].ID_Persona+"<br />";
+                        } else {
+                            lista_ID+=vID[i].ID_Persona;
+                            alertContent+=vID[i].Classe+vID[i].Sezione+" "+vID[i].Indirizzo+" - Codice: "+vID[i].ID_Persona;
+                        }
                     }
-                    lista_ID=lista_ID.substr(0,(lista_ID.length)-3);
-                    $("input#risultatoRicercaID").val(lista_ID);
+                    $input.val(lista_ID);
+                    let titolo="Ci sono più "+nome.toUpperCase()+" "+cognome.toUpperCase();
+                    $alert(titolo,alertContent);
                 }
             } else {
-                $("input#risultatoRicercaID").val("Nessun risultato");
+                $input.val("Nessun risultato");
             }
         });
     } else {
-        $.alert({
-            escapeKey: true,
-            backgroundDismiss: true,
-            theme: "modern",
-            title: "Attenzione",
-            content: "Devi compilare entrambe le caselle di testo <strong>Nome</strong> e <strong>Cognome</strong>."
-        });
+        let titolo="Attenzione!",contenuto="Devi compilare entrambe le caselle di testo <strong>Nome</strong> e <strong>Cognome</strong>.";
+        $alert(titolo,contenuto);
     }
 }
 
 function resetP(id) {
     $.post("/amministrazione/resetIscrizioniByID.php",{ID: id},function(result) {
         if(result.trim() == "reset-effettuato") {
-            $.alert({
-                escapeKey: true,
-                backgroundDismiss: true,
-                theme: "modern",
-                title: "Operazione completata",
-                content: "Il reset della persona di ID: "+id+" è stato completato con successo."
-            });
+            let titolo="Operazione completata",contenuto="Il reset della persona di ID: "+id+" è stato completato con successo.";
+            $alert(titolo,contenuto);
         } else if(result.trim() == "reset-non-effettuato") {
-            $.alert({
-                escapeKey: true,
-                backgroundDismiss: true,
-                theme: "modern",
-                title: "Operazione non effettuata",
-                content: "Il reset della persona di ID: "+id+" non è andata a buon fine. Riprovare più tardi."
-            });
+            let titolo="Operazione non effettuata",contenuto="Il reset della persona di ID: "+id+" non è andata a buon fine. Riprovare più tardi.";
+            $alert(titolo,contenuto);
         }
     });
 }
 
 function visualizzaCorsiPersona(id) {
-    var $tbody=$("tbody#tCorsiPersona");
+    const $tbody=$("tbody#tCorsiPersona");
     $tbody.html("");
     $.post("/amministrazione/getCorsiPersona.php",{ID: id},function(result) {
-        var riga="";
         if(result.trim() != "false") {
-            var vCorsi=$.parseJSON(result);
-            var v=""; //variabile contenente il singolo oggetto di un'unica riga dell'array ricevuto come risposta
-            for(var i=0;i<vCorsi.length;i++) {
-                riga="<tr>";
+            const vCorsi=$.parseJSON(result);
+            for(let i=0,l=vCorsi.length;i<l;i++) {
+                //riga: contiene il singolo oggetto di un'unica riga dell'array ricevuto come risposta
+                let riga="<tr>";
                 riga+="<td>"+vCorsi[i].g+"</td>";
                 riga+="<td>"+vCorsi[i].o+"</td>";
                 riga+="<td>"+vCorsi[i].nc+"</td>";
@@ -73,28 +66,23 @@ function visualizzaCorsiPersona(id) {
             }
             $("div#corsiPersona").modal("show");
         } else {
-            $.alert({
-                escapeKey: true,
-                backgroundDismiss: true,
-                theme: "modern",
-                title: "Attenzione",
-                content: "La persona di ID: "+id+" non è ancora iscritta."
-            });    
+            let titolo="Attenzione",contenuto="La persona di ID: "+id+" non è ancora iscritta.";
+            $alert(titolo,contenuto);  
         }
     });
 }
 
 function getListaCorsi() {
-    var $select=$("select#sessioniCorso");
+    const $select=$("select#sessioniCorso");
     $select.html("");
     $.post("/amministrazione/getListaCorsi.php",function(result) {
-        datiDaServer=result.trim(); //ottengo i dati dal server
-        if(datiDaServer!="false") {
-            var vCorsi=$.parseJSON(datiDaServer);
-            var option=""; //variabile contente la option della select generata
+        const datiDaServer=result.trim(); //ottengo i dati dal server
+        if(datiDaServer !== "false") {
+            const vCorsi=$.parseJSON(datiDaServer);
             $select.append("<option value=''></option>")
-            for(var i=0;i<vCorsi.length;i++) {
-                option="<option value=\""+vCorsi[i].Nome+"\">"+vCorsi[i].Nome+"</option>";
+            for(let i=0,l=vCorsi.length;i<l;i++) {
+                //option: contiene la option della select generata
+                let option=`<option value='${vCorsi[i].Nome}'>${vCorsi[i].Nome}</option>`;
                 $select.append(option);
             }
         }    
@@ -102,15 +90,15 @@ function getListaCorsi() {
 }
 
 function visualizzaSessioniCorso(nomeC) {
-    var $tbody=$("tbody#tSessioniCorso");
+    const $tbody=$("tbody#tSessioniCorso");
     $tbody.html("");
     $.post("/amministrazione/getSessioniCorso.php",{nomeCorso: nomeC},function(result) {
-        var datiDaServer=$.parseJSON(result.trim()); //ottengo i dati dal server
-        var datiCorso=$.parseJSON(datiDaServer[0]);
+        const datiDaServer=$.parseJSON(result.trim()); //ottengo i dati dal server
+        const datiCorso=$.parseJSON(datiDaServer[0]);
         if(datiDaServer[1]!="false") {
             var vSessioni=$.parseJSON(datiDaServer[1]);
             var riga="";
-            for(var i=0;i<vSessioni.length;i++) {
+            for(let i=0,l=vSessioni.length;i<l;i++) {
                 riga="<tr>";
                 riga+="<td>"+vSessioni[i].g+"</td>";
                 riga+="<td>"+vSessioni[i].o+"</td>";
@@ -127,27 +115,21 @@ function visualizzaSessioniCorso(nomeC) {
 
             $("div#sessioniCorso").modal("show");
         } else {
-            $.alert({
-                escapeKey: true,
-                backgroundDismiss: true,
-                theme: "modern",
-                title: "Errore",
-                content: "C'è stato un errore nell'elaborazione dei dati."
-            });
+            let titolo="Errore",contenuto="C'è stato un errore nell'elaborazione dei dati.";
+            $alert(titolo,contenuto);
         }     
     });
 }
 
 function visualizzaPresenzeSessione(id) {
-    var $tbody=$("tbody#tPresenzeSessione");
+    const $tbody=$("tbody#tPresenzeSessione");
     $tbody.html("");
     $.post("/amministrazione/getPresenzeSessione.php", {ID_SessioneCorso: id},function(result) {
         var vPresenze=result.trim();
         if(vPresenze !== "false") {
             vPresenze=$.parseJSON(vPresenze);
-            var riga="";
-            for(var i=0;i<vPresenze.length;i++) {
-                riga="<tr>";
+            for(let i=0,l=vPresenze.length;i<l;i++) {
+                let riga="<tr>";
                 riga+="<td>"+(i+1)+"</td>";
                 riga+="<td>"+vPresenze[i].Nome+" "+vPresenze[i].Cognome+"</td>";
                 riga+="<td>";
@@ -164,13 +146,8 @@ function visualizzaPresenzeSessione(id) {
             }
             $("div#presenzeSessione").modal("show");
         } else {
-            $.alert({
-                escapeKey: true,
-                backgroundDismiss: true,
-                theme: "modern",
-                title: "Errore",
-                content: "C'è stato un errore nell'elaborazione dei dati."
-            });
+            let titolo="Errore",contenuto="C'è stato un errore nell'elaborazione dei dati.";
+            $alert(titolo,contenuto);
         }   
     });
 }
@@ -178,21 +155,11 @@ function visualizzaPresenzeSessione(id) {
 function cambioPassword(id,nuovaPsw) {
     $.post("/amministrazione/changePasswordByID.php",{ID: id, Password: nuovaPsw},function(result) {
         if(result=="cambio-effettuato") {
-            $.alert({
-                escapeKey: true,
-                backgroundDismiss: true,
-                theme: "modern",
-                title: "Cambio password effettuato",
-                content: "Il cambio di password è stato effettuato correttamente."
-            });    
+            let titolo="Cambio password effettuato",contenuto="Il cambio di password è stato effettuato correttamente.";
+            $alert(titolo,contenuto); 
         } else {
-            $.alert({
-                escapeKey: true,
-                backgroundDismiss: true,
-                theme: "modern",
-                title: "Cambio password non effettuato",
-                content: "Il cambio di password non è stato effettuato. Riprova più tardi."
-            });    
+            let titolo="Cambio password non effettuato",contenuto="Il cambio di password non è stato effettuato. Riprova più tardi.";
+            $alert(titolo,contenuto);   
         }
     });
 }
@@ -209,12 +176,10 @@ $(document).ready(function() {
     });
     
     //evento che gestisce la ricerca degli ID di una persona
-    $("button#cercaID").click(function() {
-        ricercaID();
-    });
+    $("button#cercaID").click(ricercaID);
 
     $("button#resetP").click(function() {
-        var id=$("input#id_reset").val();
+        const id=$("input#id_reset").val();
         if(id !== "") {
             $.confirm({
                 escapeKey: true,
@@ -237,13 +202,8 @@ $(document).ready(function() {
                 }
             });
         } else {
-            $.alert({
-                escapeKey: true,
-                backgroundDismiss: true,
-                theme: "modern",
-                title: "Attenzione",
-                content: "Devi compilare la casella di testo dell'ID."
-            });
+            let titolo="Attenzione",contenuto="Devi compilare la casella di testo dell'ID.";
+            $alert(titolo,contenuto);
         }
     });
 
@@ -253,13 +213,8 @@ $(document).ready(function() {
             $("span#idPersona").text(id);
             visualizzaCorsiPersona(id);
         } else {
-           $.alert({
-               escapeKey: true,
-               backgroundDismiss: true,
-               theme: "modern",
-               title: "Attenzione",
-               content: "Devi compilare la casella di testo dell'ID."
-            });
+            let titolo="Attenzione",contenuto="Devi compilare la casella di testo dell'ID.";
+            $alert(titolo,contenuto);
         }
     });
 
@@ -269,13 +224,8 @@ $(document).ready(function() {
             $("span#nomeCorso").text(nomeC);
             visualizzaSessioniCorso(nomeC);
         } else {
-            $.alert({
-                escapeKey: true,
-                backgroundDismiss: true,
-                theme: "modern",
-                title: "Attenzione",
-                content: "Non hai selezionato un corso."
-            });
+            let titolo="Attenzione",contenuto="Non hai selezionato un corso.";
+            $alert(titolo,contenuto);
         };    
     });
 
@@ -298,13 +248,8 @@ $(document).ready(function() {
                         action: function() {
                             var nuovaPsw=this.$content.find('.name').val();
                             if(!nuovaPsw) {
-                                $.alert({
-                                    escapeKey: true,
-                                    backgroundDismiss: true,
-                                    theme: "modern",
-                                    title: "Attenzione",
-                                    content: "Inserisci la nuova password oppure premi Annulla."
-                                });
+                                let titolo="Attenzione",contenuto="Inserisci la nuova password oppure premi Annulla.";
+                                $alert(titolo,contenuto);
                                 return false;
                             } else {
                                 var id=$("input#cambioPswP").val(); //lo recupero nuovamente
@@ -327,13 +272,8 @@ $(document).ready(function() {
                 }
             });
         } else {
-            $.alert({
-                escapeKey: true,
-                backgroundDismiss: true,
-                theme: "modern",
-                title: "Attenzione",
-                content: "Devi compilare la casella di testo dell'ID."
-            });
+            let titolo="Attenzione",contenuto="Devi compilare la casella di testo dell'ID.";
+            $alert(titolo,contenuto);
         }
     });
 
@@ -343,13 +283,8 @@ $(document).ready(function() {
             $("span#idSessioneCorso").text(idSessioneCorso);
             visualizzaPresenzeSessione(idSessioneCorso);
         } else {
-            $.alert({
-                escapeKey: true,
-                backgroundDismiss: true,
-                theme: "modern",
-                title: "Attenzione",
-                content: "Devi inserire il codice identificativo della sessione del corso."
-            });
+            let titolo="Attenzione",contenuto="Devi inserire il codice identificativo della sessione del corso.";
+            $alert(titolo,contenuto);
         };    
     });
 });

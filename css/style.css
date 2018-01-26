@@ -1,8 +1,12 @@
 /*Foglio di stile*/
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 html,body {
   height: 100%;
   margin: 0;
   padding: 0;
+}
+body {
+  font-family: 'Open Sans', sans-serif;
 }
 div#wrapper div.container#content { 
   padding-top: 70px;
@@ -93,4 +97,36 @@ div#infoPresenze {
   margin-left: auto;
   margin-right: auto;
   display: block;
+}
+
+/* modifiche colori btn_success/danger/warning */
+#bottone_s{
+	background-color: #80ba80;
+  border-color: #80ba80;
+}
+#bottone_s.active{
+  background-color: #3b7e3b;
+  border-color: #3b7e3b;
+}
+
+#bottone_w{
+	background-color: #efc58b;
+  border-color: #efc58b;
+}
+#bottone_w.active{
+	background-color: #eea849;
+  border-color: #eea849;
+}
+
+#bottone_d{
+	background-color: #e08b89;
+  border-color: #e08b89;
+}
+#bottone_d.active{
+  background-color: #fa3c3c;
+  border-color: #fa3c3c;
+}
+
+#bottone_s,#bottone_w,#bottone_d{
+  font-weight: bold;
 }

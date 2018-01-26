@@ -43,7 +43,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <h3 class="text-center">Ricerca della chiave primaria (ID) di una persona</h3>
+                                <h3 class="text-center">Ricerca del codice identificativo univoco di una persona</h3>
                                 <h5 class="text-center"><span style='color: #a94442'>*</span> Campo obbligatorio</h5>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-4">
@@ -59,7 +59,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-                                <label for="cercaID" class="control-label">Cerca ID della persona</label>
+                                <label for="cercaID" class="control-label">Cerca il codice</label>
                                 <button type="button" class="btn btn-primary btn-block" id="cercaID">Cerca</button>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
@@ -83,17 +83,17 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <h3 class="text-center">Reset totale dei corsi di un utente</h3>
-                                <h5 class="text-center">&Egrave; richiesto l'<a id="goToPanel_A" title='Pannello A'>ID della persona</a> da resettare</h5>
+                                <h3 class="text-center">Reset dei corsi di uno studente</h3>
+                                <h5 class="text-center">&Egrave; richiesto il <a id="goToPanel_A" title='Pannello A'>codice dello studente</a> da resettare</h5>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                 <div class="form-group" id="campo_id_reset">
-                                    <label for="id_reset" class="control-label">ID Persona</label>
+                                    <label for="id_reset" class="control-label">Codice identificativo</label>
                                     <input type="text" class="form-control" name="id_reset" id="id_reset" />
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                <label for="cercaID" class="control-label">Reset della persona</label>
+                                <label for="cercaID" class="control-label">Reset dello studente</label>
                                 <button type="button" class="btn btn-block btn-danger" id="resetP">Reset</button>
                             </div>
                         </div>
@@ -109,12 +109,12 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <h3 class="text-center">Visualizzazione dei corsi a cui è iscritto un utente</h3>
-                                <h5 class="text-center">&Egrave; richiesto l'<a id="goToPanel_A" title='Pannello A'>ID della persona</a> per visualizzarne i corsi</h5>
+                                <h3 class="text-center">Visualizzazione dei corsi scelti da uno studente</h3>
+                                <h5 class="text-center">&Egrave; richiesto il <a id="goToPanel_A" title='Pannello A'>codice dello studente</a> per visualizzarne i corsi</h5>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                 <div class="form-group" id="campo_corsiP">
-                                    <label for="corsiP" class="control-label">ID Persona</label>
+                                    <label for="corsiP" class="control-label">Codice identificativo</label>
                                     <input type="text" class="form-control" name="corsiP" id="corsiP" />
                                 </div>
                             </div>
@@ -140,11 +140,11 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <h3 class="text-center">Cambio password ad un utente</h3>
-                                <h5 class="text-center">&Egrave; richiesto l'<a id="goToPanel_A" title='Pannello A'>ID della persona</a> a cui effettuare il cambio password</h5>
+                                <h5 class="text-center">&Egrave; richiesto il <a id="goToPanel_A" title='Pannello A'>codice della persona</a> a cui effettuare l'operazione</h5>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                 <div class="form-group" id="campo_cambioPswP">
-                                    <label for="cambioPswP" class="control-label">ID Persona</label>
+                                    <label for="cambioPswP" class="control-label">Codice identificativo</label>
                                     <input type="text" class="form-control" name="cambioPswP" id="cambioPswP" />
                                 </div>
                             </div>
@@ -226,7 +226,7 @@
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                 <label for="visPresenzeSessione" class="control-label">Visualizza le sessioni</label>
-                                <button type="button" class="btn btn-block btn-primary" id="visPresenzeSessione">Visualizza</button>
+                                <button type="button" class="btn btn-block btn-info" id="visPresenzeSessione">Visualizza</button>
                             </div>
                         </div>
                     </div>

@@ -8,29 +8,25 @@
 function setCookie(cName,cVal,durata/* in giorni */) {
     var d = new Date();
     d.setTime(d.getTime() + (durata*24*60*60*1000));
-    var scadenza = "expires="+ d.toUTCString();
+    const scadenza = "expires="+ d.toUTCString();
     document.cookie = cName + "=" + cVal + ";" + scadenza + ";path=/";
 }
 
-function getCookie(cName) { //restituisce contenuto cookie passato come parametro
-    var name = cName + "=";
-    var decodedCookie = decodeURIComponent(document.cookie);
-    var ca = decodedCookie.split(";");
-    for(var i = 0; i <ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) === 0) {
-            return c.substring(name.length, c.length);
-        }
+function getCookie(nomeCookie) { //restituisce contenuto cookie passato come parametro
+    const nome = nomeCookie + "=";
+    const decodedCookie = decodeURIComponent(document.cookie); //recupero dei cookie dal browser
+    const vCookie = decodedCookie.split(";"); //vettore dei cookie
+    for(let i=0,l=vCookie.length;i<l;i++) {
+        var biscotto = vCookie[i];
+        while(biscotto.charAt(0) == ' ') biscotto=biscotto.substring(1);
+        if(biscotto.indexOf(nome) === 0) return biscotto.substring(nome.length,biscotto.length);
     }
     return "";
 }
 
 function reverseString(str) { //rovescia e restituisce stringa passata come parametro
     var rev=""; //variabile contenente la stringa rovesciata
-    for(var i=str.length;i>=0;i--) rev+=str.charAt(i);
+    for(let i=(str.length-1);i>=0;i--) rev+=str.charAt(i);
     return rev;    
 } //rimovibile
 
@@ -46,6 +42,17 @@ function gestioneNavbar() { //controlla la pagina e attiva menu diversamente
     });
 }
 
+function $alert(titolo, contenuto) {
+    if(titolo.length > 0 || contenuto.length > 0) {
+        $.alert({
+            escapeKey: true,
+            backgroundDismiss: true,
+            theme: "modern",
+            title: titolo,
+            content: contenuto
+        });   
+    }
+}
 //___ METODO PRINCIPALE ___//
 
 $(document).ready(function() {

@@ -36,7 +36,7 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <h3>Licenza di Auto.Gest</h3>
-                <h4>The MIT License</h4>
+                <h4>La licenza MIT</h4>
                 <p class="text-justify">Copyright &copy; <?php echo date('Y');?> Tommaso Azzalin</p>  
                 <p class="text-justify">
                     Con la presente si concede, a chiunque ottenga una copia di questo software e dei file di documentazione associati (il "Software"), l'autorizzazione a usare gratuitamente il Software senza alcuna limitazione, compresi i diritti di usare, copiare, modificare, unire, pubblicare, distribuire, cedere in sottolicenza e/o vendere copie del Software, nonché di permettere ai soggetti cui il Software è fornito di fare altrettanto, alle seguenti condizioni:

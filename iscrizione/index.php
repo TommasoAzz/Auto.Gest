@@ -47,9 +47,6 @@
 
         /* reperimento dati per pagina iscrizione */
         $nGiorno=intval($nGiorno);
-
-        //impostazione del titolo
-        $sottotitolo=getTitolo($db,$nGiorno);
         
         //reperimento dell'ora da iscrivere
         $nOra=getOraDaIscriversi($db,$utente,$nGiorno);
@@ -69,7 +66,7 @@
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <h1 class="text-center">Iscrizione</h1>
-                <h4 class="text-center sottotitolo"><?php echo $sottotitolo; ?></h4>
+                <h4 class="text-center sottotitolo"><?php echo getTitolo($db,$nGiorno); ?></h4>
                 <hr>
             </div>
         </div>

@@ -1,7 +1,7 @@
 <?php
 function login($db,$utente,$cla,$sez,$ind,$postPass) {
     $query="SELECT ID_Persona FROM Persone P INNER JOIN Classi C ON P.ID_Classe=C.ID_Classe "; //lasciare spazio dopo ID_Classe
-    $query.="WHERE Classe='".$cla."' AND Sezione='".$sez."' AND Indirizzo='".$ind."' AND Password='".$postPass."'";
+    $query.="WHERE Classe='".$cla."' AND Sezione='".$sez."' AND Indirizzo='".$ind."' AND Pwd='".$postPass."'";
     $richiesta=$db->doQuery($query);
     if($db->checkQuery() && $richiesta!==false && $db->getAffectedRows()==1) {
         $id=intval($db->getResult("ID_Persona"));

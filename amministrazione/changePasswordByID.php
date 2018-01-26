@@ -7,10 +7,10 @@ require_once "../classes.php";
         $ID=GlobalVar::getPost("ID");
         $password=md5(GlobalVar::getPost("Password"));
 
-        $query="UPDATE `Persone` SET `Password`='".$password."' WHERE `ID_Persona`=".intval($ID);
+        $query="UPDATE `Persone` SET `Pwd`='".$password."' WHERE `ID_Persona`=".intval($ID);
         $cambio=$db->sendQuery($query); //restituisce falso anche se esegue la query
 
-        $queryControllo="SELECT `Password` AS psw FROM `Persone` WHERE `ID_Persona`=".intval($ID);
+        $queryControllo="SELECT `Pwd` AS psw FROM `Persone` WHERE `ID_Persona`=".intval($ID);
         $res=$db->qikQuery($query);
 
         if($res[0]["psw"] == $password) {

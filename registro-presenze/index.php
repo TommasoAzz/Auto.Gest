@@ -9,7 +9,7 @@
 <html>
     <head>
         <?php require_once "../head.php"; ?>
-        <script type='text/javascript' src='../js/gestione-corso.js'></script>
+        <script type='text/javascript' src='../js/registro-presenze.js'></script>
     </head>
     <body>
     <div id="wrapper" class="clearfix"><!-- inizio wrapper -->
@@ -29,7 +29,7 @@
         <!-- INTESTAZIONE PAGINA -->
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <h1 class="text-center">Gestione corsi di <?php echo $utente->getNome()." ".$utente->getCognome(); ?></h1>
+                <h1 class="text-center">Registro presenze di <?php echo $utente->getNome()." ".$utente->getCognome(); ?></h1>
                 <h4 class="text-center sottotitolo">Registro presenze</h4>
                 <hr>
             </div>
@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-                    <button type="button" id="btnGestioneCorso" class="btn btn-info btn-lg btn-block center-block"><span class="fa fa-check"></span>&nbsp;&nbsp;Visualizza</button>
+                    <button type="button" id="btnRegistroPresenze" class="btn btn-info btn-lg btn-block center-block"><span class="fa fa-check"></span>&nbsp;&nbsp;Visualizza</button>
                 </div>
                 <div class="hidden-xs hidden-sm col-md-2 col-lg-2"></div>
             </form>

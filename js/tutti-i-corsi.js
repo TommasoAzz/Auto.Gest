@@ -1,31 +1,22 @@
-var giorno=1,ora=1; //valori inizializzati (primo giorno, prima ora)
-
 //funzione di aggiornamento variabili globali (giorno e ora)
-function aggiornaDati() {
-    giorno=$("select#scelta_giorno").val();
-    ora=$("select#scelta_ora").val();
-    console.log("Ora: "+ora+" - Giorno: "+giorno);
+function aggiornaDati(gg_hh) {
+    gg_hh.giorno=$("select#scelta_giorno").val();
+    gg_hh.ora=$("select#scelta_ora").val();
+    return gg_hh;
 }
 
 //richiesta dei giorni di presenza dell'evento (autogestione)
 function richiestaGiorni() {
-    var $scelta_giorno=$("select#scelta_giorno");
+    const $scelta_giorno=$("select#scelta_giorno");
     $scelta_giorno.html('');
     $.post("/tutti-i-corsi/getGiorni.php",function(result){
-        var datiDaServer=result.trim(); //ottengo i dati dal server
-        if(datiDaServer!="false") {
-            var dati=$.parseJSON(datiDaServer);
-            var giorni=dati[0].Giorni;
-            var meseAnno=dati[0].MeseAnno;
-            var nGiorni=dati[0].Durata;
-
-            var option="", gg=""; //variabile contente la option della select generata - variabile contenente il valore della giornata (formato gg)
-            var inizio=0,lunghezza=2; 
-            for(var i=1;i<=nGiorni;i++) {
-                gg=giorni.substr(inizio,lunghezza);
-                option="<option value=\""+i+"\" id=\"giorno_opt"+i+"\">"+gg+" "+meseAnno+"</option>";
+        const datiDaServer=result.trim(); //ottengo i dati dal server
+        if(datiDaServer !== "false") {
+            const dati=$.parseJSON(datiDaServer);
+            for(let i=0,l=dati.length;i<l;i++) {
+                //option: contiene la option della select generata - variabile contenente il valore della giornata (formato gg)
+                let option=`<option value='${(i+1)}' id='giorno_opt${(i+1)}'>${dati[i].Giorno}`+" "+`${dati[i].Mese}</option>`; //lasciare la concatenazione di stringhe perché il minify toglie lo spazio
                 $scelta_giorno.append(option);
-                inizio+=3;
             }
         }
     });
@@ -33,15 +24,15 @@ function richiestaGiorni() {
 
 //richiesta delle ore di lezione in cui puoi iniziare un corso
 function richiestaOre() {
-    var $scelta_ora=$("select#scelta_ora");
+    const $scelta_ora=$("select#scelta_ora");
     $scelta_ora.html('');
     $.post("/tutti-i-corsi/getOre.php",function(result) {
-        var datiDaServer=result.trim(); //ottengo i dati dal server
-        if(datiDaServer!="false") {
-            var vOre=$.parseJSON(datiDaServer);
-            var option=""; //variabile contente la option della select generata
-            for(var i=0;i<vOre.length;i++) {
-                option="<option value=\""+vOre[i].Ora+"\">"+vOre[i].Ora+"</option>";
+        const datiDaServer=result.trim(); //ottengo i dati dal server
+        if(datiDaServer !== "false") {
+            const vOre=$.parseJSON(datiDaServer);
+            for(let i=0,l=vOre.length;i<l;i++) {
+                //option: contiene la option della select generata
+                let option=`<option value='${vOre[i].Ora}'>${vOre[i].Ora}</option>`;
                 $scelta_ora.append(option);
             }
         }
@@ -49,37 +40,34 @@ function richiestaOre() {
 }
 
 //metodo che scarica i dati dei corsi data una determinata ora e un determinato giorno
-function aggiornaLista() {
-    var $tbody=$("tbody#tbody");
+function aggiornaLista(gg_hh) {
+    const $tbody=$("tbody#tbody");
     $tbody.html('');
-    $.post("/tutti-i-corsi/getListaCorsi.php",{giorno: giorno,ora: ora},function(result) {
-            var datiDaServer=result.trim(); //ottengo i dati dal server
-            var riga=""; //inizializzo la riga
-            if(datiDaServer!="false") { //non è valore booleano perchè non viene effettuato parsing
-                var vCorsi=$.parseJSON(datiDaServer);
+    $.post("/tutti-i-corsi/getListaCorsi.php",{giorno: gg_hh.giorno,ora: gg_hh.ora},function(result) {
+            const datiDaServer=result.trim(); //ottengo i dati dal server
+            if(datiDaServer !== "false") { //non è valore booleano perchè non viene effettuato parsing
+                const vCorsi=$.parseJSON(datiDaServer);
 
-                var pTotali=0,pRimasti=0;
-                for(var i=0;i<vCorsi.length;i++) {
+                for(let i=0,l=vCorsi.length;i<l;i++) {
                     //creazione e aggiunta riga alla tabella
                     if(vCorsi[i].PostiRimasti>0) { //aggiungo alla lista solo i corsi che hanno da 1 posto in su
-                        riga="<tr>";
-                        riga+="<td id=\"corso_"+i+"\">"+vCorsi[i].Nome+"</td>";
-                        riga+="<td id=\"aula_"+i+"\">"+vCorsi[i].Aula+"</td>";
-                        riga+="<td id=\"durata_"+i+"\">"+vCorsi[i].Durata+"</td>";
-                        riga+="<td id=\"pTotali_"+i+"\">"+vCorsi[i].PostiTotali+"</td>";
-                        riga+="<td id=\"pRimasti_"+i+"\">"+vCorsi[i].PostiRimasti+"</td>";
+                        let riga="<tr>"; //inizializzo la riga
+                        riga+=`<td id='corso_${i}'>${vCorsi[i].Nome}</td>`;
+                        riga+=`<td id='aula_${i}'>${vCorsi[i].Aula}</td>`;
+                        riga+=`<td id='durata_${i}'>${vCorsi[i].Durata}</td>`;
+                        riga+=`<td id='pTotali_${i}'>${vCorsi[i].PostiTotali}</td>`;
+                        riga+=`<td id='pRimasti_${i}'>${vCorsi[i].PostiRimasti}</td>`;
                         riga+="</tr>";
                         $tbody.append(riga); //aggiunta riga alla tabella
 
                         //controllo contenuto tabella  
-                        pTotali=parseInt($("td#pTotali_"+i).html()); //ottengo posti totali corso
-                        pRimasti=parseInt($("td#pRimasti_"+i).html()); //ottengo posti rimasti corso
+                        const pTotali=parseInt($("td#pTotali_"+i).html()); //ottengo posti totali corso
+                        const pRimasti=parseInt($("td#pRimasti_"+i).html()); //ottengo posti rimasti corso
 
                         if(pRimasti<pTotali) { //controllo posti
                             if(pRimasti<=(pTotali/2)) { //se posti rimasti inferiori alla metà: riga colore giallo
                                 $("td#corso_"+i).parent().addClass("warning").removeClass("danger");
-                            }
-                            if(pRimasti<=(pTotali/3)) { //se posti rimasti inferiori a un terzo: riga colore rosso
+                            } else if(pRimasti<=(pTotali/3)) { //se posti rimasti inferiori a un terzo: riga colore rosso
                                 $("td#corso_"+i).parent().addClass("danger").removeClass("warning");
                             }
                         } else {
@@ -88,28 +76,33 @@ function aggiornaLista() {
                     }
                 }    
             } else {
-                riga="<tr><td>Non sono rimasti corsi disponibili.</td><td></td><td></td><td></td><td></td></tr>";    
+                let riga="<tr><td>Non sono rimasti corsi disponibili.</td><td></td><td></td><td></td><td></td></tr>";    
                 $tbody.append(riga);
             }
         });
 }
 $(document).ready(function() {
-    
+    const timerUpdateLista=10000;
+    var giorno_ora={
+        "giorno": 1,
+        "ora": 1
+    }; //valori inizializzati (primo giorno, prima ora)
+
     //riempimento menu a tendina
     richiestaGiorni();
     richiestaOre();
 
     //primo download della lista dei corsi
-    aggiornaLista(); 
+    aggiornaLista(giorno_ora); 
 
     //aggiornamento della lista corsi al click del pulsante "Aggiorna la lista"
     $("button#updateBtn").click(function() {
-        aggiornaDati();
-        aggiornaLista();
+        giorno_ora=aggiornaDati(giorno_ora);
+        aggiornaLista(giorno_ora);
     }); 
 
     //timer per aggiornamento automatico della lista dei corsi (senza aggiornamento dei dati)
     window.setInterval(function() {
-        aggiornaLista();
-    },10000); //aggiornamento della lista ogni 10 secondi
+        aggiornaLista(giorno_ora);
+    },timerUpdateLista); //aggiornamento della lista ogni 10 secondi
 });

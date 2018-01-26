@@ -11,7 +11,7 @@
     Session::set("db",$db);
     
     function getBaseURL() { //recupero dell'URL della pagina per creare link assoluti
-        if(isset($_SERVER["HTTPS"]) && GlobalVar::getServer("HTTPS") == "on") {
+        if((isset($_SERVER["HTTPS"]) && GlobalVar::getServer("HTTPS") == "on") || Session::is_secure()) {
             $base_url="https://";
         } else {
             $base_url='http://';

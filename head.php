@@ -24,8 +24,8 @@
 		case "i-miei-corsi":
 			$pageName = "I miei corsi";
 			break;
-		case "gestione-corso":
-			$pageName = "Gestione corso";
+		case "registro-presenze":
+			$pageName = "Registro presenze";
 			break;
 		case "autogest":
 			$pageName = "Auto.Gest";
