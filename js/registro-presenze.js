@@ -35,11 +35,11 @@ function richiestaStudenti(id) {
                 let presenza=parseInt(vStudenti[i].Presenza);
 
                 let radioPresenza=`<div class='btn-group' data-toggle='buttons' id='radio_presenze_${(i+1)}'>`;
-                radioPresenza+=`<label class='btn btn-success' id='bottone_s'><input type='radio' name='options_"${(i+1)}' value='1' id='1' `+checked(1,presenza)+`>Presente</label>`;
-                radioPresenza+=`<label class='btn btn-danger' id='bottone_d'><input type='radio' name='options_"${(i+1)}' value='0' id='0' `+checked(0,presenza)+`>Assente</label>`;
-                radioPresenza+=`<label class='btn btn-warning' id='bottone_w'><input type='radio' name='options_"${(i+1)}' value='2' id='2' `+checked(2,presenza)+`>Ritardo</label>`;
+                radioPresenza+=`<label class='btn btn-success' id='bottone_s'><input type='radio' name='options_${(i+1)}' value='1' id='1' `+checked(1,presenza)+`>Presente</label>`;
+                radioPresenza+=`<label class='btn btn-danger' id='bottone_d'><input type='radio' name='options_${(i+1)}' value='0' id='0' `+checked(0,presenza)+`>Assente</label>`;
+                radioPresenza+=`<label class='btn btn-warning' id='bottone_w'><input type='radio' name='options_${(i+1)}' value='2' id='2' `+checked(2,presenza)+`>Ritardo</label>`;
                 radioPresenza+="</div>";
-                
+
                 let rigaTab="<tr>";
                 rigaTab+="<td>"+(i+1)+"</td>";
                 rigaTab+="<td id='nome_"+(i+1)+"'>"+vStudenti[i].Nome+"</td>";
