@@ -109,36 +109,6 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <h3 class="text-center">Visualizzazione dei corsi scelti da uno studente</h3>
-                                <h5 class="text-center">&Egrave; richiesto il <a id="goToPanel_A" title='Pannello A'>codice dello studente</a> per visualizzarne i corsi</h5>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                <div class="form-group" id="campo_corsiP">
-                                    <label for="corsiP" class="control-label">Codice identificativo</label>
-                                    <input type="text" class="form-control" name="corsiP" id="corsiP" />
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                <label for="visCorsi" class="control-label">Visualizza i corsi</label>
-                                <button type="button" class="btn btn-block btn-info" id="visCorsi">Visualizza</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="hidden-xs hidden-sm col-md-12 col-lg-12"><hr></div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h2 class="panel-title">Pannello D</h2>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <h3 class="text-center">Cambio password ad un utente</h3>
                                 <h5 class="text-center">&Egrave; richiesto il <a id="goToPanel_A" title='Pannello A'>codice della persona</a> a cui effettuare l'operazione</h5>
                             </div>
@@ -151,6 +121,36 @@
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                 <label for="btnCambioPswP" class="control-label">Clicca per proseguire</label>
                                 <button type="button" class="btn btn-block btn-info" id="btnCambioPswP" data-toggle='modal' role='button'>Prosegui</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="hidden-xs hidden-sm col-md-12 col-lg-12"><hr></div>
+        </div>
+        <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Pannello D</h2>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <h3 class="text-center">Visualizzazione dei corsi scelti da uno studente</h3>
+                                <h5 class="text-center">&Egrave; richiesto il <a id="goToPanel_A" title='Pannello A'>codice dello studente</a> per visualizzarne i corsi</h5>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group" id="campo_corsiP">
+                                    <label for="corsiP" class="control-label">Codice identificativo</label>
+                                    <input type="text" class="form-control" name="corsiP" id="corsiP" />
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <label for="visCorsi" class="control-label">Visualizza i corsi</label>
+                                <button type="button" class="btn btn-block btn-info" id="visCorsi">Visualizza</button>
                             </div>
                         </div>
                     </div>
@@ -195,27 +195,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <h3 class="text-center">Stampa la lista delle password</h3>
-                                <h5 class="text-center">Stampati pronti per la consegna alle classi</h5>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <label for="btnStampaPsw" class="control-label">Clicca per proseguire</label>
-                                <button type="button" class="btn btn-block btn-info" id="btnStampaPsw" data-toggle='modal' role='button'>Prosegui</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 hidden-md hidden-lg"><hr></div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h2 class="panel-title">Pannello G</h2>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <h3 class="text-center">Visualizza il registro presenze di un corso</h3>
+                                <h3 class="text-center">Visualizzazione del registro presenze di un corso</h3>
                                 <h5 class="text-center">Inserisci il <a id="goToPanel_E" title="Pannello E">codice della sessione del corso</a></h5>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -232,14 +212,47 @@
                     </div>
                 </div>
             </div>
+            <div class="col-xs-12 col-sm-12 hidden-md hidden-lg"><hr></div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Pannello G</h2>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <?php
+                                    $query="SELECT Lista FROM AltreAttivita WHERE ID=1";
+                                    $res=$db->qikQuery($query);
+                                    if($res !== false && trim($res[0]["Lista"]) !== "") {
+                                        $altreAttivita=trim($res[0]["Lista"]);
+                                    } else {
+                                        $altreAttivita="no-altre-attivita";
+                                    }
+                                ?>
+                                <h3 class="text-center">Visualizzazione degli studenti impegnati in altre attività</h3>
+                                <h5 class="text-center">Clicca per visualizzare cosa sono le <a href="#altreAttivita" data-toggle="modal" >altre attività</a>.</h5>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <label for="btnStampaPsw" class="control-label">Visualizza la lista</label>
+                                <button type="button" class="btn btn-block btn-info" id="visListaAltreAttivita" data-toggle='modal' role='button'>Visualizza</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- FOOTER -->
     <?php require_once "../footer.php"; ?>
     <!-- SESSIONI CORSO MODAL -->
-    <?php require_once "modal_sessioniCorso.php"; ?>
-    <?php require_once "modal_corsi.php"; ?>
-    <?php require_once "modal_presenzeSessione.php"; ?>
+    <?php 
+        require_once "modal_sessioniCorso.php";
+        require_once "modal_corsi.php";
+        require_once "modal_presenzeSessione.php";
+        require_once "modal_listaAltreAttivita.php";
+        require_once "../modal_listaAltreAttivita.php";
+    ?>
     </div><!-- fine wrapper -->
     </body>
 </html>

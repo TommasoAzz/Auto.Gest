@@ -153,7 +153,7 @@ function visualizzaPresenzeSessione(id) {
 }
 
 function cambioPassword(id,nuovaPsw) {
-    $.post("/amministrazione/changePasswordByID.php",{ID: id, Password: nuovaPsw},function(result) {
+    $.post("/amministrazione/changePasswordByID.php",{ID: id, Pwd: nuovaPsw},function(result) {
         if(result=="cambio-effettuato") {
             let titolo="Cambio password effettuato",contenuto="Il cambio di password è stato effettuato correttamente.";
             $alert(titolo,contenuto); 
@@ -161,6 +161,27 @@ function cambioPassword(id,nuovaPsw) {
             let titolo="Cambio password non effettuato",contenuto="Il cambio di password non è stato effettuato. Riprova più tardi.";
             $alert(titolo,contenuto);   
         }
+    });
+}
+
+function visualizzaListaAltreAttivita() {
+    const $tbody=$("tbody#tAltreAttivita");
+    $tbody.html("");
+    $.post("/amministrazione/getListaAltreAttivita.php",function(result) {
+        var dati=result.trim();
+        if(dati !== "false") {
+            vAltAtt=$.parseJSON(dati);
+            for(let i=0,l=vAltAtt.length;i<l;i++) {
+                let riga="<tr>";
+                riga+=`<td>${vAltAtt[i].Cognome}</td><td>${vAltAtt[i].Nome}</td><td>${vAltAtt[i].Cl}°${vAltAtt[i].Sez}`+" "+`${vAltAtt[i].Ind}</td><td>${vAltAtt[i].Gg}</td><td>${vAltAtt[i].Hh}</td>`;
+                riga+="</tr>";
+                $tbody.append(riga);
+            }
+            $("div#listaAltreAttivita").modal("show");
+        } else {
+            let titolo="Attenzione",contenuto="Nessuno è iscritto ad altre attività.";
+            $alert(titolo,contenuto);
+        }  
     });
 }
 
@@ -286,5 +307,9 @@ $(document).ready(function() {
             let titolo="Attenzione",contenuto="Devi inserire il codice identificativo della sessione del corso.";
             $alert(titolo,contenuto);
         };    
+    });
+
+    $("button#visListaAltreAttivita").click(function() {
+        visualizzaListaAltreAttivita();
     });
 });

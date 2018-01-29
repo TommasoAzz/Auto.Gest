@@ -59,6 +59,15 @@
         if($nOra !== "cambio-giorno") { //eseguito in caso di $nOra di valore numerico
             $nOra=intval($nOra);
         }
+
+        $query="SELECT Lista FROM AltreAttivita WHERE ID=1";
+        $res=$db->qikQuery($query);
+        if($res !== false && trim($res[0]["Lista"]) !== "") {
+            $altreAttivita=trim($res[0]["Lista"]);
+        } else {
+            $altreAttivita="no-altre-attivita";
+        }
+
         /* fine reperimento dati per pagina iscrizione */
     ?>
     <div id="content" class="container">
@@ -77,6 +86,11 @@
                 <form action="updateDB.php" method="post"> 
                     <?php creazioneSelect($db,$utente,$nGiorno,$nOra); ?>
                 </form>
+                <?php
+                    if($altreAttivita !== "no-altre-attivita") {
+                        echo "<p class='text-center'><button type='button' href='#altreAttivita' class='btn btn-info btn-sm' data-toggle='modal' role='button'><span class='fa fa-info'></span>  Che corso è <strong>Altre attività</strong>?</button></p>";
+                    }
+                ?>
             </div>
             <div class="hidden-xs hidden-sm col-md-3 col-lg-3"></div>
         </div>
@@ -84,5 +98,6 @@
     <!-- FOOTER -->
     <?php require_once "../footer.php"; ?>
     </div><!-- fine wrapper -->
+    <?php require_once "../modal_altreAttivita.php"; ?>
     </body>
 </html>
