@@ -257,19 +257,19 @@
                                 <h3 class="text-center">Stampa delle liberatorie</h3>
                                 <h5 class="text-center">Inserisci il <a id="goToPanel_A" title="Pannello A">codice dello studente</a> ed il codice <a id="goToPanel_E" title="Pannello E">sessione corso</a></h5>
                             </div>
-                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                 <div class="form-group" id="campo_stmpLibs">
-                                    <label for="stmpLibs" class="control-label">Codice identificativo dello studente</label>
+                                    <label for="stmpLibs" class="control-label">Codice identificativo</label>
                                     <input type="text" class="form-control" name="stmpLibs" id="stmpLibs" />
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                 <div class="form-group" id="campo_stmpLibc">
                                     <label for="stmpLibc" class="control-label">Scelta del corso</label>
                                     <input type="text" class="form-control" name="stmpLibc" id="stmpLibc" />
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                 <label for="stmp_liberatoria" class="control-label">Stampa liberatoria</label>
                                 <button type="button" class="btn btn-block btn-info" id="stmp_liberatoria">Stampa</button>
                             </div>
