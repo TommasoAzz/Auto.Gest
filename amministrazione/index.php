@@ -242,6 +242,61 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="hidden-xs hidden-sm col-md-12 col-lg-12"><hr></div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Pannello H</h2>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <h3 class="text-center">Stampa delle liberatorie</h3>
+                                <h5 class="text-center">Inserisci il <a id="goToPanel_A" title="Pannello A">codice dello studente</a> ed il codice <a id="goToPanel_E" title="Pannello E">sessione corso</a></h5>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group" id="campo_stmpLibs">
+                                    <label for="stmpLibs" class="control-label">Codice identificativo dello studente</label>
+                                    <input type="text" class="form-control" name="stmpLibs" id="stmpLibs" />
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group" id="campo_stmpLibc">
+                                    <label for="stmpLibc" class="control-label">Scelta del corso</label>
+                                    <input type="text" class="form-control" name="stmpLibc" id="stmpLibc" />
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <label for="stmp_liberatoria" class="control-label">Stampa liberatoria</label>
+                                <button type="button" class="btn btn-block btn-info" id="stmp_liberatoria">Stampa</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 hidden-md hidden-lg"><hr></div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Pannello X</h2>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <h3 class="text-center">Pannello di dubbia utilità</h3>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <label for="nulla" class="control-label">Non succederà nulla</label>
+                                <button type="button" class="btn btn-block btn-info" id="nulla" data-toggle='modal' role='button'>Nulla</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- FOOTER -->
     <?php require_once "../footer.php"; ?>
