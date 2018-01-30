@@ -121,20 +121,31 @@ $(document).ready(function() {
     //___ GESTIONE LOGIN STUDENTI ___//
 
     $("div#login").on("shown.bs.modal",function() { //metodi eseguiti all'apertura e chiusura del modal per l'accesso
-        $("div#spiegazione").css('display','block');
         $("select#indirizzo,select#classe,input#login_password").prop('disabled',true);
-        $("div#campo_indirizzo,div#campo_classe,div#campo_psw").fadeIn(); //animazione in ingresso dei menu
+        $("div#spiegazione,div#campo_indirizzo,div#campo_classe,div#campo_psw").fadeIn(); //animazione in ingresso dei menu
+        $("div#spiegazione").css('display','block');
 		richiestaIndirizzi(); //popolamento select#indirizzo e ottenimento lista indirizzi
 		$("select#indirizzo").prop('disabled',false); //riabilito il menu-tendina degli indirizzi in quanto è caricato
     }).on("hidden.bs.modal",function() {
         $("select#indirizzo,select#classe,input#login_password").val("").prop('disabled',true); //reset del modal alla sua chiusura
 		$('label#logerr').remove(); //reset dei messaggi di errore
-		$("div#campo_psw").removeClass("has-success").removeClass("has-error");  //reset colore campo pws
+        $("div#campo_psw").removeClass("has-success").removeClass("has-error");  //reset colore campo pws
+        $("a#show_hide_spiegazione").html("Nascondi il paragrafo")
         $("div#campo_indirizzo,div#campo_classe,div#campo_psw").fadeOut();
     });
 
+    $("a#show_hide_spiegazione").click(function() {
+        const $spiegazione=$("div#spiegazione");
+        if($spiegazione.css("display") === "block") {
+            $("div#spiegazione").fadeOut();
+            $(this).html("Rimostra il paragrafo");
+        } else if($spiegazione.css("display") === "none") {
+            $("div#spiegazione").fadeIn();
+            $(this).html("Nascondi il paragrafo");
+        }
+        
+    })
     $("select#indirizzo").change(function() { //richiesta classi dato l'indirizzo e animazioni
-        $("div#spiegazione").fadeOut("slow");
         datiLogin=recuperaDati(datiLogin);
         $("select#classe,input#login_password").html('').prop('disabled',true);  
         if(datiLogin.indirizzo !== "") {

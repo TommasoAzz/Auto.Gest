@@ -18,6 +18,9 @@
                             <p class="text-justify">Per poter procedere con l'iscrizione ai corsi di <?php echo $info["titolo"]; ?>, seleziona il tuo indirizzo, la tua classe ed infine inserisci la password che ti è stata consegnata dai Rappresentanti degli Studenti. Nel caso l'avessi smarrita, non esitare a contattarci, provvederemo a dartene una copia.</p>
                             <p class="text-justify">Non sei uno studente? Clicca <a href="#extLogin" id="linkModalEsterni" data-toggle="modal">qui</a>.</p>
                         </div>
+                        <div class="form-group" id="campo_show_hide_spiegazione">
+                            <p class="text-justify"><a id="show_hide_spiegazione">Nascondi il paragrafo</a> qui sopra.</p>
+                        </div>
 			            <div class="form-group" id="campo_indirizzo">
                             <label for="indirizzo" id="lblIndirizzo">Indirizzo</label>
                             <select class="form-control" name="indirizzo" id="indirizzo">
