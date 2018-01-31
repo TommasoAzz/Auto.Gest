@@ -82,17 +82,27 @@
         <!-- CORPO PAGINA -->
         <div class="row">
             <div class="hidden-xs hidden-sm col-md-3 col-lg-3"></div>
-            <div id="modulo" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div id="modulo" class="hidden-xs hidden-sm col-md-6 col-lg-6">
                 <form action="updateDB.php" method="post"> 
-                    <?php creazioneSelect($db,$utente,$nGiorno,$nOra); ?>
+                    <?php creazioneBloccoIscrizione($db,$utente,$nGiorno,$nOra); ?>
                 </form>
                 <?php
                     if($altreAttivita !== "no-altre-attivita") {
-                        echo "<p class='text-center'><button type='button' href='#altreAttivita' class='btn btn-info btn-sm' data-toggle='modal' role='button'><span class='fa fa-info'></span>  Che corso è <strong>Altre attività</strong>?</button></p>";
+                        echo "<p class='text-center'><span class='fa fa-info'></span>  Che corso è <a href='#altreAttivita' data-toggle='modal' role='button'>Altre attività</a>?</p>";
                     }
                 ?>
             </div>
             <div class="hidden-xs hidden-sm col-md-3 col-lg-3"></div>
+            <div id="modulo" class="col-xs-12 col-sm-12 hidden-md hidden-lg">
+                <form action="updateDB.php" method="post">
+                    <?php creazioneBloccoIscrizioneMobile($db,$utente,$nGiorno,$nOra); ?>    
+                </form>
+                <?php
+                    if($altreAttivita !== "no-altre-attivita") {
+                        echo "<p class='text-center'><span class='fa fa-info'></span>  Che corso è <a href='#altreAttivita' data-toggle='modal' role='button'>Altre attività</a>?</p>";
+                    }
+                ?>
+            </div>
         </div>
     </div>
     <!-- FOOTER -->

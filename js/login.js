@@ -134,7 +134,7 @@ $(document).ready(function() {
         $("div#campo_indirizzo,div#campo_classe,div#campo_psw").fadeOut();
     });
 
-    $("a#show_hide_spiegazione").click(function() {
+    $("a#show_hide_spiegazione").click(function() { //nasconde la spiegazione su come utilizzare il modulo di login
         const $spiegazione=$("div#spiegazione");
         if($spiegazione.css("display") === "block") {
             $("div#spiegazione").fadeOut();
@@ -143,8 +143,8 @@ $(document).ready(function() {
             $("div#spiegazione").fadeIn();
             $(this).html("Nascondi il paragrafo");
         }
-        
-    })
+    });
+
     $("select#indirizzo").change(function() { //richiesta classi dato l'indirizzo e animazioni
         datiLogin=recuperaDati(datiLogin);
         $("select#classe,input#login_password").html('').prop('disabled',true);  
@@ -197,6 +197,17 @@ $(document).ready(function() {
         //reset del modal alla sua chiusura
         $("select#extIndirizzo,input#extLogin_password").val("").prop('disabled',true);
         $("div#extCampo_indirizzo,div#extCampo_psw").fadeOut();
+    });
+
+    $("a#show_hide_extSpiegazione").click(function() { //nasconde la spiegazione su come utilizzare il modulo di login esterni
+        const $extSpiegazione=$("div#extSpiegazione");
+        if($extSpiegazione.css("display") === "block") {
+            $("div#extSpiegazione").fadeOut();
+            $(this).html("Rimostra il paragrafo");
+        } else if($extSpiegazione.css("display") === "none") {
+            $("div#extSpiegazione").fadeIn();
+            $(this).html("Nascondi il paragrafo");
+        }
     });
 
     $("select#extIndirizzo").change(function() { //richiesta cognomi e nomi data la provenienza e animazioni

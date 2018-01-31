@@ -64,6 +64,10 @@ $(document).ready(function() {
     $('a#linkModalEsterni').click(function() { //evento che gestisce l'apertura del modal per i non studenti
         $("div#login").modal('hide');
     });
+
+    $('a#linkModalInterni').click(function() {
+        $("div#extLogin").modal('hide');
+    })
     
     $("body").keyup(function(e) { //evento per la gestione della chiusura dei modal con tasto ESC -- aggiungere tasto invio per l'invio dei dati
         if(e.which == 27) {

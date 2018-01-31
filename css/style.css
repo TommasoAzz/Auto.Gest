@@ -76,7 +76,8 @@ input#login_password.form-control.error {
   color: #808080;
 }
 
-p.sottotitolo {
+p.sottotitolo,
+h5.sottotitolo {
   color: #fff;
 }
 
@@ -96,7 +97,7 @@ div.jumbotron {
 
 div.jumbotron h1 {
   font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: bold;
+  font-weight: bold; 
 }
 
 div.jumbotron > div#background {

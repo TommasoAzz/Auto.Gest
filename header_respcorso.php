@@ -9,7 +9,8 @@
         header("Location: /");
     } else {
         $nome=$utente->getNome()." ".$utente->getCognome();
-        $classe=$utente->getClasse()."°".$utente->getSezione()." ".$utente->getIndirizzo();  
+        $classe=$utente->getClasse()."°".$utente->getSezione()." ".$utente->getIndirizzo();
+        $scuola=$info["istituto"]; 
     }
 ?>
 <div class="navbar navbar-default navbar-fixed-top">
@@ -44,4 +45,4 @@
         </div>
     </div>
 </div>
-<?php require_once "infoModal.php"; ?>
+<?php require_once "modal_info.php"; ?>
