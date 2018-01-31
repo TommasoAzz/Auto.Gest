@@ -307,6 +307,7 @@
         require_once "modal_presenzeSessione.php";
         require_once "modal_listaAltreAttivita.php";
         require_once "../modal_altreAttivita.php";
+        require_once "modal_stmpLiberatoria.php";
     ?>
     </div><!-- fine wrapper -->
     </body>

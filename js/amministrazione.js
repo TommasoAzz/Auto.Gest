@@ -185,6 +185,23 @@ function visualizzaListaAltreAttivita() {
     });
 }
 
+function stampaLiberatoria(){
+    const $body=$("#body_lib");
+    $body.html("");
+    $.post("/amministrazione/getLiberatoria.php",function(result) {
+        var dati=result.trim();
+        if(dati !== "false") {
+            res=$.parseJSON(dati);
+            let riga="<h3>Lo studente ";
+            riga+=`${res[0].Cognome}&nbsp;${res[0].Nome}&nbsp;potrà partecipare a&nbsp;${res[0].NomeCorso}&nbsp;nell'ora&nbsp;${res[0].OraCorso}&nbsp;del giorno&nbsp;${res[i].Giorno}`;
+            riga+=`<br />Firma&nbsp;${res[0].NomeLog}&nbsp;${res[0].CognomeLog}`;
+            riga+="</h3>";
+            $body.append(riga);
+        }
+        $("div#listaAltreAttivita").modal("show");  //gestire l'errore nel caso di dati mancanti
+    });
+}
+
 $(document).ready(function() {
     //avvio della pagina 
     getListaCorsi(); //pannello E
@@ -311,5 +328,9 @@ $(document).ready(function() {
 
     $("button#visListaAltreAttivita").click(function() {
         visualizzaListaAltreAttivita();
+    });
+
+    $("button#stmp_liberatoria").click(function() {
+        stampaLiberatorie();
     });
 });
