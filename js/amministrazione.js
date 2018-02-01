@@ -186,20 +186,23 @@ function visualizzaListaAltreAttivita() {
 }
 
 function stampaLiberatoria(idPersona,idSessioneCorso){
-    const $body=$("#body_lib");
+    const $body=$("div#body_lib");
     $body.html("");
     $.post("/amministrazione/getDatiLiberatoria.php",{idP: idPersona, idS: idSessioneCorso},function(result) {
         var dati=result.trim();
         if(dati !== "false") {
-            let res=$.parseJSON(dati);
+            res=$.parseJSON(dati);
             let riga="<h3 class='text-center'>PERMESSO ECCEZIONALE</h3>"
-            riga+="<p class='text-justify'>Lo studente";
-            riga+=`${res[0].Cognome}&nbsp;${res[0].Nome}&nbsp;potrà partecipare a&nbsp;${res[0].NomeCorso}&nbsp;nell'ora&nbsp;${res[0].OraCorso}&nbsp;del giorno&nbsp;${res[i].Giorno}</p>`;
-            riga+=`<p class='text-right'>Firma&nbsp;<br /><br />${res[0].NomeLog}&nbsp;${res[0].CognomeLog}, Rappresentante degli Studenti</p>`;
+            riga+="<p class='text-justify'>Lo studente<br />";
+            riga+=`${res.CognomeStud}&nbsp;${res.NomeStud},&nbsp;potrà partecipare a&nbsp;${res.NomeCorso}&nbsp;nell'ora&nbsp;${res.Ora}&nbsp;del giorno&nbsp;${res.Giorno}&nbsp;${res.Mese}</p>`;
+            riga+=`<p class='text-right'>Firma&nbsp;<br />${res.NomeLog}&nbsp;${res.CognomeLog},<br />Rappresentante degli Studenti</p>`;
             riga+="</h3>";
-            $body.append(riga);
+            $body.html(riga);
+            $("div#stampaLiberatoria").modal("show");
+        }else{
+            let titolo="Attenzione",contenuto="Impossibile caricare la liberatoria.";
+            $alert(titolo,contenuto);
         }
-        $("div#listaAltreAttivita").modal("show");  //gestire l'errore nel caso di dati mancanti
     });
 }
 
@@ -331,7 +334,7 @@ $(document).ready(function() {
         visualizzaListaAltreAttivita();
     });
 
-    $("button#stmp_liberatoria").click(function() {
+    $("button#stampaLib").click(function() {
         var idPersona=$("input#stampaLib_st").val();
         var idSessioneCorso=$("input#stampaLib_c").val();
         if(idPersona !== "" && idSessioneCorso !== "") {
