@@ -258,20 +258,20 @@
                                 <h5 class="text-center">Inserisci il <a id="goToPanel_A" title="Pannello A">codice dello studente</a> ed il codice <a id="goToPanel_E" title="Pannello E">sessione corso</a></h5>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                                <div class="form-group" id="campo_stmpLibs">
-                                    <label for="stmpLibs" class="control-label">Codice identificativo</label>
-                                    <input type="text" class="form-control" name="stmpLibs" id="stmpLibs" />
+                                <div class="form-group" id="campo_stampaLib_st">
+                                    <label for="stampaLib_st" class="control-label">Codice identificativo</label>
+                                    <input type="text" class="form-control" name="stampaLib_st" id="stampaLib_st" />
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                                <div class="form-group" id="campo_stmpLibc">
-                                    <label for="stmpLibc" class="control-label">Scelta del corso</label>
-                                    <input type="text" class="form-control" name="stmpLibc" id="stmpLibc" />
+                                <div class="form-group" id="campo_stampaLib_c">
+                                    <label for="stampaLib_c" class="control-label">Scelta del corso</label>
+                                    <input type="text" class="form-control" name="stampaLib_c" id="stampaLib_c" />
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                                <label for="stmp_liberatoria" class="control-label">Stampa liberatoria</label>
-                                <button type="button" class="btn btn-block btn-info" id="stmp_liberatoria">Stampa</button>
+                                <label for="stampaLib" class="control-label">Stampa liberatoria</label>
+                                <button type="button" class="btn btn-block btn-info" id="stampaLib">Stampa</button>
                             </div>
                         </div>
                     </div>
@@ -307,7 +307,7 @@
         require_once "modal_presenzeSessione.php";
         require_once "modal_listaAltreAttivita.php";
         require_once "../modal_altreAttivita.php";
-        require_once "modal_stmpLiberatoria.php";
+        require_once "modal_stampaLiberatoria.php";
     ?>
     </div><!-- fine wrapper -->
     </body>
