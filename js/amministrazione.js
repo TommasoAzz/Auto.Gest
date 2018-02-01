@@ -193,9 +193,9 @@ function stampaLiberatoria(idPersona,idSessioneCorso){
         if(dati !== "false") {
             res=$.parseJSON(dati);
             let riga="<h3 class='text-center'>PERMESSO ECCEZIONALE</h3>"
-            riga+="<p class='text-justify'>Lo studente<br />";
-            riga+=`${res.CognomeStud}&nbsp;${res.NomeStud},&nbsp;potrà partecipare a&nbsp;${res.NomeCorso}&nbsp;nell'ora&nbsp;${res.Ora}&nbsp;del giorno&nbsp;${res.Giorno}&nbsp;${res.Mese}</p>`;
-            riga+=`<p class='text-right'>Firma&nbsp;<br />${res.NomeLog}&nbsp;${res.CognomeLog},<br />Rappresentante degli Studenti</p>`;
+            riga+="<p class='text-justify'>Lo/a studente/ssa&nbsp;";
+            riga+=`<b>${res.CognomeStud}&nbsp;${res.NomeStud}</b>,&nbsp;potrà partecipare a&nbsp;<b>${res.NomeCorso}</b>&nbsp;nell'ora&nbsp;<b>${res.Ora}</b>&nbsp;del giorno&nbsp;<b>${res.Giorno}</b>&nbsp;<b>${res.Mese}</b></p>`;
+            riga+=`<p class='text-right'>Firma&nbsp;<br /><b>${res.NomeLog}&nbsp;${res.CognomeLog}</b>,<br />Rappresentante degli Studenti</p>`;
             riga+="</h3>";
             $body.html(riga);
             $("div#stampaLiberatoria").modal("show");

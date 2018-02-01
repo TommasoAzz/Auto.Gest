@@ -15,8 +15,8 @@
             </div>
             <div class="modal-footer">
                 <div class="row">
-                    <div class="col-xs-4 col-sm-4 col-md-8 col-lg-8"></div>
-                    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+                    <div class="col-xs-4 col-sm-4 col-md-6 col-lg-6"></div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                         <a id="avvioStampaLiberatoria" class="btn btn-primary btn-block" type="button">Conferma stampa</a>
                     </div>
                     <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
