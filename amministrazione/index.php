@@ -8,6 +8,7 @@
 <html>
     <head>
         <?php require_once "../head.php"; ?>
+        <link rel="stylesheet" type="text/css" href="../css/amministrazione.css" />
         <script type='text/javascript' src='../js/amministrazione.js'></script>
     </head>
     <body>
@@ -26,7 +27,7 @@
     <!-- BODY -->
     <div id="content" class="container">
         <!-- INTESTAZIONE PAGINA -->
-        <div class="row">
+        <div class="row" id="noPrint">
             <div class="hidden-xs hidden-sm col-md-12 col-lg-12">
                 <h1 class="text-center">Amministrazione</h1>
                 <h4 class="text-center sottotitolo">Pannello di controllo di <?php echo $info["titolo"]; ?></h4>
@@ -34,7 +35,7 @@
             </div>
         </div>
         <!-- CORPO PAGINA --> 
-        <div class="row">
+        <div class="row" id="noPrint">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -71,10 +72,10 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" id="noPrint">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><hr></div>
         </div>
-        <div class="row">
+        <div class="row" id="noPrint">
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -127,11 +128,11 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" id="noPrint">
             <div class="hidden-xs hidden-sm col-md-12 col-lg-12"><hr></div>
         </div>
-        <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <div class="row" id="noPrint">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" id="noPrint">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h2 class="panel-title">Pannello D</h2>
@@ -183,10 +184,10 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" id="noPrint">
             <div class="hidden-xs hidden-sm col-md-12 col-lg-12"><hr></div>
         </div>
-        <div class="row">
+        <div class="row" id="noPrint">
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -242,10 +243,10 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" id="noPrint">
             <div class="hidden-xs hidden-sm col-md-12 col-lg-12"><hr></div>
         </div>
-        <div class="row">
+        <div class="row" id="noPrint">
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">

@@ -206,9 +206,17 @@ function stampaLiberatoria(idPersona,idSessioneCorso){
     });
 }
 
+function stampaCorsi() {
+    $("a#avvioStampaLiberatoria").click(function() {
+            window.print();
+    });
+}
+
 $(document).ready(function() {
     //avvio della pagina 
     getListaCorsi(); //pannello E
+
+    stampaCorsi(); //Stampa i corsi una volta visualizzato il modal
 
     $("a#goToPanel_A").click(function() {
         $("input#nome_ricerca").focus();
