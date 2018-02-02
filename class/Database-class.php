@@ -37,7 +37,7 @@ class Database {
     //--per il controllo (privati)
     private function checkConnection() {
         if ($this->conn->connect_errno > 0) {
-            die("<p>Errore nella connessione al database [" . $this->conn->connect_error . "].");
+            die("<p>Errore nella connessione al database [" . $this->conn->connect_error . "].</p>");
             return false;
         } else {
             return true;

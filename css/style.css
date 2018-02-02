@@ -171,3 +171,8 @@ div#infoPresenze {
   background-color: #cd3700;
   border-color: #cd3700;
 }
+
+/* AMMINISTRAZIONE */
+img#logoLiberatoria {
+  max-width: 5%;
+}

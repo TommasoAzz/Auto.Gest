@@ -256,17 +256,17 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <h3 class="text-center">Stampa delle liberatorie</h3>
-                                <h5 class="text-center">Inserisci il <a id="goToPanel_A" title="Pannello A">codice dello studente</a> ed il codice <a id="goToPanel_E" title="Pannello E">sessione corso</a></h5>
+                                <h5 class="text-center">Inserisci il <a id="goToPanel_A" title="Pannello A">codice dello studente</a> ed il codice della <a id="goToPanel_E" title="Pannello E">sessione corso</a></h5>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                 <div class="form-group" id="campo_stampaLib_st">
-                                    <label for="stampaLib_st" class="control-label">Codice identificativo</label>
+                                    <label for="stampaLib_st" class="control-label">Codice studente</label>
                                     <input type="text" class="form-control" name="stampaLib_st" id="stampaLib_st" />
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                 <div class="form-group" id="campo_stampaLib_c">
-                                    <label for="stampaLib_c" class="control-label">Scelta del corso</label>
+                                    <label for="stampaLib_c" class="control-label">Codice sessione corso</label>
                                     <input type="text" class="form-control" name="stampaLib_c" id="stampaLib_c" />
                                 </div>
                             </div>
@@ -279,24 +279,7 @@
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 hidden-md hidden-lg"><hr></div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h2 class="panel-title">Pannello X</h2>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <h3 class="text-center">Pannello di dubbia utilità</h3>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <label for="nulla" class="control-label">Non succederà nulla</label>
-                                <button type="button" class="btn btn-block btn-info" id="nulla" data-toggle='modal' role='button'>Nulla</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6"></div>
         </div>
     </div>
     <!-- FOOTER -->

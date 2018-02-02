@@ -192,15 +192,18 @@ function stampaLiberatoria(idPersona,idSessioneCorso){
         var dati=result.trim();
         if(dati !== "false") {
             res=$.parseJSON(dati);
-            let riga="<h3 class='text-center'>PERMESSO ECCEZIONALE</h3>"
-            riga+="<p class='text-justify'>Lo/a studente/ssa&nbsp;";
-            riga+=`<b>${res.CognomeStud}&nbsp;${res.NomeStud}</b>,&nbsp;potrà partecipare a&nbsp;<b>${res.NomeCorso}</b>&nbsp;nell'ora&nbsp;<b>${res.Ora}</b>&nbsp;del giorno&nbsp;<b>${res.Giorno}</b>&nbsp;<b>${res.Mese}</b></p>`;
-            riga+=`<p class='text-right'>Firma&nbsp;<br /><b>${res.NomeLog}&nbsp;${res.CognomeLog}</b>,<br />Rappresentante degli Studenti</p>`;
-            riga+="</h3>";
-            $body.html(riga);
+            let testo="<img src='/img/AutoGest-A_Logo.png' alt='auto.gest_logo' class='img-responsive center-block' id='logoLiberatoria' />"
+            testo+="<h3 class='text-center'>PERMESSO ECCEZIONALE</h3>";
+            testo+="<hr>"
+            testo+="<p class='text-justify'>Lo/a studente/ssa ";
+            testo+=`<strong>${res.CognomeStud}&nbsp;${res.NomeStud}</strong> &egrave; autorizzato/a a partecipare al corso <strong>${res.NomeCorso}</strong> alla <strong>${res.Ora}° ora</strong> del giorno <strong>${res.Giorno}&nbsp;${res.Mese}</strong>, `;
+            testo+="solo se il responsabile del suddetto corso acconsente.</p>"
+            testo+=`<p class='text-right'><br />${res.NomeLog}&nbsp;${res.CognomeLog},<br />Rappresentante degli Studenti</p>`;
+            testo+="<p style='text-justify'><br /><strong>NOTA PER IL RESPONSABILE DEL CORSO</strong>: In caso lo studente venga accettatto all'interno del corso non deve essere svolta nessuna operazione all'interno del registro presenze.</p>";
+            $body.html(testo);
             $("div#stampaLiberatoria").modal("show");
-        }else{
-            let titolo="Attenzione",contenuto="Impossibile caricare la liberatoria.";
+        } else {
+            let titolo="Attenzione",contenuto="Alcuni dati inseriti non sono corretti.";
             $alert(titolo,contenuto);
         }
     });
@@ -343,8 +346,8 @@ $(document).ready(function() {
     });
 
     $("button#stampaLib").click(function() {
-        var idPersona=$("input#stampaLib_st").val();
-        var idSessioneCorso=$("input#stampaLib_c").val();
+        const idPersona=$("input#stampaLib_st").val();
+        const idSessioneCorso=$("input#stampaLib_c").val();
         if(idPersona !== "" && idSessioneCorso !== "") {
             stampaLiberatoria(idPersona,idSessioneCorso);
         } else {
@@ -352,4 +355,7 @@ $(document).ready(function() {
             $alert(titolo,contenuto);
         }
     });
+    $("a#avvioStampaLiberatoria").click(function() {
+        window.print();
+    })
 });

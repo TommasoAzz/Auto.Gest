@@ -52,7 +52,7 @@
         $nOra=getOraDaIscriversi($db,$utente,$nGiorno);
 
         if($nOra == "errore-reperimento-ore") { //eseguito in caso di errore
-            Session::set("errIscrizione","errore_ore");
+            Session::set("errIscrizione","errore_ora");
             die("<script>location.href='messaggio.php';</script>");
         }
 
@@ -61,8 +61,10 @@
         }
 
         $query="SELECT Lista FROM AltreAttivita WHERE ID=1";
+        $query2="SELECT COUNT(*) AS Esiste FROM Corsi WHERE Nome='Altre attività'";
         $res=$db->qikQuery($query);
-        if($res !== false && trim($res[0]["Lista"]) !== "") {
+        $res2=$db->qikQuery($query2);
+        if($res !== false && trim($res[0]["Lista"]) !== "" && $res2[0]["Esiste"] !== "0") {
             $altreAttivita=trim($res[0]["Lista"]);
         } else {
             $altreAttivita="no-altre-attivita";
@@ -82,8 +84,8 @@
         <!-- CORPO PAGINA -->
         <div class="row">
             <div class="hidden-xs hidden-sm col-md-3 col-lg-3"></div>
-            <div id="modulo" class="hidden-xs hidden-sm col-md-6 col-lg-6">
-                <form action="updateDB.php" method="post"> 
+            <div id="modulo" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <form id='iscrizione' action="updateDB.php" method="post"> 
                     <?php creazioneBloccoIscrizione($db,$utente,$nGiorno,$nOra); ?>
                 </form>
                 <?php
@@ -93,16 +95,6 @@
                 ?>
             </div>
             <div class="hidden-xs hidden-sm col-md-3 col-lg-3"></div>
-            <div id="modulo" class="col-xs-12 col-sm-12 hidden-md hidden-lg">
-                <form action="updateDB.php" method="post">
-                    <?php creazioneBloccoIscrizioneMobile($db,$utente,$nGiorno,$nOra); ?>    
-                </form>
-                <?php
-                    if($altreAttivita !== "no-altre-attivita") {
-                        echo "<p class='text-center'><span class='fa fa-info'></span>  Che corso è <a href='#altreAttivita' data-toggle='modal' role='button'>Altre attività</a>?</p>";
-                    }
-                ?>
-            </div>
         </div>
     </div>
     <!-- FOOTER -->

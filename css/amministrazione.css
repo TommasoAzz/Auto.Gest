@@ -3,8 +3,8 @@
     div#body_lib {
         visibility: visible;
     }
-    div#head_lib,
-    div#foot_lib,
+    div#header_lib,
+    div#footer_lib,
     div#noPrint {
         visibility: hidden;
         display: none;

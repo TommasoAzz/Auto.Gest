@@ -91,45 +91,22 @@ function getListaCorsi($db,$utente,$nGiorno,$nOra) {
 //crea select con numero ora nei campi id e appende select alla pagina
 function creazioneBloccoIscrizione($db,$utente,$nGiorno,$nOra) {
     $vCorsi=getListaCorsi($db,$utente,$nGiorno,$nOra);
-    $blocco="<div class='input-group input-group-lg'>";
-    $blocco.="<span class='input-group-addon'><span class='fa fa-clock-o'></span>&nbsp;&nbsp;".$nOra."° ora</span>";
-    $blocco.="<select class='form-control' id='corso' name='corso'>";
-    $blocco.="<option value=''></option>";
-    for($i=0;$i<sizeof($vCorsi);$i++) {
-        $corso=$vCorsi[$i];
-        if(intval($corso["Durata"]) < 2 && intval($corso["Durata"]) > 0) {
-            $stringCorso=$corso['Nome']." - ".$corso['Durata']." ora";
-        } else {
-            $stringCorso=$corso['Nome']." - ".$corso['Durata']." ore";
-        }
-        $stringCorsoVal=$corso['Nome']."_".$corso['Ora'];
-        $blocco.="<option value='".$stringCorsoVal."'>".$stringCorso."</option>";
-    }
-    $blocco.="</select>";
-    $blocco.="<span class='input-group-btn'>";
-    $blocco.="<button type='submit' id='btnProsegui' class='btn btn-success'><span class='fa fa-check'></span>&nbsp;&nbsp;Prosegui</button>";
-    $blocco.="</span></div>";
-    echo $blocco;
-}
-
-function creazioneBloccoIscrizioneMobile($db,$utente,$nGiorno,$nOra) {
-    $vCorsi=getListaCorsi($db,$utente,$nGiorno,$nOra);
     $blocco="<div class='panel panel-default'><div class='panel-heading'><h2 class='panel-title'><span class='fa fa-clock-o'></span>&nbsp;&nbsp;".$nOra."° ora</h2></div>";
     $blocco.="<div class='panel-body'>";
     $blocco.="<div class='input-group input-group-lg'><select class='form-control' id='corso' name='corso'>";
     $blocco.="<option value=''></option>";
-    for($i=0;$i<sizeof($vCorsi);$i++) {
+    for($i=0,$l=sizeof($vCorsi);$i<$l;$i++) {
         $corso=$vCorsi[$i];
-        if(intval($corso["Durata"]) < 2 && intval($corso["Durata"]) > 0) {
-            $stringCorso=$corso['Nome']." - ".$corso['Durata']." ora";
-        } else {
-            $stringCorso=$corso['Nome']." - ".$corso['Durata']." ore";
-        }
+        $tempo=intval($corso["Durata"]);
+        
+        if($tempo == 1) $stringCorso=$corso['Nome']." - ".$tempo." ora";
+        else $stringCorso=$corso['Nome']." - ".$tempo." ore";
+
         $stringCorsoVal=$corso['Nome']."_".$corso['Ora'];
         $blocco.="<option value='".$stringCorsoVal."'>".$stringCorso."</option>";
     }
     $blocco.="</select>";
-    $blocco.="<div class='input-group-btn'><button type='submit' id='btnProsegui' class='btn btn-success'><span class='fa fa-check'></span></button></div>";
+    $blocco.="<div class='input-group-btn'><button type='submit' id='btnProsegui' class='btn btn-success'><span class='fa fa-check'></span><span class='hidden-xs hidden-sm'>&nbsp;&nbsp;Prosegui</span></button></div>";
     $blocco.="</div></div></div>";
     echo $blocco;
 }

@@ -16,7 +16,6 @@ require_once "../classes.php";
         
         $nGG=$res[0]['Gg'];
         $q2="SELECT Giorno, Mese FROM DateEvento WHERE ID_DataEvento=$nGG";
-        
         $res2=$db->qikQuery($q2);
 
         $dati["NomeCorso"]=$res[0]['Nome'];
