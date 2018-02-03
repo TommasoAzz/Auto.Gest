@@ -215,11 +215,23 @@ function stampaCorsi() {
     });
 }
 
+function getAltreAttivita() {
+    const $input=$("input#txtAltreAttivita");
+    $input.val("");
+    $.post("/amministrazione/getAltreAttivita.php",function(result) {
+        var dati=result.trim();
+        if(dati !== "no-altre-attivita") {
+            $input.val(dati);
+        }
+    });    
+}
 $(document).ready(function() {
     //avvio della pagina 
     getListaCorsi(); //pannello E
 
     stampaCorsi(); //Stampa i corsi una volta visualizzato il modal
+
+    getAltreAttivita(); //carica il PANNELLO I
 
     $("a#goToPanel_A").click(function() {
         $("input#nome_ricerca").focus();
@@ -306,7 +318,6 @@ $(document).ready(function() {
                                 return false;
                             } else {
                                 var id=$("input#cambioPswP").val(); //lo recupero nuovamente
-                                alert("ID: "+id+" Password: "+nuovaPsw);
                                 cambioPassword(id,nuovaPsw);
                             }
                         }
@@ -355,7 +366,22 @@ $(document).ready(function() {
             $alert(titolo,contenuto);
         }
     });
+
     $("a#avvioStampaLiberatoria").click(function() {
         window.print();
-    })
+    });
+
+    $("button#confermaAltreAttivita").click(function() {
+        const newData=$("input#txtAltreAttivita").val();
+        $.post("/amministrazione/updateListaAltreAttivita.php",{aA: newData},function(result) {
+            const out=result.trim();
+            if(out == "modifica-effettuata") {
+                let titolo="Modifica effettuata",contenuto="La lista \"Altre attività\" è stata aggiornata con successo!";
+                $alert(titolo,contenuto);
+            } else {
+                let titolo="Modifica non effettuata",contenuto="Non è stato possibile aggiornare la lista \"Altre attività\". Riprovare più tardi.";
+                $alert(titolo,contenuto); 
+            }
+        });
+    });
 });

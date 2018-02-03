@@ -32,7 +32,7 @@ function richiestaOre() {
             const vOre=$.parseJSON(datiDaServer);
             for(let i=0,l=vOre.length;i<l;i++) {
                 //option: contiene la option della select generata
-                let option=`<option value='${vOre[i].Ora}'>${vOre[i].Ora}</option>`;
+                let option=`<option value='${vOre[i].Ora}'>${vOre[i].Ora}°</option>`;
                 $scelta_ora.append(option);
             }
         }

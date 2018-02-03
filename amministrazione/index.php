@@ -39,7 +39,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h2 class="panel-title">Pannello A</h2>
+                        <h2 class="panel-title"><span class='fa fa-chevron-right'></span>  Pannello A</h2>
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -79,7 +79,7 @@
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h2 class="panel-title">Pannello B</h2>
+                        <h2 class="panel-title"><span class='fa fa-chevron-right'></span>  Pannello B</h2>
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -105,7 +105,7 @@
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h2 class="panel-title">Pannello C</h2>
+                        <h2 class="panel-title"><span class='fa fa-chevron-right'></span>  Pannello C</h2>
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -121,7 +121,7 @@
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                 <label for="btnCambioPswP" class="control-label">Clicca per proseguire</label>
-                                <button type="button" class="btn btn-block btn-info" id="btnCambioPswP" data-toggle='modal' role='button'>Prosegui</button>
+                                <button type="button" class="btn btn-block btn-primary" id="btnCambioPswP" data-toggle='modal' role='button'>Prosegui</button>
                             </div>
                         </div>
                     </div>
@@ -135,7 +135,7 @@
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" id="noPrint">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h2 class="panel-title">Pannello D</h2>
+                        <h2 class="panel-title"><span class='fa fa-chevron-right'></span>  Pannello D</h2>
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -151,7 +151,7 @@
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                 <label for="visCorsi" class="control-label">Visualizza i corsi</label>
-                                <button type="button" class="btn btn-block btn-info" id="visCorsi">Visualizza</button>
+                                <button type="button" class="btn btn-block btn-primary" id="visCorsi">Visualizza</button>
                             </div>
                         </div>
                     </div>
@@ -161,7 +161,7 @@
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h2 class="panel-title">Pannello E</h2>
+                        <h2 class="panel-title"><span class='fa fa-chevron-right'></span>  Pannello E</h2>
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -177,7 +177,7 @@
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                 <label for="visSessioniCorso" class="control-label">Visualizza i corsi</label>
-                                <button type="button" class="btn btn-block btn-info" id="visSessioniCorso">Visualizza</button>
+                                <button type="button" class="btn btn-block btn-primary" id="visSessioniCorso">Visualizza</button>
                             </div>
                         </div>
                     </div>
@@ -191,12 +191,12 @@
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h2 class="panel-title">Pannello F</h2>
+                        <h2 class="panel-title"><span class='fa fa-chevron-right'></span>  Pannello F</h2>
                     </div>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <h3 class="text-center">Visualizzazione del registro presenze di un corso</h3>
+                                <h3 class="text-center">Visualizzazione del registro di un corso</h3>
                                 <h5 class="text-center">Inserisci il <a id="goToPanel_E" title="Pannello E">codice della sessione del corso</a></h5>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -207,7 +207,7 @@
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                 <label for="visPresenzeSessione" class="control-label">Visualizza le sessioni</label>
-                                <button type="button" class="btn btn-block btn-info" id="visPresenzeSessione">Visualizza</button>
+                                <button type="button" class="btn btn-block btn-primary" id="visPresenzeSessione">Visualizza</button>
                             </div>
                         </div>
                     </div>
@@ -217,40 +217,7 @@
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h2 class="panel-title">Pannello G</h2>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <?php
-                                    $query="SELECT Lista FROM AltreAttivita WHERE ID=1";
-                                    $res=$db->qikQuery($query);
-                                    if($res !== false && trim($res[0]["Lista"]) !== "") {
-                                        $altreAttivita=trim($res[0]["Lista"]);
-                                    } else {
-                                        $altreAttivita="no-altre-attivita";
-                                    }
-                                ?>
-                                <h3 class="text-center">Visualizzazione degli studenti impegnati in altre attività</h3>
-                                <h5 class="text-center">Clicca per visualizzare cosa sono le <a href="#altreAttivita" data-toggle="modal" >altre attività</a>.</h5>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <label for="btnStampaPsw" class="control-label">Visualizza la lista</label>
-                                <button type="button" class="btn btn-block btn-info" id="visListaAltreAttivita" data-toggle='modal' role='button'>Visualizza</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row" id="noPrint">
-            <div class="hidden-xs hidden-sm col-md-12 col-lg-12"><hr></div>
-        </div>
-        <div class="row" id="noPrint">
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h2 class="panel-title">Pannello H</h2>
+                        <h2 class="panel-title"><span class='fa fa-chevron-right'></span>  Pannello G</h2>
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -272,14 +239,71 @@
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                 <label for="stampaLib" class="control-label">Stampa liberatoria</label>
-                                <button type="button" class="btn btn-block btn-info" id="stampaLib">Stampa</button>
+                                <button type="button" class="btn btn-block btn-primary" id="stampaLib">Stampa</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="noPrint">
+            <div class="hidden-xs hidden-sm col-md-12 col-lg-12"><hr></div>
+        </div>
+        <div class="row" id="noPrint">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title"><span class='fa fa-chevron-right'></span>  Pannello H</h2>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <?php
+                                    $query="SELECT Lista FROM AltreAttivita WHERE ID=1";
+                                    $res=$db->qikQuery($query);
+                                    if($res !== false && trim($res[0]["Lista"]) !== "") {
+                                        $altreAttivita=trim($res[0]["Lista"]);
+                                    } else {
+                                        $altreAttivita="no-altre-attivita";
+                                    }
+                                ?>
+                                <h3 class="text-center">Visualizzazione degli studenti impegnati in altre attività</h3>
+                                <h5 class="text-center">Clicca per visualizzare cosa sono le <a href="#altreAttivita" data-toggle="modal" >altre attività</a>.</h5>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <label for="btnStampaPsw" class="control-label">Visualizza la lista</label>
+                                <button type="button" class="btn btn-block btn-primary" id="visListaAltreAttivita" data-toggle='modal' role='button'>Visualizza</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 hidden-md hidden-lg"><hr></div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6"></div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title"><span class='fa fa-chevron-right'></span>  Pannello I</h2>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <h3 class="text-center">Modifica della lista delle "Altre attività"</h3>
+                                <h5 class="text-center">Premi <span class='label label-success'>Conferma</span> per aggiornare la lista</h5>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group" id="campo_listaAltreAttivita">
+                                    <label for="txtAltreAttivita" class="control-label">Lista</label>
+                                    <input type="text" class="form-control" name="txtAltreAttivita" id="txtAltreAttivita" />
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <label for="confermaAltreAttivita" class="control-label">Stampa liberatoria</label>
+                                <button type="button" class="btn btn-block btn-success" id="confermaAltreAttivita">Conferma</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- FOOTER -->
