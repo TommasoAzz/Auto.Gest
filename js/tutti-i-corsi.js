@@ -82,7 +82,7 @@ function aggiornaLista(gg_hh) {
         });
 }
 $(document).ready(function() {
-    const timerUpdateLista=10000;
+    //const timerUpdateLista=10000;
     var giorno_ora={
         "giorno": 1,
         "ora": 1
@@ -102,7 +102,7 @@ $(document).ready(function() {
     }); 
 
     //timer per aggiornamento automatico della lista dei corsi (senza aggiornamento dei dati)
-    window.setInterval(function() {
+    /*window.setInterval(function() {
         aggiornaLista(giorno_ora);
-    },timerUpdateLista); //aggiornamento della lista ogni 10 secondi
+    },timerUpdateLista); //aggiornamento della lista ogni 10 secondi*/
 });

@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <h1 class="text-center">Tutti i corsi</h1>
-                <h4 class="text-center sottotitolo">Lista di tutti i corsi disponibili, aggiornata automaticamente ogni 10 secondi</h4>
+                <h4 class="text-center sottotitolo">Lista di tutti i corsi disponibili durante l'evento</h4>
                 <hr>
             </div>
             <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
