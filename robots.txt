@@ -1,0 +1,9 @@
+User-Agent: *
+Disallow: /css/
+Disallow: /js/
+Disallow: /amministrazione/
+Disallow: /registro-presenze/
+Disallow: /class/
+Disallow: /fonts/
+Disallow: /iscrizione/
+Sitemap: https://autogestionekennedy.altervista.org/sitemap.xml

@@ -5,15 +5,12 @@ require_once "../classes.php";
         require_once "../connectToDB.php";
         $db=Session::get("db");
         $ID=GlobalVar::getPost("ID");
-        $password=md5(GlobalVar::getPost("Password"));
+        $password=md5(GlobalVar::getPost("Pwd"));
 
-        $query="UPDATE `Persone` SET `Password`='".$password."' WHERE `ID_Persona`=".intval($ID);
-        $cambio=$db->sendQuery($query); //restituisce falso anche se esegue la query
+        $query="UPDATE `Persone` SET `Pwd`='".$password."' WHERE `ID_Persona`=".intval($ID);
+        $cambioEff=$db->sendQuery($query); 
 
-        $queryControllo="SELECT `Password` AS psw FROM `Persone` WHERE `ID_Persona`=".intval($ID);
-        $res=$db->qikQuery($query);
-
-        if($res[0]["psw"] == $password) {
+        if($cambioEff) {
             echo "cambio-effettuato";
         } else {
             echo "cambio-non-effettuato";

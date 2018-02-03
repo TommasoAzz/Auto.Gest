@@ -47,21 +47,29 @@
 
         /* reperimento dati per pagina iscrizione */
         $nGiorno=intval($nGiorno);
-
-        //impostazione del titolo
-        $sottotitolo=getTitolo($db,$nGiorno);
         
         //reperimento dell'ora da iscrivere
         $nOra=getOraDaIscriversi($db,$utente,$nGiorno);
 
         if($nOra == "errore-reperimento-ore") { //eseguito in caso di errore
-            Session::set("errIscrizione","errore_ore");
+            Session::set("errIscrizione","errore_ora");
             die("<script>location.href='messaggio.php';</script>");
         }
 
         if($nOra !== "cambio-giorno") { //eseguito in caso di $nOra di valore numerico
             $nOra=intval($nOra);
         }
+
+        $query="SELECT Lista FROM AltreAttivita WHERE ID=1";
+        $query2="SELECT COUNT(*) AS Esiste FROM Corsi WHERE Nome='Altre attività'";
+        $res=$db->qikQuery($query);
+        $res2=$db->qikQuery($query2);
+        if($res !== false && trim($res[0]["Lista"]) !== "" && $res2[0]["Esiste"] !== "0") {
+            $altreAttivita=trim($res[0]["Lista"]);
+        } else {
+            $altreAttivita="no-altre-attivita";
+        }
+
         /* fine reperimento dati per pagina iscrizione */
     ?>
     <div id="content" class="container">
@@ -69,7 +77,7 @@
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <h1 class="text-center">Iscrizione</h1>
-                <h4 class="text-center sottotitolo"><?php echo $sottotitolo; ?></h4>
+                <h4 class="text-center sottotitolo"><?php echo getTitolo($db,$nGiorno); ?></h4>
                 <hr>
             </div>
         </div>
@@ -77,9 +85,14 @@
         <div class="row">
             <div class="hidden-xs hidden-sm col-md-3 col-lg-3"></div>
             <div id="modulo" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                <form action="updateDB.php" method="post"> 
-                    <?php creazioneSelect($db,$utente,$nGiorno,$nOra); ?>
+                <form id='iscrizione' action="updateDB.php" method="post"> 
+                    <?php creazioneBloccoIscrizione($db,$utente,$nGiorno,$nOra); ?>
                 </form>
+                <?php
+                    if($altreAttivita !== "no-altre-attivita") {
+                        echo "<p class='text-center'><span class='fa fa-info'></span>  Che corso è <a href='#altreAttivita' data-toggle='modal' role='button'>Altre attività</a>?</p>";
+                    }
+                ?>
             </div>
             <div class="hidden-xs hidden-sm col-md-3 col-lg-3"></div>
         </div>
@@ -87,5 +100,6 @@
     <!-- FOOTER -->
     <?php require_once "../footer.php"; ?>
     </div><!-- fine wrapper -->
+    <?php require_once "../modal_altreAttivita.php"; ?>
     </body>
 </html>

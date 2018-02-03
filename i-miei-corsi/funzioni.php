@@ -2,7 +2,7 @@
     //richiesta del numero dei giorni di evento
     function getNumGiorni($db) {
         //query al db
-        $numGiorni=$db->qikQuery("SELECT Durata AS Giorni FROM InfoEvento"); //ritornato un array
+        $numGiorni=$db->qikQuery("SELECT COUNT(ID_DataEvento) AS Giorni FROM DateEvento"); //ritornato un array
         //operazioni da eseguire se il db ha restituito qualcosa
         if($numGiorni!==false) {
             return $numGiorni[0]["Giorni"];
@@ -11,35 +11,30 @@
         }
     }
     
-    //Restituisce il mese e l'anno
-    function getMeseAnno($db) {
+    //Restituisce il mese
+    function getMese($db,$i) {
         //query al db
-        $q="SELECT MeseAnno FROM InfoEvento";
+        $q="SELECT Mese FROM DateEvento";
         $aMese=$db->qikQuery($q);
+        //controllo che il db restituisca qualcosa
         if($aMese!==false) {
-            return $aMese[0]["MeseAnno"];
+            return $aMese[$i]["Mese"];
         } else {
             return "errore-query-mese";
         }
     }
 
     //Restituisce il giorno i=0 -> "primo giorno"
-    function getGiorno($db,$i,$nGiorni) {
+    function getGiorno($db,$i) {
         //query al db
-        $q="SELECT Giorni FROM InfoEvento";
+        $q="SELECT Giorno FROM DateEvento";
         $aGiorni=$db->qikQuery($q);
         //controllo che il db restituisca qualcosa
-        if($aGiorni!==false) { //se ci sono errori probabilemente sono in questo controllo
-            $giorni=$aGiorni[0]["Giorni"]; //contiene più giorni separati da trattino
-            //dati per titolo
-            $vGiorni=array(); //variabile contente la option della select generata - variabile contenente il valore della giornata (formato gg)
-            $inizio=0; $lunghezza=2; //per la substring
-            for($j=0;$j<$nGiorni;$j++) {
-                $vGiorni[$j]=substr($giorni,$inizio,$lunghezza);
-                $inizio+=3;  
-            }
+        if($aGiorni!==false) {
+            return $aGiorni[$i]["Giorno"];    
+        } else {
+            return "errore-query-giorno";
         }
-        return $vGiorni[$i];
     }
 
     //restituisce un array, con tutti i corsi in cui l'utente si è iscritto in quel giorno
@@ -54,7 +49,7 @@
         $giorno = $i + 1;
         $aCorsi = getCorsiGiorno($db,$utente,$giorno); //restituisce un array, con tutti i corsi in cui l'utente si è iscritto in quel giorno
         $corsoInTab="";
-        for ($i=0;$i<sizeof($aCorsi);$i++) {
+        for($i=0;$i<sizeof($aCorsi);$i++) {
             $corsoInTab.="<tr>";
             $corsoInTab.="<td>".$aCorsi[$i]["Ora"]."°</td>";
             $corsoInTab.="<td>".$aCorsi[$i]["Nome"]."</td>";
@@ -66,11 +61,11 @@
     }
     
     //Stampa la riga del giorno riferito ai dati sottostanti
-    function stampaGiorno($db,$i,$nGiorni) {
-        $meseAnno = getMeseAnno($db);
+    function stampaGiorno($db,$i) {
+        $mese = getMese($db,$i);
         $panelGiorno="<div class='panel-heading'>";
         $panelGiorno.="<h2 class='panel-title'>";
-        $panelGiorno.="<strong>Giorno</strong>: ".getGiorno($db,$i,$nGiorni)." ".$meseAnno;
+        $panelGiorno.="<strong>Giorno</strong>: ".getGiorno($db,$i)." ".$mese;
         $panelGiorno.="</h2></div>";
         return $panelGiorno;
     }
@@ -96,7 +91,7 @@
         $panels="";
         for($i=0;$i<$nGiorni;$i++) {
             $panels.="<div class='panel panel-default'>";
-            $panels.=stampaGiorno($db,$i,$nGiorni);
+            $panels.=stampaGiorno($db,$i);
             $panels.=creaTabella($db,$utente,$i);
             $panels.="</div>";
         }

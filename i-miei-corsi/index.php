@@ -32,7 +32,7 @@
         <div id="intestazione" class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <h1 class="text-center">I miei corsi</h1>
-                <h4 class="text-center sottotitolo">Gestisci qui i corsi a cui ti sei iscritto</h4>
+                <h4 class="text-center sottotitolo">Rivedi i corsi a cui ti sei iscritto</h4>
                 <hr>
             </div>
          </div>
@@ -42,7 +42,7 @@
             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                 <h4 class="text-center">
                     <strong>Nome</strong>: <?php echo $utente->getNome()." ".$utente->getCognome(); ?>&nbsp;
-                    <strong>Classe</strong>: <?php echo $utente->getClasse().$utente->getSezione()." ".$utente->getIndirizzo(); ?>
+                    <strong>Classe</strong>: <?php echo $utente->getClasse()."°".$utente->getSezione()." ".$utente->getIndirizzo(); ?>
                 </h4>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">

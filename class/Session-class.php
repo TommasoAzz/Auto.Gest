@@ -15,7 +15,7 @@ class Session {
     //--per il controllo della inizializzazione
     private static $initialized=false;
     //--per la sicurezza della sessione
-    private static $nomeSessione='autogestione-sessione';
+    private static $nomeSessione='autogest-session';
     private static $secure=false; //true per HTTPS, false per HTTP
     private static $httponly=true;
     //metodi
@@ -73,6 +73,10 @@ class Session {
                 return false;
             }
         }
+    }
+    //--per controllare se connessione e' http o https
+    public static function is_secure() {
+        return self::$secure;
     }
 }
 ?>

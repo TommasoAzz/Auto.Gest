@@ -1,0 +1,12 @@
+/* FILE CSS PER LA STAMPA DELLA PAGINA Liberatoria */
+@media print {
+    div#body_lib {
+        visibility: visible;
+    }
+    div#header_lib,
+    div#footer_lib,
+    div#noPrint {
+        visibility: hidden;
+        display: none;
+    }
+}

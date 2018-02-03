@@ -6,12 +6,11 @@ if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
     require_once "funzioni-iscrizione.php";
     $db=Session::get("db");
     $utente=Session::get("utente");
-    //reperisco i dati POST
+    //reperisco i dati POST 
     $corso=explode("_",GlobalVar::getPost("corso"));
     $nomeCorso=$corso[0];
     $giornoCorso=getGiornoDaIscriversi($db,$utente);
     $oraCorso=$corso[1];
-
     //-- CONTROLLO CHE LO STUDENTE NON SIA GIA' ISCRITTO NELL'ORA E NEL GIORNO SELEZIONATI --//
    
     $q_controllo="SELECT ID_Iscrizione FROM Iscrizioni I INNER JOIN SessioniCorsi S ON I.ID_SessioneCorso=S.ID_SessioneCorso WHERE ID_Studente=".$utente->getId()." AND Giorno='".$giornoCorso."' AND Ora='".$oraCorso."'";
@@ -38,11 +37,14 @@ if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
     $r_id=$db->qikQuery($q_id); //ritornato un array
     $ID_SessioneCorso=$r_id[0]["ID_SessioneCorso"];
 
+    //echo "ID Sessione corso: ".$ID_SessioneCorso."<br />";
+
     //seleziono i posti rimasti del corso selezionato
     $q_posti="SELECT PostiRimasti FROM SessioniCorsi WHERE ID_SessioneCorso=".$ID_SessioneCorso;
     $r_posti=$db->qikQuery($q_posti);
     $PostiRimasti=intval($r_posti[0]["PostiRimasti"]);
-   
+    
+    //echo "Posti rimasti: ".$PostiRimasti."<br />";
     //controllo se iscrivere la persona è fattibile (i posti rimasti sono ancora superiori a 0)
     if($PostiRimasti>0) {
         //SQL UPDATE di tabella Iscrizioni
@@ -70,7 +72,7 @@ if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
             $q_iscrizione="SELECT ID_Iscrizione FROM Iscrizioni WHERE ID_SessioneCorso=".$ID_SessioneCorso." AND ID_Studente=".$utente->getId()." ORDER BY ID_Iscrizione DESC"; //cerco per nome tanto è univoco
             $r_iscrizione=$db->qikQuery($q_iscrizione);
             $ID_Iscrizione=$r_iscrizione[0]["ID_Iscrizione"];
-           
+            //echo "ID Iscrizione: ".$ID_Iscrizione;
             //SQL INSERT RegPresenze
             $q_registro="INSERT INTO RegPresenze (ID_Iscrizione, Presenza) VALUES (".$ID_Iscrizione.",1)";
             $db->sendQuery($q_registro);

@@ -36,7 +36,8 @@
         <div class="jumbotron">
             <div id="background"></div>
             <h1 class="text-center"><?php echo $info["titolo"]; ?></h1>
-            <p class="text-center sottotitolo"><?php echo $info["giorni"]." ".$info["meseanno"]; ?></p>
+            <h5 class="text-center sottotitolo"><?php echo $info["istituto"]; ?></h5>
+            <p class="text-center sottotitolo"><?php echo $info["periodosvolgimento"]; ?></p>
             <?php echo $button; ?>  
         </div>
         <!-- CORPO PAGINA -->

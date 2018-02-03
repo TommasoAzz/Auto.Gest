@@ -1,24 +1,39 @@
 /*Foglio di stile*/
+/* FONT */
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+/* IMPAGINAZIONE */
 html,body {
   height: 100%;
   margin: 0;
   padding: 0;
 }
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
 div#wrapper div.container#content { 
   padding-top: 70px;
   padding-bottom: 150px;
 }
+
 #wrapper {
   position: relative;
   min-height: 100%;
 }
+
+/* ICONE */
 .fa-home {
   font-size: 1.4em;
 }
+
+/* NAVBAR */
 div.navbar.navbar-default.navbar-fixed-top {
   z-index: 1;
   background: rgba(0,0,0,0);
 }
+
 div.navbar.navbar-default.navbar-fixed-top > div#navbar-background {
   position: absolute;
   z-index: -1;
@@ -30,11 +45,14 @@ div.navbar.navbar-default.navbar-fixed-top > div#navbar-background {
   width: 100%;
   height: 100%;
 }
+
 @media (min-width: 992px) {
   ul.nav li.dropdown:hover ul.dropdown-menu {
     display: block;
   }
 }
+
+/* FOOTER */
 #footer {
   clear: both;
   position: absolute;
@@ -43,21 +61,32 @@ div.navbar.navbar-default.navbar-fixed-top > div#navbar-background {
   width: 100%;
   margin-bottom: 0px;
 }
+
+/* MODULO DI LOGIN */
 label.error {
   color: #a94442;
 }
+
 input#login_password.form-control.error {
   border-color: #ccc !important;
 }
+
+/* TITOLI */
 .sottotitolo {
   color: #808080;
 }
-p.sottotitolo {
+
+p.sottotitolo,
+h5.sottotitolo {
   color: #fff;
 }
+
+/* TABELLE */
 table#listaCorsi {
   margin: 1em 0 0 0;
 }
+
+/* PAGINA PRINCIPALE */
 div.jumbotron {
   color: #337AB7;
   text-shadow: #444 0 1px 1px;
@@ -65,10 +94,12 @@ div.jumbotron {
   z-index: 0;
   border-radius: 10px;
 }
+
 div.jumbotron h1 {
   font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: bold;
+  font-weight: bold; 
 }
+
 div.jumbotron > div#background {
   position: absolute;
   z-index: -2;
@@ -84,13 +115,64 @@ div.jumbotron > div#background {
   height: 100%;
   border-radius: 10px;
 }
+
+#logoAutoGest img {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+/* PAGINE VARIE */
 div#divisorio,
 div#listaPersone,
 div#infoPresenze {
   display: none;
 }
-#logoAutoGest img {
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
+
+.input-group .form-control,
+.input-group .input-group-btn,
+.btn-group .btn {
+  z-index: 0;
+}
+
+/* REGISTRO PREENZE */
+/* bottone_s --> s = success (PULSANTE "PRESENTE")
+   bottone_w --> w = warning (PULSANTE "RITARDO")
+   bottone_d --> d = danger (PULSANTE "ASSENTE")
+*/
+#bottone_s,#bottone_w,#bottone_d{
+  font-weight: bold;
+}
+
+#bottone_s{
+	background-color: #80ba80;
+  border-color: #80ba80;
+}
+
+#bottone_s.active{
+  background-color: #3b7e3b;
+  border-color: #3b7e3b;
+}
+
+#bottone_w{
+	background-color: #efc58b;
+  border-color: #efc58b;
+}
+#bottone_w.active{
+	background-color: #eea849;
+  border-color: #eea849;
+}
+
+#bottone_d{
+	background-color: #e08b89;
+  border-color: #e08b89;
+}
+#bottone_d.active{
+  background-color: #cd3700;
+  border-color: #cd3700;
+}
+
+/* AMMINISTRAZIONE */
+img#logoLiberatoria {
+  max-width: 5%;
 }

@@ -16,6 +16,10 @@
                     <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
                         <div class="form-group" id="extSpiegazione">
                             <p class="text-justify">Per poter gestire il tuo corso, seleziona dal menu a tendina se fai parte del personale della scuola o se sei una persona esterna, poi inserisci la password che ti è stata consegnata dai Rappresentanti degli Studenti. Nel caso l'avessi smarrita, non esitare a contattarci, provvederemo a dartene una copia.</p>
+                            <p class="text-justify">Non fai parte del personale oppure non sei un esterno alla scuola? Clicca <a href="#login" id="linkModalInterni" data-toggle="modal">qui</a>.</p>
+                        </div>
+                        <div class="form-group" id="campo_show_hide_extSpiegazione">
+                            <p class="text-justify"><a id="show_hide_extSpiegazione">Nascondi il paragrafo</a> qui sopra.</p>
                         </div>
 			            <div class="form-group" id="extCampo_indirizzo">
                             <label for="extIndirizzo" id="extLblIndirizzo">Personale/Esterno</label>
