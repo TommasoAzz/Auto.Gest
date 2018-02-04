@@ -152,6 +152,7 @@ div#infoPresenze {
 #bottone_s.active{
   background-color: #3b7e3b;
   border-color: #3b7e3b;
+  z-index: -1;
 }
 
 #bottone_w{
@@ -161,6 +162,7 @@ div#infoPresenze {
 #bottone_w.active{
 	background-color: #eea849;
   border-color: #eea849;
+  z-index: -1;
 }
 
 #bottone_d{
@@ -170,6 +172,7 @@ div#infoPresenze {
 #bottone_d.active{
   background-color: #cd3700;
   border-color: #cd3700;
+  z-index: -1;
 }
 
 /* AMMINISTRAZIONE */
