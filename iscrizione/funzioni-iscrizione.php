@@ -103,7 +103,7 @@ function creazioneBloccoIscrizione($db,$utente,$nGiorno,$nOra) {
         else $stringCorso=$corso['Nome']." - ".$tempo." ore";
 
         $stringCorsoVal=$corso['Nome']."_".$corso['Ora'];
-        $blocco.="<option value='".$stringCorsoVal."'>".$stringCorso."</option>";
+        $blocco.='<option value="'.$stringCorsoVal.'">'.$stringCorso.'</option>';
     }
     $blocco.="</select>";
     $blocco.="<div class='input-group-btn'><button type='submit' id='btnProsegui' class='btn btn-success'><span class='fa fa-check'></span><span class='hidden-xs hidden-sm'>&nbsp;&nbsp;Prosegui</span></button></div>";

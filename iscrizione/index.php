@@ -6,6 +6,7 @@
     Session::open();
     $info=Session::get("info");
     $db=Session::get("db");
+    require_once "funzioni-iscrizione.php";
 ?>
 <html>
     <head>
@@ -27,7 +28,6 @@
     ?>
     <!-- REPERIMENTO DATI -->
     <?php
-        require_once "funzioni-iscrizione.php";
 
         $nGiorno=1; $nOra=1; //nGiorno è il giorno in cui ci si deve iscrivere, nOra è l'ora della quale cercare i corsi
 

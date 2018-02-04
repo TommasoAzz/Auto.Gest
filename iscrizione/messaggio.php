@@ -28,16 +28,16 @@
             $err=Session::get("errIscrizione");
             switch($err) {
                 case "fine": //iscrizione completata
-                    $msg="<h2>Congratulazioni!</h2><h4>Ti sei iscritto con successo a ".$info["titolo"].".</h4><p class='text-justify'>Clicca <a href='".getBaseURL()."/i-miei-corsi/'>qui</a> per visualizzare un promemoria dei corsi da te scelti, oppure torna alla <a href='../'>pagina principale</a>.</p>";
+                    $msg="<h2 class='text-center'>Congratulazioni!</h2><h4 class='text-justify'>Ti sei iscritto con successo a ".$info["titolo"].".</h4><p class='text-justify'>Clicca <a href='".getBaseURL()."/i-miei-corsi/'>qui</a> per visualizzare un promemoria dei corsi da te scelti, oppure torna alla <a href='../'>pagina principale</a>.</p>";
                     break;
                 case "sessioneCorso": //corso non disponibile (posti terminati)
-                    $msg="<h2>Siamo spiacenti!</h1><h4>I posti disponibili nel corso da te selezionato sono terminati.</h4><p class='text-justify'>Clicca <a href='/'>qui</a> per tornare ad iscriverti.</p>";
+                    $msg="<h2 class='text-center'>Siamo spiacenti!</h1><h4 class='text-justify'>I posti disponibili nel corso da te selezionato sono terminati.</h4><p class='text-justify'>Clicca <a href='/'>qui</a> per tornare ad iscriverti.</p>";
                     break;
                 case "errore_giorno": //errore nel reperimento del giorno dal database
-                    $msg="<h2>Errore nel reperimento del giorno.</h2><h4>Ci sono stati dei problemi nella comunicazione con il database durante la richiesta del giorno a cui ti devi iscrivere.</h4><p class='text-justify'>Clicca <a href='/'>qui</a> per riprovare. Se il problema persiste, contatta i tuoi Rappresentanti degli Studenti.</p>";
+                    $msg="<h2 class='text-center'>Errore nel reperimento del giorno.</h2><h4 class='text-justify'>Ci sono stati dei problemi nella comunicazione con il database durante la richiesta del giorno a cui ti devi iscrivere.</h4><p class='text-justify'>Clicca <a href='/'>qui</a> per riprovare. Se il problema persiste, contatta i tuoi Rappresentanti degli Studenti.</p>";
                     break;
                 case "errore_ora": //errore nel reperimento dell'ora dal database
-                    $msg="<h2>Errore nel reperimento dell'ora.</h2><h4>Ci sono stati dei problemi nella comunicazione con il database durante la richiesta dell'ora a cui ti devi iscrivere.</h4><p class='text-justify'>Clicca <a href='/'>qui</a> per riprovare. Se il problema persiste, contatta i tuoi Rappresentanti degli Studenti.</p>";
+                    $msg="<h2 class='text-center'>Errore nel reperimento dell'ora.</h2><h4 class='text-justify'>Ci sono stati dei problemi nella comunicazione con il database durante la richiesta dell'ora a cui ti devi iscrivere.</h4><p class='text-justify'>Clicca <a href='/'>qui</a> per riprovare. Se il problema persiste, contatta i tuoi Rappresentanti degli Studenti.</p>";
                     break;
             }
         } else {

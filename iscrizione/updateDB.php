@@ -22,7 +22,7 @@ if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
         $q_del_Iscrizioni="DELETE FROM Iscrizioni WHERE ID_Iscrizione=".$ID_Iscrizione;
         //se OraIscritta=0 e GiornoIscritto>0 significa che la persona è iscritta totalmente a 1, 2, n giorni e nessun'altra ora
         //prendo la durata del corso
-        $q_durata="SELECT Durata FROM Corsi WHERE Nome='".$nomeCorso."'"; //cerco per nome tanto è univoco
+        $q_durata='SELECT Durata FROM Corsi WHERE Nome="'.$nomeCorso.'"'; //cerco per nome tanto è univoco
         $r_durata=$db->qikQuery($q_durata);
         $durata=intval($r_durata[0]["Durata"]);
         $q_upd_Persone="UPDATE Persone SET OraIscritta=OraIscritta-".$durata." WHERE ID_Persona=".$utente->getId();  
@@ -33,7 +33,7 @@ if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
     //-- AGGIORNO Iscrizioni, Persone, SessioniCorsi, RegPresenze --//
    
     //seleziono l'ID della sessione di corso
-    $q_id="SELECT ID_SessioneCorso FROM SessioniCorsi S INNER JOIN Corsi C ON S.ID_Corso=C.ID_Corso WHERE Nome='".$nomeCorso."' AND Giorno='".$giornoCorso."' AND Ora='".$oraCorso."'";
+    $q_id='SELECT ID_SessioneCorso FROM SessioniCorsi S INNER JOIN Corsi C ON S.ID_Corso=C.ID_Corso WHERE Nome="'.$nomeCorso.'" AND Giorno="'.$giornoCorso.'" AND Ora="'.$oraCorso.'"';
     $r_id=$db->qikQuery($q_id); //ritornato un array
     $ID_SessioneCorso=$r_id[0]["ID_SessioneCorso"];
 
