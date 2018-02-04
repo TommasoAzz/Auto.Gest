@@ -4,10 +4,10 @@ function controlloPwd(psw) { //gestisce i messaggi di errore per validita' o men
     const pswLength=psw.trim().length;
     if(pswLength > 0 && pswLength < 8) {
 		$("div#campo_psw, div#extCampo_psw").removeClass("has-success").addClass("has-error");
-        $("input#login_password").append("<label class='error' for='login_password'>La password deve essere lunga almeno 8 caratteri.</label>");
+        $("input#login_password").append("<label class='error' for='login_password' id='logerr'>La password deve essere lunga almeno 8 caratteri.</label>");
 	} else if(pswLength > 7) {
 		$("div#campo_psw, div#extCampo_psw").removeClass("has-error").addClass("has-success");
-        $("label.error").remove();
+        $("label#logerr").remove();
 	}
 }
 
@@ -130,7 +130,7 @@ $(document).ready(function() {
         $("select#indirizzo,select#classe,input#login_password").val("").prop('disabled',true); //reset del modal alla sua chiusura
 		$('label#logerr').remove(); //reset dei messaggi di errore
         $("div#campo_psw").removeClass("has-success").removeClass("has-error");  //reset colore campo pws
-        $("a#show_hide_spiegazione").html("Nascondi il paragrafo")
+        $("a#show_hide_spiegazione").html("Nascondi il paragrafo");
         $("div#campo_indirizzo,div#campo_classe,div#campo_psw").fadeOut();
     });
 
@@ -151,9 +151,7 @@ $(document).ready(function() {
         if(datiLogin.indirizzo !== "") {
             richiestaClassi(datiLogin); //popolamento select#classe e ottenimento lista classi dell'indirizzo scelto
             $("select#classe").prop('disabled',false); //riabilito il menu-tendina delle classi in quanto è caricato
-        } else {
-            $("select#classe,input#login_password").prop('disabled',true);
-        }
+        } else $("select#classe,input#login_password").prop('disabled',true);
     });
 
     $("select#classe").change(function() { //concessione inserimento password
@@ -188,14 +186,17 @@ $(document).ready(function() {
     //___ GESTIONE LOGIN NON STUDENTI ___//
 
     $("div#extLogin").on("shown.bs.modal",function() {
-        $("div#extSpiegazione").css('display','block');
         $("select#extIndirizzo,input#extLogin_password").prop('disabled',true);
-        $("div#extCampo_indirizzo,div#extCampo_psw").fadeIn(); //animazione in ingresso dei menubar
+        $("div#extSpiegazione,div#extCampo_indirizzo,div#extCampo_psw").fadeIn(); //animazione in ingresso dei menubar
+        $("div#extSpiegazione").css('display','block');
 		extRichiestaIndirizzi(); //popolamento select#extIndirizzo e ottenimento lista provenienze
 		$("select#extIndirizzo").prop('disabled',false); //riabilito il menu-tendina degli indirizzi in quanto è caricato
     }).on("hidden.bs.modal",function() {
         //reset del modal alla sua chiusura
         $("select#extIndirizzo,input#extLogin_password").val("").prop('disabled',true);
+        $('label#logerr').remove(); //reset dei messaggi di errore
+        $("div#campo_psw").removeClass("has-success").removeClass("has-error");
+        $("a#show_hide_spiegazione").html("Nascondi il paragrafo");
         $("div#extCampo_indirizzo,div#extCampo_psw").fadeOut();
     });
 
@@ -211,7 +212,6 @@ $(document).ready(function() {
     });
 
     $("select#extIndirizzo").change(function() { //richiesta cognomi e nomi data la provenienza e animazioni
-        $("div#extSpiegazione").fadeOut();
         datiLogin=extRecuperaDati(datiLogin);
         $("input#extLogin_password").html('').prop('disabled',true);
         if(datiLogin.indirizzo !== "") { 
