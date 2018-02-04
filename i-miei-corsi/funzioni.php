@@ -49,7 +49,7 @@
         $giorno = $i + 1;
         $aCorsi = getCorsiGiorno($db,$utente,$giorno); //restituisce un array, con tutti i corsi in cui l'utente si è iscritto in quel giorno
         $corsoInTab="";
-        for($i=0;$i<sizeof($aCorsi);$i++) {
+        for($i=0,$l=sizeof($aCorsi);$i<$l;$i++) {
             $corsoInTab.="<tr>";
             $corsoInTab.="<td>".$aCorsi[$i]["Ora"]."°</td>";
             $corsoInTab.="<td>".$aCorsi[$i]["Nome"]."</td>";

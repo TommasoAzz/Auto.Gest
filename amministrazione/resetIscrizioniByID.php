@@ -16,9 +16,9 @@ require_once "../classes.php";
         $controlloQuery[0]=$db->checkQuery();
         
         $qID_Iscrizione="SELECT ID_Iscrizione FROM Iscrizioni WHERE ID_SessioneCorso IN (";
-        for($i=0;$i<sizeof($rID_SessioneCorso);$i++) {
+        for($i=0,$l=sizeof($rID_SessioneCorso);$i<$l;$i++) {
             $qID_Iscrizione.=$rID_SessioneCorso[$i]["ID_SessioneCorso"];
-            if($i != (sizeof($rID_SessioneCorso)-1)) {
+            if($i != ($l-1)) {
                 $qID_Iscrizione.=", ";
             }
         }
@@ -27,9 +27,9 @@ require_once "../classes.php";
         $controlloQuery[1]=$db->checkQuery();
 
         $qDelRegPresenze="DELETE FROM RegPresenze WHERE ID_Iscrizione IN (";
-        for($i=0;$i<sizeof($rID_Iscrizione);$i++) {
+        for($i=0,$l=sizeof($rID_Iscrizione);$i<$l;$i++) {
             $qDelRegPresenze.=$rID_Iscrizione[$i]["ID_Iscrizione"];
-            if($i != (sizeof($rID_Iscrizione)-1)) {
+            if($i != ($l-1)) {
                 $qDelRegPresenze.=", ";
             }
         }
@@ -38,9 +38,9 @@ require_once "../classes.php";
         $controlloQuery[2]=$db->checkQuery();
 
         $qDelIscrizioni="DELETE FROM Iscrizioni WHERE ID_SessioneCorso IN (";
-        for($i=0;$i<sizeof($rID_SessioneCorso);$i++) {
+        for($i=0,$l=sizeof($rID_SessioneCorso);$i<$l;$i++) {
             $qDelIscrizioni.=$rID_SessioneCorso[$i]["ID_SessioneCorso"];
-            if($i != (sizeof($rID_SessioneCorso)-1)) {
+            if($i != ($l-1)) {
                 $qDelIscrizioni.=", ";
             }
         }
@@ -49,9 +49,9 @@ require_once "../classes.php";
         $controlloQuery[3]=$db->checkQuery();
 
         $qUpdSessioniCorsi="UPDATE SessioniCorsi SET PostiRimasti=PostiRimasti+1 WHERE ID_SessioneCorso IN (";
-        for($i=0;$i<sizeof($rID_SessioneCorso);$i++) {
+        for($i=0,$l=sizeof($rID_SessioneCorso);$i<$l;$i++) {
             $qUpdSessioniCorsi.=$rID_SessioneCorso[$i]["ID_SessioneCorso"];
-            if($i != (sizeof($rID_SessioneCorso)-1)) {
+            if($i != ($l-1)) {
                 $qUpdSessioniCorsi.=", ";
             }
         }
@@ -64,7 +64,7 @@ require_once "../classes.php";
         $controlloQuery[5]=$db->checkQuery();
 
         //controllo che le query siano andate tutte a buon fine
-        for($i=0;$i<sizeof($controlloQuery);$i++) {
+        for($i=0,$l=sizeof($controlloQuery);$i<$l;$i++) {
             if($controlloQuery[$i]==false) {
                 $tuttoOk=false;
             }

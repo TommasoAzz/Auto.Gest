@@ -7,13 +7,13 @@
         $utente=Session::get("utente");
         $status=GlobalVar::getPost("aggiornamenti");
         $status=json_decode($status);
-        for($i=0;$i<sizeof($status);$i++){
+        for($i=0,$l=sizeof($status);$i<$l;$i++){
             $q="UPDATE RegPresenze SET Presenza = ".$status[$i][1]." WHERE ID_Iscrizione = ".$status[$i][0].""; 
             $db->sendQuery($q);
             $control[$i]=$db->checkQuery();
         }
         $problemi_zero=true;
-        for($i=0;$i<sizeof($control);$i++) {
+        for($i=0,$l=sizeof($control);$i<$l;$i++) {
             if($control[$i]==false) {
                 $problemi_zero=false;
             }
