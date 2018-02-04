@@ -24,7 +24,7 @@
             switch($utente->getLivello()) {
                 case 1: $button="<p class='text-center'><a class='btn btn-primary btn-lg' href='".getBaseURL()."/iscrizione/'>Iscriviti qui</a></p>";
                     break; //studente
-                case 2: $button="<p class='text-center'><a class='btn btn-primary btn-lg' href='".getBaseURL()."/gestione-corso/'>Gestisci il tuo corso</a></p>";
+                case 2: $button="<p class='text-center'><a class='btn btn-primary btn-lg' href='".getBaseURL()."/registro-presenze/'>Gestisci il tuo corso</a></p>";
                     break;
                 case 3: $button="<p class='text-center'><a class='btn btn-primary btn-lg' href='".getBaseURL()."/amministrazione/'>Amministra l'evento</a></p>";
                     break;
