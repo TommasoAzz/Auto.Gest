@@ -82,7 +82,7 @@ function getListaCorsi() {
             $select.append("<option value=''></option>")
             for(let i=0,l=vCorsi.length;i<l;i++) {
                 //option: contiene la option della select generata
-                let option=`<option value='${vCorsi[i].Nome}'>${vCorsi[i].Nome}</option>`;
+                let option=`<option value="${vCorsi[i].Nome}">${vCorsi[i].Nome}</option>`;
                 $select.append(option);
             }
         }    
