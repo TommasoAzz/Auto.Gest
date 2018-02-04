@@ -12,14 +12,14 @@ require_once "../classes.php";
         $controlloQuery=array();
         
         //script di reset totale delle iscrizioni di una persona
-        $qID_SessioneCorso="SELECT ID_SessioneCorso FROM Iscrizioni WHERE ID_Studente=".$ID_Persona;
+        $qID_SessioneCorso="SELECT ID_SessioneCorso FROM Iscrizioni WHERE ID_Studente=$ID_Persona";
         $rID_SessioneCorso=$db->qikQuery($qID_SessioneCorso);
         $controlloQuery[0]=$db->checkQuery();
         
         $qID_Iscrizione="SELECT ID_Iscrizione FROM Iscrizioni WHERE ID_SessioneCorso IN (";
         for($i=0,$l=sizeof($rID_SessioneCorso);$i<$l;$i++) {
             $qID_Iscrizione.=$rID_SessioneCorso[$i]["ID_SessioneCorso"];
-            if($i != (sizeof($rID_SessioneCorso)-1)) {
+            if($i != ($l-1)) {
                 $qID_Iscrizione.=", ";
             }
         }
@@ -30,7 +30,7 @@ require_once "../classes.php";
         $qDelRegPresenze="DELETE FROM RegPresenze WHERE ID_Iscrizione IN (";
         for($i=0,$l=sizeof($rID_Iscrizione);$i<$l;$i++) {
             $qDelRegPresenze.=$rID_Iscrizione[$i]["ID_Iscrizione"];
-            if($i != (sizeof($rID_Iscrizione)-1)) {
+            if($i != ($l-1)) {
                 $qDelRegPresenze.=", ";
             }
         }
@@ -41,7 +41,7 @@ require_once "../classes.php";
         $qDelIscrizioni="DELETE FROM Iscrizioni WHERE ID_SessioneCorso IN (";
         for($i=0,$l=sizeof($rID_SessioneCorso);$i<$l;$i++) {
             $qDelIscrizioni.=$rID_SessioneCorso[$i]["ID_SessioneCorso"];
-            if($i != (sizeof($rID_SessioneCorso)-1)) {
+            if($i != ($l-1)) {
                 $qDelIscrizioni.=", ";
             }
         }

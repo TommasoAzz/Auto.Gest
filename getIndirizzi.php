@@ -5,7 +5,7 @@
         require_once "connectToDB.php";
         header("Content-Type: text/html;charset=utf-8");
         $db=Session::get("db");
-        $query="SELECT DISTINCT Indirizzo FROM Classi WHERE NOT (Classe='A' OR Classe='E' OR Classe='P') ORDER BY Indirizzo";
+        $query="SELECT DISTINCT Indirizzo FROM Classi WHERE NOT (Classe='E' OR Classe='P') ORDER BY Indirizzo";
         $res=$db->qikQuery($query); //ritornato un array
         $jsonData=json_encode($res);
         echo $jsonData;

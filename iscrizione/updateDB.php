@@ -48,10 +48,10 @@ if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
     //controllo se iscrivere la persona è fattibile (i posti rimasti sono ancora superiori a 0)
     if($PostiRimasti>0) {
         //SQL UPDATE di tabella Iscrizioni
-        $q_iscrizioni="INSERT INTO Iscrizioni (ID_Studente,ID_SessioneCorso) VALUES (".$utente->getId().",".$ID_SessioneCorso.")";
+        $q_iscrizioni="INSERT INTO Iscrizioni (ID_Studente,ID_SessioneCorso) VALUES (".$utente->getId().",$ID_SessioneCorso)";
         $db->sendQuery($q_iscrizioni);
         //trovo la durata del corso
-        $q_durata="SELECT Durata FROM Corsi C INNER JOIN SessioniCorsi S ON C.ID_Corso=S.ID_Corso WHERE ID_SessioneCorso=".$ID_SessioneCorso; //cerco per nome tanto è univoco
+        $q_durata="SELECT Durata FROM Corsi C INNER JOIN SessioniCorsi S ON C.ID_Corso=S.ID_Corso WHERE ID_SessioneCorso=$ID_SessioneCorso"; //cerco per nome tanto è univoco
         $r_durata=$db->qikQuery($q_durata);
         $durata=$r_durata[0]["Durata"];
         //SQL UPDATE di tabella Persone
@@ -66,25 +66,25 @@ if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
                 $q_persone="UPDATE Persone SET OraIscritta=".$utente->getOraIscritta()." WHERE ID_Persona=".$utente->getId();
             }
             //SQL UPDATE SessioniCorsi in PostiRimasti
-            $q_posti = "UPDATE SessioniCorsi SET PostiRimasti=PostiRimasti-1 WHERE ID_SessioneCorso=".$ID_SessioneCorso;
+            $q_posti = "UPDATE SessioniCorsi SET PostiRimasti=PostiRimasti-1 WHERE ID_SessioneCorso=$ID_SessioneCorso";
             $db->sendQuery($q_posti);
            
-            $q_iscrizione="SELECT ID_Iscrizione FROM Iscrizioni WHERE ID_SessioneCorso=".$ID_SessioneCorso." AND ID_Studente=".$utente->getId()." ORDER BY ID_Iscrizione DESC"; //cerco per nome tanto è univoco
+            $q_iscrizione="SELECT ID_Iscrizione FROM Iscrizioni WHERE ID_SessioneCorso=$ID_SessioneCorso AND ID_Studente=".$utente->getId()." ORDER BY ID_Iscrizione DESC"; //cerco per nome tanto è univoco
             $r_iscrizione=$db->qikQuery($q_iscrizione);
             $ID_Iscrizione=$r_iscrizione[0]["ID_Iscrizione"];
             //echo "ID Iscrizione: ".$ID_Iscrizione;
             //SQL INSERT RegPresenze
-            $q_registro="INSERT INTO RegPresenze (ID_Iscrizione, Presenza) VALUES (".$ID_Iscrizione.",1)";
+            $q_registro="INSERT INTO RegPresenze (ID_Iscrizione, Presenza) VALUES ($ID_Iscrizione,1)";
             $db->sendQuery($q_registro);
         } else {
             $utente->setOraIscritta(0);
             $utente->setGiornoIscritto(intval($giornoCorso));
             $q_persone="UPDATE Persone SET OraIscritta=0, GiornoIscritto=".$utente->getGiornoIscritto()." WHERE ID_Persona=".$utente->getId();
             //SQL UPDATE SessioniCorsi in PostiRimasti
-            $q_posti = "UPDATE SessioniCorsi SET PostiRimasti=PostiRimasti-1 WHERE ID_SessioneCorso=".$ID_SessioneCorso;
+            $q_posti = "UPDATE SessioniCorsi SET PostiRimasti=PostiRimasti-1 WHERE ID_SessioneCorso=$ID_SessioneCorso";
             $db->sendQuery($q_posti);
             //SQL INSERT RegPresenze
-            $q_registro="INSERT INTO RegPresenze (ID_Iscrizione, Presenza) VALUES (".$ID_Iscrizione.",1)";
+            $q_registro="INSERT INTO RegPresenze (ID_Iscrizione, Presenza) VALUES ($ID_Iscrizione,1)";
             $db->sendQuery($q_registro);
         }
         $db->sendQuery($q_persone);

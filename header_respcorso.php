@@ -34,7 +34,7 @@
                 </li>
                 <li class="dropdown">
                     <?php
-                        echo "<a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">".$nome." <span class=\"caret\"></span></a>";
+                        echo "<a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>".$nome." <span class='caret'></span></a>";
                     ?>
                     <ul class="dropdown-menu">
                         <li><a href="#" data-toggle="modal" data-target="#datiUtente"><span class="fa fa-info"></span>&nbsp;&nbsp;&nbsp;&nbsp;I miei dati</a></li>

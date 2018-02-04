@@ -28,7 +28,7 @@ function getNumGiorni($db) {
 //richiesta dell'ultima ora in cui inizia un corso
 function getNumOre($db,$nGiorno) {
     //query al db
-	$numOre=$db->qikQuery("SELECT MAX(Ora) AS Ore FROM SessioniCorsi WHERE Giorno='".$nGiorno."'"); //ritornato un array
+	$numOre=$db->qikQuery("SELECT MAX(Ora) AS Ore FROM SessioniCorsi WHERE Giorno=$nGiorno"); //ritornato un array
     //controllo che il db restituisca qualcosa
 	if($numOre!==false) {
         return $numOre[0]["Ore"];
@@ -83,7 +83,7 @@ function getOraDaIscriversi($db,$utente,$nGiorno) {
 function getListaCorsi($db,$utente,$nGiorno,$nOra) {
 	//$nGiorno=getGiornoDaIscriversi($db,$utente);
 	//$nOra=getOraDaIscriversi($db,$utente,$nGiorno);
-	$query="SELECT Nome,Durata,Ora FROM Corsi C INNER JOIN SessioniCorsi S ON C.ID_Corso=S.ID_Corso WHERE Giorno='".$nGiorno."' AND Ora='".$nOra."' AND PostiRimasti>0";
+	$query="SELECT Nome,Durata,Ora FROM Corsi C INNER JOIN SessioniCorsi S ON C.ID_Corso=S.ID_Corso WHERE Giorno=$nGiorno AND Ora=$nOra AND PostiRimasti>0";
 	$res=$db->qikQuery($query);	 
     return $res;
 }

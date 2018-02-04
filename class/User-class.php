@@ -38,7 +38,7 @@ class User {
     //--assegnazione dei dati recuperandoli da DB
     public function initUser($db,$id) {
         $query="SELECT * FROM Persone P INNER JOIN Classi C ON P.ID_Classe=C.ID_Classe "; //lasciare spazio dopo ID_Classe
-        $query.="WHERE ID_Persona=".$id;
+        $query.="WHERE ID_Persona=$id";
         $richiesta=$db->doQuery($query);
         if($db->checkQuery() && $richiesta!==false && $db->getAffectedRows()==1) {
             $this->id=intval($db->getResult("ID_Persona"));

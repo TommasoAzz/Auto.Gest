@@ -6,7 +6,7 @@
 <?  
     $selID_SessioneCorso = "SELECT I.ID_SessioneCorso AS SessioneCorso,I.ID_Iscrizione AS Iscrizione FROM Iscrizioni I INNER JOIN SessioniCorsi S ON S.ID_SessioneCorso=I.ID_SessioneCorso WHERE Ora=5";
 	$vSessioniCorsi=$db->qikQuery($selID_SessioneCorso);
-	for($i=0;$i<sizeof($vSessioniCorsi);$i++) {
+	for($i=0,$l=sizeof($vSessioniCorsi);$i<$l;$i++) {
         $selPostiRimasti="SELECT PostiRimasti FROM SessioniCorsi WHERE ID_SessioneCorso=".$vSessioniCorsi[$i]['SessioneCorso'];
 		$PostiRimasti=$db->qikQuery($selPostiRimasti);
         $nonFareUpdate="non-fare-update";

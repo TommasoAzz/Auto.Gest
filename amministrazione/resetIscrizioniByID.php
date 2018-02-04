@@ -11,7 +11,7 @@ require_once "../classes.php";
         $controlloQuery=array();
         
         //script di reset totale delle iscrizioni di una persona
-        $qID_SessioneCorso="SELECT ID_SessioneCorso FROM Iscrizioni WHERE ID_Studente=".$ID_Persona;
+        $qID_SessioneCorso="SELECT ID_SessioneCorso FROM Iscrizioni WHERE ID_Studente=$ID_Persona";
         $rID_SessioneCorso=$db->qikQuery($qID_SessioneCorso);
         $controlloQuery[0]=$db->checkQuery();
         
@@ -59,7 +59,7 @@ require_once "../classes.php";
         $db->sendQuery($qUpdSessioniCorsi);
         $controlloQuery[4]=$db->checkQuery();
 
-        $qUpdPersone="UPDATE Persone SET GiornoIscritto=0, OraIscritta=0 WHERE ID_Persona=".$ID_Persona;
+        $qUpdPersone="UPDATE Persone SET GiornoIscritto=0, OraIscritta=0 WHERE ID_Persona=$ID_Persona";
         $db->sendQuery($qUpdPersone);
         $controlloQuery[5]=$db->checkQuery();
 

@@ -6,7 +6,7 @@ require_once "../classes.php";
         $db=Session::get("db");
         $aA=GlobalVar::getPost("aA");
 
-        $query="UPDATE AltreAttivita SET Lista='".$aA."' WHERE ID=1";
+        $query='UPDATE AltreAttivita SET Lista="'.$aA.'" WHERE ID=1';
         $modificaEff=$db->sendQuery($query); 
 
         if($modificaEff) {
