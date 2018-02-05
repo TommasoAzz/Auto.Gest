@@ -9,8 +9,8 @@ if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
     //reperisco i dati POST 
     $corso=explode("_",GlobalVar::getPost("corso"));
     $nomeCorso=$corso[0];
-    $giornoCorso=getGiornoDaIscriversi($db,$utente);
-    $oraCorso=$corso[1];
+    $giornoCorso=intval(getGiornoDaIscriversi($db,$utente));
+    $oraCorso=intval($corso[1]);
     
     //-- CONTROLLO CHE LO STUDENTE NON SIA GIA' ISCRITTO NELL'ORA E NEL GIORNO SELEZIONATI --//
    
@@ -18,9 +18,9 @@ if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
     $r_controllo=$db->qikQuery($q_controllo);
     //se il valore è diverso da false significa che lo studente aveva già effettuato una scelta per quell'ora
     if($r_controllo!==false) { //assicurarsi che sia il controllo giusto
-        $ID_Iscrizione=$r_controllo[0]["ID_Iscrizione"];
+        $ID_Iscrizione=intval($r_controllo[0]["ID_Iscrizione"]);
         //preparo query per tabella Iscrizioni
-        $q_del_Iscrizioni="DELETE FROM Iscrizioni WHERE ID_Iscrizione=".$ID_Iscrizione;
+        $q_del_Iscrizioni="DELETE FROM Iscrizioni WHERE ID_Iscrizione=$ID_Iscrizione";
         //se OraIscritta=0 e GiornoIscritto>0 significa che la persona è iscritta totalmente a 1, 2, n giorni e nessun'altra ora
         //prendo la durata del corso
         $q_durata='SELECT Durata FROM Corsi WHERE Nome="'.$nomeCorso.'"'; //cerco per nome tanto è univoco
@@ -34,7 +34,7 @@ if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
     //-- AGGIORNO Iscrizioni, Persone, SessioniCorsi, RegPresenze --//
    
     //seleziono l'ID della sessione di corso
-    $q_id='SELECT ID_SessioneCorso FROM SessioniCorsi S INNER JOIN Corsi C ON S.ID_Corso=C.ID_Corso WHERE Nome="'.$nomeCorso.'" AND Giorno=$giornoCorso AND Ora=$oraCorso';
+    $q_id='SELECT ID_SessioneCorso FROM SessioniCorsi S INNER JOIN Corsi C ON S.ID_Corso=C.ID_Corso WHERE Nome="'.$nomeCorso.'" AND Giorno='.$giornoCorso.' AND Ora='.$oraCorso;
     $r_id=$db->qikQuery($q_id); //ritornato un array
     $ID_SessioneCorso=$r_id[0]["ID_SessioneCorso"];
 
@@ -53,14 +53,14 @@ if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
         //trovo la durata del corso
         $q_durata="SELECT Durata FROM Corsi C INNER JOIN SessioniCorsi S ON C.ID_Corso=S.ID_Corso WHERE ID_SessioneCorso=$ID_SessioneCorso"; //cerco per nome tanto è univoco
         $r_durata=$db->qikQuery($q_durata);
-        $durata=$r_durata[0]["Durata"];
+        $durata=intval($r_durata[0]["Durata"]);
 
         //SQL UPDATE di tabella Persone
         if($oraCorso != getNumOre($db,$giornoCorso)) {   
-            $oraIscritta_new=$utente->getOraIscritta()+intval($durata);
+            $oraIscritta_new=$utente->getOraIscritta()+$durata;
             if($oraIscritta_new==getNumOre($db,$giornoCorso)) {
                 $utente->setOraIscritta(0);  
-                $utente->setGiornoIscritto(intval($giornoCorso));
+                $utente->setGiornoIscritto($giornoCorso);
                 $q_persone="UPDATE Persone SET OraIscritta=0, GiornoIscritto=".$utente->getGiornoIscritto()." WHERE ID_Persona=".$utente->getId();
             } else {
                 $utente->setOraIscritta($oraIscritta_new);
@@ -76,7 +76,7 @@ if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
             $ID_Iscrizione=$r_iscrizione[0]["ID_Iscrizione"];
 
             //SQL INSERT RegPresenze
-            $q_registro="INSERT INTO RegPresenze (ID_Iscrizione, Presenza) VALUES ($ID_Iscrizione,1)";
+            $q_registro="INSERT INTO RegPresenze (ID_Iscrizione) VALUES ($ID_Iscrizione)";
             $db->sendQuery($q_registro);
         } else {
             $utente->setOraIscritta(0);

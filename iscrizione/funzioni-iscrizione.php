@@ -19,7 +19,7 @@ function getNumGiorni($db) {
     $numGiorni=$db->qikQuery("SELECT COUNT(ID_DataEvento) AS Giorni FROM DateEvento"); //ritornato un array
     //operazioni da eseguire se il db ha restituito qualcosa
     if($numGiorni!==false) {
-        return $numGiorni[0]["Giorni"];
+        return intval($numGiorni[0]["Giorni"]);
     } else {
         return "errore-query-giorni";
     }
@@ -31,7 +31,7 @@ function getNumOre($db,$nGiorno) {
 	$numOre=$db->qikQuery("SELECT MAX(Ora) AS Ore FROM SessioniCorsi WHERE Giorno=$nGiorno"); //ritornato un array
     //controllo che il db restituisca qualcosa
 	if($numOre!==false) {
-        return $numOre[0]["Ore"];
+        return intval($numOre[0]["Ore"]);
     } else {
 		return "errore-query-ore";
 	}
