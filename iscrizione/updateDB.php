@@ -80,7 +80,7 @@ if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
             $db->sendQuery($q_registro);
         } else {
             $utente->setOraIscritta(0);
-            $utente->setGiornoIscritto(intval($giornoCorso));
+            $utente->setGiornoIscritto($giornoCorso);
             $q_persone="UPDATE Persone SET OraIscritta=0, GiornoIscritto=".$utente->getGiornoIscritto()." WHERE ID_Persona=".$utente->getId();
             //SQL UPDATE SessioniCorsi in PostiRimasti
             $q_posti = "UPDATE SessioniCorsi SET PostiRimasti=PostiRimasti-1 WHERE ID_SessioneCorso=$ID_SessioneCorso";
