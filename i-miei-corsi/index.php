@@ -21,10 +21,13 @@
     <!-- CONTROLLO ACCESSO -->
     <?php
         // PAGINA ACCESSIBILE SOLO DA UTENTI DI LIVELLO: 1, 3
-        if(!isset($utente)) { 
+        /*if(!isset($utente)) { 
             header("Location: /");
         } elseif($utente->getLivello() == 2) {
             die("<script>location.href='/';</script>");
+        }*/
+        if(!isset($utente) || $utente->getLivello() == 2) {
+            header("Location: /");
         }
     ?>
 	<div id="content" class="container">
@@ -64,15 +67,19 @@
             <?php
                 if($utente->getGiornoIscritto() > 0 || $utente->getOraIscritta() > 0) {
                     echo creazioneTabella($db,$utente);
-                } else {
-                    echo "<div id='no_iscrizione' class='panel panel-danger'>";
-                    echo "<div class='panel-heading'>";
-                    echo "<h2 class='panel-title'>Non ti sei ancora iscritto ad alcun corso!</h2>";
-                    echo "</div>";
-                    echo "<div class='panel-body'>";
-                    echo "<p>Quando ti sarai iscritto ad almeno un corso visualizzerai qui le tue scelte. Per iscriverti, clicca <a href=".getBaseUrl()."/iscrizione/ title='Iscrizione'>qui</a>.</p>";
-                    echo "</div></div>";
-                }
+                } else { //inizio ELSE
+                //chiudo la sezione PHP perché quello che farebbe è stampare HTML, quindi lo inserisco dentro l'else non racchiudendolo fra PHP
+            ?>
+                <div id='no_iscrizione' class='panel panel-danger'>
+                    <div class='panel-heading'>
+                        <h2 class='panel-title'>Non ti sei ancora iscritto ad alcun corso!</h2>
+                    </div>
+                    <div class='panel-body'>
+                        <p>Quando ti sarai iscritto ad almeno un corso visualizzerai qui le tue scelte. Per iscriverti, clicca <a href=".getBaseUrl()."/iscrizione/ title='Iscrizione'>qui</a>.</p>
+                    </div>
+                </div>
+            <?php
+                } //fine ELSE
             ?>
             </div>
             <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>

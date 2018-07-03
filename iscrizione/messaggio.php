@@ -17,39 +17,63 @@
     <!-- CONTROLLO ACCESSO -->
     <?php
         // PAGINA ACCESSIBILE SOLO DA UTENTI DI LIVELLO: 1, 3
-        if(!isset($utente)) { 
+        /*if(!isset($utente)) { 
             header("Location: /");
         } elseif($utente->getLivello() == 2) {
             die("<script>location.href='/';</script>");
+        }*/
+        if(!isset($utente) || $utente->getLivello() == 2 || !Session::is_set("errIscrizione")) {
+            header("Location: /");
         }
-    ?>
-    <?php
-        if(Session::is_set("errIscrizione")) {
-            $err=Session::get("errIscrizione");
-            switch($err) {
-                case "fine": //iscrizione completata
-                    $msg="<h2 class='text-center'>Congratulazioni!</h2><h4 class='text-justify'>Ti sei iscritto con successo a ".$info["titolo"].".</h4><p class='text-justify'>Clicca <a href='".getBaseURL()."/i-miei-corsi/'>qui</a> per visualizzare un promemoria dei corsi da te scelti, oppure torna alla <a href='../'>pagina principale</a>.</p>";
+        /*if(Session::is_set("errIscrizione")) {*/
+            $errore=Session::get("errIscrizione");
+            $h2="C'è stato un errore nella comunicazione con il database.";
+            $h4="";
+            $p="Clicca <a href='/'>qui</a> per riprovare. Se il problema persiste, contatta i tuoi Rappresentanti degli Studenti.";
+            switch($errore) {
+                //funzione-iscrizione.php
+                case "errore_db_giorno_iscrizione": //errore nel reperimento del giorno d'iscrizione dal database
+                    $h4="Mentre stavamo chiedendo a che giorno ti dovessi iscrivere, qualcosa è andato storto.";
                     break;
-                case "sessioneCorso": //corso non disponibile (posti terminati)
-                    $msg="<h2 class='text-center'>Siamo spiacenti!</h1><h4 class='text-justify'>I posti disponibili nel corso da te selezionato sono terminati.</h4><p class='text-justify'>Clicca <a href='/'>qui</a> per tornare ad iscriverti.</p>";
+                case "errore_db_ora_iscrizione": //errore nel reperimento dell'ora dal database
+                    $h4="Mentre stavamo chiedendo a che ora ti dovessi iscrivere, qualcosa è andato storto.";
                     break;
-                case "errore_giorno": //errore nel reperimento del giorno dal database
-                    $msg="<h2 class='text-center'>Errore nel reperimento del giorno.</h2><h4 class='text-justify'>Ci sono stati dei problemi nella comunicazione con il database durante la richiesta del giorno a cui ti devi iscrivere.</h4><p class='text-justify'>Clicca <a href='/'>qui</a> per riprovare. Se il problema persiste, contatta i tuoi Rappresentanti degli Studenti.</p>";
+                case "errore_db_lista_corsi": //errore nel reperimento della lista dei corsi
+                    $h4="Mentre stavamo chiedendo quali fossero i possibili corsi a cui ti potresti iscrivere, qualcosa è andato storto.";
                     break;
-                case "errore_ora": //errore nel reperimento dell'ora dal database
-                    $msg="<h2 class='text-center'>Errore nel reperimento dell'ora.</h2><h4 class='text-justify'>Ci sono stati dei problemi nella comunicazione con il database durante la richiesta dell'ora a cui ti devi iscrivere.</h4><p class='text-justify'>Clicca <a href='/'>qui</a> per riprovare. Se il problema persiste, contatta i tuoi Rappresentanti degli Studenti.</p>";
+                case "fine_iscrizione": //iscrizione completata
+                    $h2="Congratulazioni!";
+                    $h4="Hai completato l'iscrizione a ".$info['titolo'];
+                    $p="Clicca <a href='".getBaseURL()."/i-miei-corsi/'>qui</a> per visualizzare un promemoria dei corsi da te scelti, oppure torna alla <a href='../'>Home page</a>.";
+                    break;
+                //updateDB.php
+                case "errore_db_id_sessione_corso": //errore nel reperimento dell'id della sessione del corso
+                case "errore_db_posti_sessione_corso": //errore nel reperimento dei posti rimasti nella sessione di corso scelta
+                case "errore_db_upd8_iscrizioni": //errore nell'update della tabella Iscrizioni
+                case "errore_db_durata_corso": //errore nel reperimento della durata del corso relativo alla sessione del corso
+                case "errore_db_upd8_persone": //errore nell'upd8 della tabella Persone
+                case "errore_db_upd8_posti_rimasti": //errore nel decremento di PostiRimasti nella tabella SessioniCorsi
+                case "errore_db_id_iscrizione": //errore nel reperimento del codice dell'iscrizione generata
+                case "errore_db_upd8_registro": //errore nell'update della tabella RegPresenze
+                    $h4="Mentre stavamo per iscriverti al corso che avevi scelto, qualcosa è andato storto.";
+                    break;
+                case "posti_terminati_sessione_corso": //corso non disponibile (posti terminati)
+                    $h2="Siamo spiacenti!";
+                    $h4="I posti disponibili nel corso da te selezionato sono appena terminati.";
+                    $p="Clicca <a href='/'>qui</a> per provare ad iscriverti ad un altro corso.";
                     break;
             }
-        } else {
+            $messaggio_info="<h2 class='text-center'>$h2</h2><h4 class='text-justify'>$h4</h4><p class='text-justify'>$p</p>"
+        /*} else {
             die("<script>location.href='/';</script>");
-        }
+        }*/
     ?>
     <div id="content" class="container">
         <!-- INTESTAZIONE PAGINA -->
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <h1 class="text-center">Iscrizione</h1>
-                <h4 class="text-center sottotitolo"><?php echo $info["titolo"]; ?></h4>
+                <h4 class="text-center sottotitolo"><?php echo $info['titolo']; ?></h4>
                 <hr>
             </div>
         </div>
@@ -57,7 +81,7 @@
         <div class="row">
             <div class="hidden-xs hidden-sm col-md-4 col-lg-4"></div>
             <div id="modulo" class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                <?php echo $msg; ?>
+                <?php echo $messaggio_info; ?>
             </div>
             <div class="hidden-xs hidden-sm col-md-4 col-lg-4"></div>
         </div>

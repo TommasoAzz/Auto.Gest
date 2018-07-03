@@ -34,27 +34,28 @@ class User {
         $this->giornoIscritto=0;
         $this->oraIscritta=0;
         $this->livello=1;
-    }   
+    }
+
     //--assegnazione dei dati recuperandoli da DB
     public function initUser($db,$id) {
-        $query="SELECT * FROM Persone P INNER JOIN Classi C ON P.ID_Classe=C.ID_Classe "; //lasciare spazio dopo ID_Classe
-        $query.="WHERE ID_Persona=$id";
-        $richiesta=$db->doQuery($query);
-        if($db->checkQuery() && $richiesta!==false && $db->getAffectedRows()==1) {
-            $this->id=intval($db->getResult("ID_Persona"));
-            $this->nome=$db->getResult("Nome");
-            $this->cognome=$db->getResult("Cognome");
-            $this->classe=$db->getResult("Classe");
-            $this->sezione=$db->getResult("Sezione"); 
-            $this->indirizzo=$db->getResult("Indirizzo");
-            $this->giornoIscritto=intval($db->getResult("GiornoIscritto"));
-            $this->oraIscritta=intval($db->getResult("OraIscritta"));
-            $this->livello=intval($db->getResult("Livello"));
-            return true;
-        } else {
-            return false;
-        }
+        $query="SELECT * FROM Persone P INNER JOIN Classi C ON P.ID_Classe=C.ID_Classe WHERE ID_Persona=$id";
+        $richiesta=$db->queryDB($query);
+
+        if(!$richiesta) return false;
+
+        $this->id               = intval($richiesta[0]["ID_Persona"]);
+        $this->nome             = $richiesta[0]["Nome"];
+        $this->cognome          = $richiesta[0]["Cognome"];
+        $this->classe           = $richiesta[0]["Classe"];
+        $this->sezione          = $richiesta[0]["Sezione"]; 
+        $this->indirizzo        = $richiesta[0]["Indirizzo"];
+        $this->giornoIscritto   = intval($richiesta[0]["GiornoIscritto"]);
+        $this->oraIscritta      = intval($richiesta[0]["OraIscritta"]);
+        $this->livello          = intval($richiesta[0]["Livello"]);
+        return true;
+
     }
+    
     //--assegnazione dei dati
     public function setGiornoIscritto($val) {
         $this->giornoIscritto=$val;

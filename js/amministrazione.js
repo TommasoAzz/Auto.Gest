@@ -93,10 +93,16 @@ function visualizzaSessioniCorso(nomeC) {
     const $tbody=$("tbody#tSessioniCorso");
     $tbody.html("");
     $.post("/amministrazione/getSessioniCorso.php",{nomeCorso: nomeC},function(result) {
-        const datiDaServer=$.parseJSON(result.trim()); //ottengo i dati dal server
-        const datiCorso=$.parseJSON(datiDaServer[0]);
-        if(datiDaServer[1]!="false") {
-            var vSessioni=$.parseJSON(datiDaServer[1]);
+        if(result.trim() === "errore_db_id_corso" || result.trim() === "errore_db_sessione_corso") {
+            let titolo="Errore",contenuto="C'è stato un errore nell'elaborazione dei dati.";
+            $alert(titolo,contenuto);
+        } else {
+            //ottengo i dati dal server
+            const datiDaServer=$.parseJSON(result.trim()); //spacchetto l'array ottenuto da POST
+
+            const datiCorso=$.parseJSON(datiDaServer[0]); //spacchetto l'array associativo ottenuto dalla query (dati del Corso)
+            var vSessioni=$.parseJSON(datiDaServer[1]); //spacchetto l'array associativo ottenuto dalla query (dati delle sessioni del corso)
+
             var riga="";
             for(let i=0,l=vSessioni.length;i<l;i++) {
                 riga="<tr>";
@@ -107,17 +113,14 @@ function visualizzaSessioniCorso(nomeC) {
                 riga+="</tr>";
                 $tbody.append(riga);
             }
-            $("span#nomeCorso").text(nomeC)
+            $("span#nomeCorso").text(nomeC);
             $("span#idCorso").text(datiCorso[0].id);
             $("span#durataCorso").text(datiCorso[0].d);
             $("span#aulaCorso").text(datiCorso[0].a);
             $("span#postiCorso").text(datiCorso[0].pt);
 
             $("div#sessioniCorso").modal("show");
-        } else {
-            let titolo="Errore",contenuto="C'è stato un errore nell'elaborazione dei dati.";
-            $alert(titolo,contenuto);
-        }     
+        }   
     });
 }
 
@@ -126,7 +129,7 @@ function visualizzaPresenzeSessione(id) {
     $tbody.html("");
     $.post("/amministrazione/getPresenzeSessione.php", {ID_SessioneCorso: id},function(result) {
         var vPresenze=result.trim();
-        if(vPresenze !== "false") {
+        if(vPresenze !== "errore_db_presenze") {
             vPresenze=$.parseJSON(vPresenze);
             for(let i=0,l=vPresenze.length;i<l;i++) {
                 let riga="<tr>";
@@ -225,6 +228,7 @@ function getAltreAttivita() {
         }
     });    
 }
+
 $(document).ready(function() {
     //avvio della pagina 
     getListaCorsi(); //pannello E

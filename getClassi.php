@@ -7,7 +7,7 @@
         $ind=GlobalVar::getPost("indirizzo");
         $db=Session::get("db");
         $query="SELECT Classe,Sezione FROM Classi WHERE Indirizzo='".$ind."' ORDER BY Classe,Sezione";
-        $res=$db->qikQuery($query); //ritornato un array
+        $res=$db->queryDB($query); //ritornato un array
         $jsonData=json_encode($res);
         echo $jsonData;
     } else {

@@ -7,7 +7,7 @@
         $db=new Database(dbHost,dbUser,dbPwd,dbName); //allocamento del database 
     }
     $db->connect(); //connessione a database
-    $db->doQuery("SET NAMES 'utf8'");
+    $utf8_set=$db->queryDB("SET NAMES 'utf8'");
     Session::set("db",$db);
     
     function getBaseURL() { //recupero dell'URL della pagina per creare link assoluti

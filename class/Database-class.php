@@ -18,8 +18,10 @@ class Database {
     private $username; //username per la connessione al db
     private $password; //password per la connessione al db
     private $db_name; //nome del database a cui connettersi
+
     //--per gestione DB (eseguire query, controllo query, risultati query)
     private $conn; //oggetto del database
+
     //--per gestire query
     private $lastQuery; //oggetto dell'ultima query eseguita
     private $lastQueryRes; //array dei risultati dell'ultima query eseguita
@@ -36,8 +38,9 @@ class Database {
 
     //--per il controllo (privati)
     private function checkConnection() {
-        if ($this->conn->connect_errno > 0) {
-            die("<p>Errore nella connessione al database [" . $this->conn->connect_error . "].</p>");
+        if($this->conn->connect_errno > 0) {
+            $msg_errore="<p>Errore nella connessione al database [" . $this->conn->connect_error . "].</p>";
+            die($msg_errore);
             return false;
         } else {
             return true;
@@ -45,7 +48,7 @@ class Database {
     }
 
     public function checkQuery() {
-        if ($this->lastQuery) {
+        if($this->lastQuery) {
             return true;
         } else {
             return false;
@@ -54,15 +57,15 @@ class Database {
 
     //--per la connessione al database
     public function connect() {
-        if ($this->conn == null) {
+        if($this->conn == null) {
             $this->conn = new mysqli($this->hostname, $this->username, $this->password, $this->db_name);
-            if ($this->checkConnection()) {
+            if($this->checkConnection()) {
                 $this->conn->autocommit(TRUE);
             }
         }
     }
 
-    public function close() {
+    public function disconnect() {
         $this->conn->close();
     }
 
@@ -70,10 +73,23 @@ class Database {
         return $this->conn;
     }
 
+    public function getAffectedRows() {
+        return $this->conn->affected_rows; //restituisce il numero delle righe affette dalla query
+    }
+
+    //--per inviare/annullare le query eseguite (se autocommit e' false)
+    public function commitQueries() {
+        $this->conn->commit();
+    }
+
+    public function rollbackQueries() {
+        $this->conn->rollback();
+    }
+
     //--per gestire le query (inviarle e visualizzare risultati
-    public function doQuery($string) {
+    public function sendQuery($string) {
         $this->lastQuery = $this->conn->query($string);
-        if($this->lastQuery && $this->getAffectedRows()!=0) {
+        if($this->lastQuery && $this->getAffectedRows() > 0) {
             while($row = $this->lastQuery->fetch_assoc()) {
                 $this->lastQueryRes = $row;
             }
@@ -88,41 +104,31 @@ class Database {
         }
     }
 
-    public function emptyQuery() {
+    public function freeResult() {
         $this->lastQuery->free();
     } //Svuota lastQuery
 	
-    public function qikQuery($string) {
+    public function queryDB($string) {
         $this->lastQuery = $this->conn->query($string);
-        if($this->lastQuery && $this->getAffectedRows()!=0) {
+        if($this->lastQuery && $this->getAffectedRows() > 0) {
+
             $result=array();
+            $i=0;
             while ($row = $this->lastQuery->fetch_assoc()) {
-                $result[] = $row;
+                $result[$i] = $row;
+                $i++;
             }
-            $this->emptyQuery();
-            return $result;
+            $this->freeResult();
+
+            if(sizeof($result) > 0) { //la query ha restituito un risultato
+                return $result;
+            } else { //la query ha semplicemente modificato il DB (es: INSERT, UPDATE, DELETE)
+                return true;
+            }
+            
         } else {
             return false; //non ha avuto alcun risultato la query
         }
-    }
-    
-    public function sendQuery($string) {
-        $this->conn->query($string);
-        if($this->getAffectedRows()!==0) return true;
-        else return false;
-    }
-
-    public function getAffectedRows() {
-        return $this->conn->affected_rows; //restituisce il numero delle righe affette dalla query
-    }
-
-    //--per inviare/annullare le query eseguite (se autocommit e' false)
-    public function sendQueries() {
-        $this->conn->commit();
-    }
-
-    public function rollbackQueries() {
-        $this->conn->rollback();
     }
 
 }

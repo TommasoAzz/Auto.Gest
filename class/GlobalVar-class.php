@@ -17,33 +17,33 @@ class GlobalVar {
     //metodi
     //--costruttore (vuoto)
     private function __construct() {}
+
     //--per l'inizializzazione
     private static function init() {
-        if(self::$initialized) {
-            return;
+        if(!self::$initialized) {
+            self::$initialized=true;
         }
-        self::$initialized=true;
     }
+
     //--per il recupero dati dagli array
     public static function getPost($key) {
         self::init();
-        $temp=filter_input(INPUT_POST,$key);
-        return $temp;
+        return filter_input(INPUT_POST,$key);
     }
+
     public static function getGet($key) {
         self::init();
-        $temp=filter_input(INPUT_GET,$key);
-        return $temp;
+        return filter_input(INPUT_GET,$key);
     }
+
     public static function getServer($key) {
         self::init();
-        $temp=filter_input(INPUT_SERVER,$key);
-        return $temp;
+        return filter_input(INPUT_SERVER,$key);
     }
+
     public static function getCookie($key) {
         self::init();
-        $temp=filter_input(INPUT_COOKIE,$key);
-        return $temp;
+        return filter_input(INPUT_COOKIE,$key);
     }
 }
 ?>

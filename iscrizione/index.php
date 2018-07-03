@@ -20,56 +20,47 @@
     <!-- CONTROLLO ACCESSO -->
     <?php
         // PAGINA ACCESSIBILE SOLO DA UTENTI DI LIVELLO: 1, 3
-        if(!isset($utente)) { 
+        /*if(!isset($utente)) { 
             header("Location: /");
         } elseif($utente->getLivello() == 2) {
             die("<script>location.href='/';</script>");
+        }*/
+        if(!isset($utente) || $utente->getLivello() == 2) {
+            header("Location: /");
         }
     ?>
     <!-- REPERIMENTO DATI -->
     <?php
-
-        $nGiorno=1; $nOra=1; //nGiorno è il giorno in cui ci si deve iscrivere, nOra è l'ora della quale cercare i corsi
-
-        //recupero il giorno in cui deve iscriversi l'utente
+        // recupero giorno di iscrizione da cui partire
         $nGiorno=getGiornoDaIscriversi($db,$utente);
-
-        if($nGiorno == "errore-reperimento-giorno") { //eseguito in caso di errore
-            //processo di comunicazione errore
-            Session::set("errIscrizione","errore_giorno");
-            die("<script>location.href='messaggio.php';</script>");
-        }
-        if($nGiorno == "fine-iscrizione") { //eseguito in caso di fine dell'iscrizione
-            //processo di iscrizione ultimato
-            Session::set("errIscrizione","fine");
-            die("<script>location.href='messaggio.php';</script>");
-        }
-
-        /* reperimento dati per pagina iscrizione */
-        $nGiorno=intval($nGiorno);
-        
-        //reperimento dell'ora da iscrivere
-        $nOra=getOraDaIscriversi($db,$utente,$nGiorno);
-
-        if($nOra == "errore-reperimento-ore") { //eseguito in caso di errore
-            Session::set("errIscrizione","errore_ora");
-            die("<script>location.href='messaggio.php';</script>");
+      
+        if(/* 1 */ $nGiorno === "errore_db_giorno_iscrizione" || /* 2 */$nGiorno === "fine_iscrizione") {
+            //eseguito nel caso (1) se c'è stato un errore con la comunicazione al db
+            //eseguito nel caso (2) se l'utente ha terminato il processo di iscrizione per intero
+            /* processo di comunicazione errore */
+            Session::set("errIscrizione",$nGiorno);
+            die("<script>location.href='messaggio.php';</script>"); //provare a usare header()
+        } else { //se non assume quei valori lì allora è un numero intero e posso convertirlo
+            $nGiorno=intval($nGiorno); 
         }
 
-        if($nOra !== "cambio-giorno") { //eseguito in caso di $nOra di valore numerico
+        // recupero ora di iscrizione da cui partire nel giorno $nGiorno
+        $nOra=getOraDaIscriversi($db,$utente,$nGiorno);        
+
+        if($nOra === "errore_db_ora_iscrizione") { //eseguito in caso di errore
+            Session::set("errIscrizione",$nOra);
+            die("<script>location.href='messaggio.php';</script>");
+        } else { //se non assume quel valori lì allora è un numero intero e posso convertirlo
             $nOra=intval($nOra);
         }
 
-        $query="SELECT Lista FROM AltreAttivita WHERE ID=1";
-        $query2="SELECT COUNT(*) AS Esiste FROM Corsi WHERE Nome='Altre attività'";
-        $res=$db->qikQuery($query);
-        $res2=$db->qikQuery($query2);
-        if($res !== false && trim($res[0]["Lista"]) !== "" && $res2[0]["Esiste"] !== "0") {
-            $altreAttivita=trim($res[0]["Lista"]);
-        } else {
-            $altreAttivita="no-altre-attivita";
-        }
+        // recupero delle altre attività, se ce ne sono
+        $altreAttivita=getAltreAttivita($db);
 
+        // recupero del sottotitolo da inserire nella pagina
+        $sottotitolo=getSottotitolo($db,$nGiorno);
+
+        if($sottotitolo == "errore_db_sottotitolo") $sottotitolo = "Err. sottotitolo";
         /* fine reperimento dati per pagina iscrizione */
     ?>
     <div id="content" class="container">
@@ -77,7 +68,7 @@
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <h1 class="text-center">Iscrizione</h1>
-                <h4 class="text-center sottotitolo"><?php echo getTitolo($db,$nGiorno); ?></h4>
+                <h4 class="text-center sottotitolo"><?php echo $sottotitolo ?></h4>
                 <hr>
             </div>
         </div>
@@ -89,7 +80,7 @@
                     <?php creazioneBloccoIscrizione($db,$utente,$nGiorno,$nOra); ?>
                 </form>
                 <?php
-                    if($altreAttivita !== "no-altre-attivita") {
+                    if($altreAttivita !== "errore_altre_attivita" && $altreAttivita !== "no_altre_attivita") {
                         echo "<p class='text-center'><span class='fa fa-info'></span>  Che corso è <a href='#altreAttivita' data-toggle='modal' role='button'>Altre attività</a>?</p>";
                     }
                 ?>

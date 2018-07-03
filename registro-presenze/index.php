@@ -18,10 +18,13 @@
     <!-- CONTROLLO ACCESSO -->
     <?php
         // PAGINA ACCESSIBILE SOLO DA UTENTI DI LIVELLO: 2, 3
-        if(!isset($utente)) { 
+        /*if(!isset($utente)) { 
             header("Location: /");
         } elseif($utente->getLivello() == 1) {
             die("<script>location.href='/';</script>");
+        }*/
+        if(!isset($utente) || $utente->getLivello() == 1) {
+            header("Location: /");
         }
     ?>
     <!-- BODY -->

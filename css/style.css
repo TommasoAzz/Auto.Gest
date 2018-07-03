@@ -135,7 +135,7 @@ div#infoPresenze {
   z-index: 0;
 }
 
-/* REGISTRO PREENZE */
+/* REGISTRO PRESENZE */
 /* bottone_s --> s = success (PULSANTE "PRESENTE")
    bottone_w --> w = warning (PULSANTE "RITARDO")
    bottone_d --> d = danger (PULSANTE "ASSENTE")
@@ -178,4 +178,9 @@ div#infoPresenze {
 /* AMMINISTRAZIONE */
 img#logoLiberatoria {
   max-width: 5%;
+}
+
+/* I MIEI CORSI */
+p.error {
+  color: #a94442;
 }
