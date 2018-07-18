@@ -1,5 +1,5 @@
 <h3>Licenze</h3>
-<p><a href="https://github.com/tommasoazz/Auto.Gest/" target="_blank" title="Auto.Gest">Auto.Gest</a> utilizza la licenza <a href="<?php echo getBaseUrl().'/licenza/'; ?>" title="MIT">MIT</a>.</p>
+<p><a href="https://github.com/tommasoazz/Auto.Gest/" target="_blank" title="Auto.Gest">Auto.Gest</a> utilizza la licenza <a href="<?php echo getURL("/licenza/"); ?>" title="MIT">MIT</a>.</p>
 <p><a href="https://getbootstrap.com" target="_blank" title="Bootstrap">Bootstrap</a> è un framework front-end di Twitter, Inc. Il codice è distribuito con licenza <a href="https://github.com/twbs/bootstrap/blob/master/LICENSE" title="MIT">MIT</a>.</p>
 <p><a href="https://jquery.com" target="_blank" title="jQuery">jQuery</a> è una libreria per JavaScript realizzata e mantenuta dalla jQuery Foundation. Il codice è distribuito con licenza <a href="https://jquery.org/license/" title="MIT">MIT</a>.</p>
 <p><a href="https://craftpip.github.io/jquery-confirm/" target="_blank" title="jquery-confirm">jquery-confirm</a> è un plugin per jQuery. &Egrave; distribuito con licenza <a href="https://opensource.org/licenses/MIT" title="MIT">MIT</a>.</p>

@@ -2,7 +2,7 @@ function ricercaID() {
     const nome=$("input#nome_ricerca").val();
     const cognome=$("input#cognome_ricerca").val();
     if(nome !== "" && cognome !== "") {
-        $.post("/amministrazione/getID_Persona.php",{cognome: cognome,nome: nome},function(result) {
+        $.post("/amministrazione/script/getID_Persona.php",{cognome: cognome,nome: nome},function(result) {
             const $input=$("input#risultatoRicercaID");
             if(result.trim() !== "false") {
                 const vID=$.parseJSON(result);
@@ -12,8 +12,8 @@ function ricercaID() {
                     var lista_ID="";
                     var alertContent="";
                     for(let i=0,l=vID.length;i<l;i++) {
-                        if(i != (vID.length-1)) {   
-                            lista_ID+=vID[i].ID_Persona+" - ";    
+                        if(i != (vID.length-1)) {
+                            lista_ID+=vID[i].ID_Persona+" - ";
                             alertContent+=vID[i].Classe+vID[i].Sezione+" "+vID[i].Indirizzo+" - Codice: "+vID[i].ID_Persona+"<br />";
                         } else {
                             lista_ID+=vID[i].ID_Persona;
@@ -35,7 +35,7 @@ function ricercaID() {
 }
 
 function resetP(id) {
-    $.post("/amministrazione/resetIscrizioniByID.php",{ID: id},function(result) {
+    $.post("/amministrazione/script/resetIscrizioniByID.php",{ID: id},function(result) {
         if(result.trim() == "reset-effettuato") {
             let titolo="Operazione completata",contenuto="Il reset della persona di ID: "+id+" è stato completato con successo.";
             $alert(titolo,contenuto);
@@ -49,7 +49,7 @@ function resetP(id) {
 function visualizzaCorsiPersona(id) {
     const $tbody=$("tbody#tCorsiPersona");
     $tbody.html("");
-    $.post("/amministrazione/getCorsiPersona.php",{ID: id},function(result) {
+    $.post("/amministrazione/script/getCorsiPersona.php",{ID: id},function(result) {
         if(result.trim() != "false") {
             const vCorsi=$.parseJSON(result);
             for(let i=0,l=vCorsi.length;i<l;i++) {
@@ -67,7 +67,7 @@ function visualizzaCorsiPersona(id) {
             $("div#corsiPersona").modal("show");
         } else {
             let titolo="Attenzione",contenuto="La persona di ID: "+id+" non è ancora iscritta.";
-            $alert(titolo,contenuto);  
+            $alert(titolo,contenuto);
         }
     });
 }
@@ -75,7 +75,7 @@ function visualizzaCorsiPersona(id) {
 function getListaCorsi() {
     const $select=$("select#sessioniCorso");
     $select.html("");
-    $.post("/amministrazione/getListaCorsi.php",function(result) {
+    $.post("/amministrazione/script/getListaCorsi.php",function(result) {
         const datiDaServer=result.trim(); //ottengo i dati dal server
         if(datiDaServer !== "false") {
             const vCorsi=$.parseJSON(datiDaServer);
@@ -85,14 +85,14 @@ function getListaCorsi() {
                 let option=`<option value="${vCorsi[i].Nome}">${vCorsi[i].Nome}</option>`;
                 $select.append(option);
             }
-        }    
+        }
     });
 }
 
 function visualizzaSessioniCorso(nomeC) {
     const $tbody=$("tbody#tSessioniCorso");
     $tbody.html("");
-    $.post("/amministrazione/getSessioniCorso.php",{nomeCorso: nomeC},function(result) {
+    $.post("/amministrazione/script/getSessioniCorso.php",{nomeCorso: nomeC},function(result) {
         if(result.trim() === "errore_db_id_corso" || result.trim() === "errore_db_sessione_corso") {
             let titolo="Errore",contenuto="C'è stato un errore nell'elaborazione dei dati.";
             $alert(titolo,contenuto);
@@ -120,14 +120,14 @@ function visualizzaSessioniCorso(nomeC) {
             $("span#postiCorso").text(datiCorso[0].pt);
 
             $("div#sessioniCorso").modal("show");
-        }   
+        }
     });
 }
 
 function visualizzaPresenzeSessione(id) {
     const $tbody=$("tbody#tPresenzeSessione");
     $tbody.html("");
-    $.post("/amministrazione/getPresenzeSessione.php", {ID_SessioneCorso: id},function(result) {
+    $.post("/amministrazione/script/getPresenzeSessione.php", {ID_SessioneCorso: id},function(result) {
         var vPresenze=result.trim();
         if(vPresenze !== "errore_db_presenze") {
             vPresenze=$.parseJSON(vPresenze);
@@ -139,7 +139,7 @@ function visualizzaPresenzeSessione(id) {
                 if(vPresenze[i].Presenza == 0) { //assente
                     riga+="<p class='text-center'><span class='label label-danger'>Assente</span></p>";
                 } else if(vPresenze[i].Presenza == 1) {
-                    riga+="<p class='text-center'><span class='label label-success'>Presente</span></p>";    
+                    riga+="<p class='text-center'><span class='label label-success'>Presente</span></p>";
                 } else if(vPresenze[i].Presenza == 2) {
                     riga+="<p class='text-center'><span class='label label-warning'>Ritardo</span></p>";
                 }
@@ -151,18 +151,18 @@ function visualizzaPresenzeSessione(id) {
         } else {
             let titolo="Errore",contenuto="C'è stato un errore nell'elaborazione dei dati.";
             $alert(titolo,contenuto);
-        }   
+        }
     });
 }
 
 function cambioPassword(id,nuovaPsw) {
-    $.post("/amministrazione/changePasswordByID.php",{ID: id, Pwd: nuovaPsw},function(result) {
+    $.post("/amministrazione/script/changePasswordByID.php",{ID: id, Pwd: nuovaPsw},function(result) {
         if(result=="cambio-effettuato") {
             let titolo="Cambio password effettuato",contenuto="Il cambio di password è stato effettuato correttamente.";
-            $alert(titolo,contenuto); 
+            $alert(titolo,contenuto);
         } else {
             let titolo="Cambio password non effettuato",contenuto="Il cambio di password non è stato effettuato. Riprova più tardi.";
-            $alert(titolo,contenuto);   
+            $alert(titolo,contenuto);
         }
     });
 }
@@ -170,7 +170,7 @@ function cambioPassword(id,nuovaPsw) {
 function visualizzaListaAltreAttivita() {
     const $tbody=$("tbody#tAltreAttivita");
     $tbody.html("");
-    $.post("/amministrazione/getListaAltreAttivita.php",function(result) {
+    $.post("/amministrazione/script/getListaAltreAttivita.php",function(result) {
         var dati=result.trim();
         if(dati !== "false") {
             vAltAtt=$.parseJSON(dati);
@@ -184,14 +184,14 @@ function visualizzaListaAltreAttivita() {
         } else {
             let titolo="Attenzione",contenuto="Nessuno è iscritto ad altre attività.";
             $alert(titolo,contenuto);
-        }  
+        }
     });
 }
 
 function stampaLiberatoria(idPersona,idSessioneCorso){
     const $body=$("div#body_lib");
     $body.html("");
-    $.post("/amministrazione/getDatiLiberatoria.php",{idP: idPersona, idS: idSessioneCorso},function(result) {
+    $.post("/amministrazione/script/getDatiLiberatoria.php",{idP: idPersona, idS: idSessioneCorso},function(result) {
         var dati=result.trim();
         if(dati !== "false") {
             res=$.parseJSON(dati);
@@ -221,16 +221,16 @@ function stampaCorsi() {
 function getAltreAttivita() {
     const $input=$("input#txtAltreAttivita");
     $input.val("");
-    $.post("/amministrazione/getAltreAttivita.php",function(result) {
+    $.post("/amministrazione/script/getAltreAttivita.php",function(result) {
         var dati=result.trim();
         if(dati !== "no-altre-attivita") {
             $input.val(dati);
         }
-    });    
+    });
 }
 
 $(document).ready(function() {
-    //avvio della pagina 
+    //avvio della pagina
     getListaCorsi(); //pannello E
 
     stampaCorsi(); //Stampa i corsi una volta visualizzato il modal
@@ -243,7 +243,7 @@ $(document).ready(function() {
     $("a#goToPanel_E").click(function() {
         $("select#sessioniCorso").focus();
     });
-    
+
     //evento che gestisce la ricerca degli ID di una persona
     $("button#cercaID").click(ricercaID);
 
@@ -261,7 +261,7 @@ $(document).ready(function() {
                         btnClass: "btn-success",
                         keys: ['enter'],
                         action: function() {
-                            resetP(id);  
+                            resetP(id);
                         }
                     },
                     cancel: {
@@ -295,7 +295,7 @@ $(document).ready(function() {
         } else {
             let titolo="Attenzione",contenuto="Non hai selezionato un corso.";
             $alert(titolo,contenuto);
-        };    
+        };
     });
 
     $("button#btnCambioPswP").click(function() {
@@ -353,7 +353,7 @@ $(document).ready(function() {
         } else {
             let titolo="Attenzione",contenuto="Devi inserire il codice identificativo della sessione del corso.";
             $alert(titolo,contenuto);
-        };    
+        };
     });
 
     $("button#visListaAltreAttivita").click(function() {
@@ -377,14 +377,14 @@ $(document).ready(function() {
 
     $("button#confermaAltreAttivita").click(function() {
         const newData=$("input#txtAltreAttivita").val();
-        $.post("/amministrazione/updateListaAltreAttivita.php",{aA: newData},function(result) {
+        $.post("/amministrazione/script/updateListaAltreAttivita.php",{aA: newData},function(result) {
             const out=result.trim();
             if(out == "modifica-effettuata") {
                 let titolo="Modifica effettuata",contenuto="La lista \"Altre attività\" è stata aggiornata con successo!";
                 $alert(titolo,contenuto);
             } else {
                 let titolo="Modifica non effettuata",contenuto="Non è stato possibile aggiornare la lista \"Altre attività\". Riprovare più tardi.";
-                $alert(titolo,contenuto); 
+                $alert(titolo,contenuto);
             }
         });
     });

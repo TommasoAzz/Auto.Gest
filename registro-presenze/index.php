@@ -1,10 +1,12 @@
-<!-- Auto.Gest -->
 <?php
-    require_once "../connectToDB.php";
-    require_once "../classes.php";
+    require_once "../connettiAlDB.php";
+    require_once "../caricaClassi.php";
     include_once "../getInfo.php";
+    require_once "../funzioni.php";
     Session::open();
     $info=Session::get("info");
+    $db=Session::get("db");
+    $utente=Session::get("utente");
 ?>
 <html>
     <head>
@@ -13,20 +15,20 @@
     </head>
     <body>
     <div id="wrapper" class="clearfix"><!-- inizio wrapper -->
-    <!-- NAVBAR -->
-    <?php require_once "../switch_header.php"; ?>
     <!-- CONTROLLO ACCESSO -->
     <?php
         // PAGINA ACCESSIBILE SOLO DA UTENTI DI LIVELLO: 2, 3
-        /*if(!isset($utente)) { 
-            header("Location: /");
-        } elseif($utente->getLivello() == 1) {
-            die("<script>location.href='/';</script>");
-        }*/
-        if(!isset($utente) || $utente->getLivello() == 1) {
-            header("Location: /");
-        }
+        
+        $livelliAmmessi = array(
+            1 => false, //livello studente
+            2 => true, //livello responsabile corso
+            3 => true //livello amministratore
+        );
+
+        controlloAccesso($db,$utente,$livelliAmmessi);
     ?>
+    <!-- NAVBAR -->
+    <?php require "../caricaHeader.php"; ?>
     <!-- BODY -->
     <div id="content" class="container">
         <!-- INTESTAZIONE PAGINA -->
@@ -68,7 +70,7 @@
             <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
                 <div class="table-responsive">
                     <table class="table" id="gestTable">
-                        <thead>        
+                        <thead>
                              <tr>
                                <th><strong>#</strong></th>
                                 <th><strong>Nome</strong></th>

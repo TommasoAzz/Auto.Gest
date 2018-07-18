@@ -1,13 +1,13 @@
 <?php
-    require_once "connectToDB.php";
-    require_once "classes.php";
+    require_once "connettiAlDB.php";
+    require_once "caricaClassi.php";
     Session::open();
     header("Content-Type: text/html;charset=utf-8");
     $db=Session::get("db");
-    
+
     $queryInfo="SELECT Titolo,PeriodoSvolgimento,NomeContatto1,NomeContatto2,NomeContatto3,LinkContatto1,LinkContatto2,LinkContatto3,Istituto FROM InfoEvento WHERE ID=1";
     $result_info=$db->queryDB($queryInfo);
-    if(sizeof($result_info) > 0) {
+    if($result_info) {
         $info=array(
             "titolo" => $result_info[0]["Titolo"],
             "periodosvolgimento" => $result_info[0]["PeriodoSvolgimento"],
@@ -30,7 +30,7 @@
             "nomecontatto3" => "Err. nomecontatto3",
             "linkcontatto3" => "Err. linkcontatto3",
             "istituto" => "Err. istituto"
-        ); 
+        );
     }
 
     Session::set("info",$info);
