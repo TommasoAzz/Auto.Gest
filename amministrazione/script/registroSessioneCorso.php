@@ -4,13 +4,16 @@ require_once "../../connettiAlDB.php";
 require_once "../../funzioni.php";
 
 if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
-    $corsi=getListaCorsi($db);
+    $id=GlobalVar::getPost("ID");
 
-    if($corsi === "errore_db_corsi") echo $corsi;
+    $presenze=getPresenzeSessione($db,$id);
+
+    if($presenze === "errore_db_presenze") echo $presenze;
     else {
-        $jsonData=json_encode($corsi);
+        $jsonData=json_encode($presenze);
         echo $jsonData;
-    } 
+    }
+
 } else {
     header("Location: ../");
 }

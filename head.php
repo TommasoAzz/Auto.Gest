@@ -5,8 +5,8 @@
 <?php
 	$info=Session::get("info");
 
-	$pageName=substr($_SERVER["SCRIPT_NAME"],1);
-	$pageName=substr($pageName,0,strrpos($pageName,"/"));
+	$linkIntero=substr($_SERVER["SCRIPT_NAME"],1);
+	$pageName=substr($linkIntero,0,strrpos($linkIntero,"/"));
 	$pageName=($pageName == "") ? "home" : $pageName;
 	switch($pageName) {
 		case "home":

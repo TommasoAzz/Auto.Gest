@@ -1,11 +1,10 @@
 <?php
-    require_once "../connettiAlDB.php";
     require_once "../caricaClassi.php";
+    require_once "../connettiAlDB.php";
     include_once "../getInfo.php";
     require_once "../funzioni.php";
     Session::open();
     $info=Session::get("info");
-    $db=Session::get("db");
     $utente=Session::get("utente");
 ?>
 <html>
@@ -24,7 +23,7 @@
             3 => true //livello amministratore
         );
 
-        controlloAccesso($db,$utente,livelliAmmessi);
+        controlloAccesso($db,$utente,$livelliAmmessi);
     ?>
     <!-- NAVBAR -->
     <?php require "../caricaHeader.php"; ?>

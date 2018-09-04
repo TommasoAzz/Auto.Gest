@@ -1,20 +1,16 @@
 <?php
-require_once "../../connettiAlDB.php";
 require_once "../../caricaClassi.php";
-include_once "../../getInfo.php";
+require_once "../../connettiAlDB.php";
 require_once "../../funzioni.php";
 Session::open();
-$info=Session::get("info");
-$db=Session::get("db");
 $utente=Session::get("utente");
 
 if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
+    /**************************************************************/
+    /*  SCRIPT DI RESET TOTALE DELLE ISCRIZIONI DI UNO STUDENTE   */
+    /**************************************************************/
 
     $ID_Persona=$utente->getId();
-
-    /**************************************************************/
-    /*  SCRIPT DI RESET TOTALE DELLE ISCRIZIONI DI UNA PERSONA    */
-    /**************************************************************/
 
     // VARIABILI DI CONTROLLO
     $tuttoOk=true;
@@ -30,8 +26,8 @@ if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
     for($i=0,$l=sizeof($rID_SessioneCorso);$i<$l;$i++) {
         $qID_Iscrizione.=$rID_SessioneCorso[$i]["ID_SessioneCorso"];
         if($i != ($l-1)) $qID_Iscrizione.=", ";
-        else $qID_Iscrizione.=") AND ID_Studente=".$ID_Persona;
     }
+    $qID_Iscrizione.=") AND ID_Studente=".$ID_Persona;
     $rID_Iscrizione=$db->queryDB($qID_Iscrizione);
     $controlloQuery[1]=$db->checkQuery();
 
@@ -40,9 +36,9 @@ if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
     for($i=0,$l=sizeof($rID_Iscrizione);$i<$l;$i++) {
         $qDelRegPresenze.=$rID_Iscrizione[$i]["ID_Iscrizione"];
         if($i != ($l-1)) $qDelRegPresenze.=", ";
-        else $qDelRegPresenze.=")";
     }
-    $rDelRegPresenze=$db->queryDB($qDelRegPresenze); //in realtà solo contenitore del risultato
+    $qDelRegPresenze.=")";
+    $rDelRegPresenze=$db->queryDB($qDelRegPresenze);
     $controlloQuery[2]=$db->checkQuery();
 
     //----ELIMINAZIONE DEI CODICI DELLE ISCRIZIONI REGISTRATE SULLE PRECEDENTI SESSIONI DEI CORSI
@@ -50,9 +46,9 @@ if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
     for($i=0,$l=sizeof($rID_SessioneCorso);$i<$l;$i++) {
         $qDelIscrizioni.=$rID_SessioneCorso[$i]["ID_SessioneCorso"];
         if($i != ($l-1)) $qDelIscrizioni.=", ";
-        else $qDelIscrizioni.=") AND ID_Studente=".$ID_Persona;
     }
-    $rDelIscrizioni=$db->queryDB($qDelIscrizioni); //in realtà solo contenitore del risultato
+    $qDelIscrizioni.=") AND ID_Studente=".$ID_Persona;
+    $rDelIscrizioni=$db->queryDB($qDelIscrizioni);
     $controlloQuery[3]=$db->checkQuery();
 
     //----AGGIORNO I POSTI DISPONIBILI IN SessioniCorsi
@@ -60,14 +56,14 @@ if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
     for($i=0,$l=sizeof($rID_SessioneCorso);$i<$l;$i++) {
         $qUpdSessioniCorsi.=$rID_SessioneCorso[$i]["ID_SessioneCorso"];
         if($i != ($l-1)) $qUpdSessioniCorsi.=", ";
-        else $qUpdSessioniCorsi.=")";
     }
-    $rUpdSessioniCorsi=$db->queryDB($qUpdSessioniCorsi); //in realtà solo contenitore del risultato
+    $qUpdSessioniCorsi.=")";
+    $rUpdSessioniCorsi=$db->queryDB($qUpdSessioniCorsi);
     $controlloQuery[4]=$db->checkQuery();
 
     //----AGGIORNO I CONTATORI DELLE REGISTRAZIONI DELLL'UTENTE NEL DATABASE
-    $qUpdPersone="UPDATE Persone SET GiornoIscritto=0, OraIscritta=0 WHERE ID_Persona=".$ID_Persona;
-    $db->queryDB($qUpdPersone);
+    $qUpdPersone="UPDATE Persone SET GiornoIscritto=0, OraIscritta=0 WHERE ID_Persona=$ID_Persona";
+    $rUpdPersone=$db->queryDB($qUpdPersone);
     $controlloQuery[5]=$db->checkQuery();
 
     //----AGGIORNO L'OGGETTO DELL'UTENTE
@@ -76,17 +72,10 @@ if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
 
 
     //----CONTROLLO CHE TUTTE LE QUERY SIANO ANDATE A BUON FINE
-    $i=0;
-    $l=sizeof($controlloQuery);
-    while($i<$l && $tuttoOk) {
-        if($controlloQuery[$i] === false) $tuttoOk=false;
-    }
+    $i=0; $l=sizeof($controlloQuery);
+    while($i<$l && $tuttoOk) if($controlloQuery[$i] === false) $tuttoOk=false;
 
-    if($tuttoOk) {
-        echo "reset-effettuato";
-    } else {
-        echo "reset-non-effettuato";
-    }
+    echo ($tuttoOk) ? "reset-effettuato" : "reset-non-effettuato";
 
 } else {
     header("Location: ../../");

@@ -1,11 +1,10 @@
 <?php
-    require_once "../connettiAlDB.php";
     require_once "../caricaClassi.php";
+    require_once "../connettiAlDB.php";
     include_once "../getInfo.php";
     require_once "../funzioni.php";
     Session::open();
     $info=Session::get("info");
-    $db=Session::get("db");
     $utente=Session::get("utente");
 ?>
 <html>
@@ -80,11 +79,9 @@
                 <form id='iscrizione' action="script/updateDB.php" method="post">
                     <?php creazioneBloccoIscrizione($db,$utente,$nGiorno,$nOra); ?>
                 </form>
-                <?php
-                    if($altreAttivita !== "errore_altre_attivita" && $altreAttivita !== "no_altre_attivita") {
-                        echo "<p class='text-center'><span class='fa fa-info'></span>  Che corso è <a href='#altreAttivita' data-toggle='modal' role='button'>Altre attività</a>?</p>";
-                    }
-                ?>
+                <?php if($altreAttivita !== "errore_altre_attivita" && $altreAttivita !== "no_altre_attivita") { ?>
+                    <p class='text-center'><span class='fa fa-info'></span>  Che corso è <a href='#altreAttivita' data-toggle='modal' role='button'>Altre attività</a>?</p>";
+                <?php } ?>
             </div>
             <div class="hidden-xs hidden-sm col-md-3 col-lg-3"></div>
         </div>

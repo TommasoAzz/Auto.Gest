@@ -1,12 +1,6 @@
 <?php
-require_once "../../connettiAlDB.php";
 require_once "../../caricaClassi.php";
-include_once "../../getInfo.php";
-require_once "../../funzioni.php";
-Session::open();
-$info=Session::get("info");
-$db=Session::get("db");
-$utente=Session::get("utente");
+require_once "../../connettiAlDB.php";
 
 if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
     $aA=GlobalVar::getPost("aA");

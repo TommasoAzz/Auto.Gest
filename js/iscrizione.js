@@ -5,12 +5,16 @@ $(document).ready(function() {
     alertInfo+="<strong>Attenzione!</strong> Se ti accorgi di esserti sbagliato ad iscrivere, vai nella pagina <code>I miei corsi</code> e premi il pulsante <strong><span class='fa fa-ban' aria-hidden='true'></span> Annulla l'iscrizione</strong>.";
     alertInfo+="</div>";
 
+    $('form#iscrizione').submit(function(e) {
+        e.preventDefault();
+    });
+
     $("button#btnProsegui").prop('disabled',true);
 
-    if(getCookie("alertClosed")=="") { //controllo il contenut dell'alert
+    if(getCookie("alertClosed") == "") { //controllo il contenut dell'alert
         setCookie("alertClosed","false",1);
         $("div#modulo").append(alertInfo);
-    } else if(getCookie("alertClosed")=="false") {
+    } else if(getCookie("alertClosed") == "false") {
         $("div#modulo").append(alertInfo);
     }
 
@@ -18,16 +22,12 @@ $(document).ready(function() {
         setCookie("alertClosed","true",1);
     });
 
-    $('select#corso').change(function(){
+    $('select#corso').change(function() {
         if($(this).val() == "") {
             $("button#btnProsegui").prop('disabled',true);
         } else {
             $("button#btnProsegui").prop('disabled',false);
         }
-    });
-
-    $('form#iscrizione').submit(function(e) {
-        e.preventDefault();
     });
 
     $('button#btnProsegui').click(function() {

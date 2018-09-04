@@ -31,6 +31,7 @@ if(isset($utente)) {
         <?php
             //HEADER
             if(isset($utente)) {
+                //seleziono la barra di navigazione in base al livello dell'utente
                 switch($utente->getLivello()) {
                     case 1: require_once "header_studente.php"; //studente
                         break;
@@ -39,8 +40,10 @@ if(isset($utente)) {
                     case 3: require_once "header_admin.php"; //amministratore
                         break;
                 }
+                //carico il modal dei dati dell'utente
                 require_once "modal/datiUtente.php";
             } else {
+                //seleziono la barra di navigazione base
                 require_once "header.php";
             }    
         ?>

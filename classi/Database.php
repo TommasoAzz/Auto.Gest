@@ -94,23 +94,20 @@ class Database {
 	
     public function queryDB($string) {
         $this->lastQuery = $this->conn->query($string);
-        if($this->lastQuery && $this->getAffectedRows() > 0) {
+        if(gettype($this->lastQuery) === "boolean") {
+            return $this->lastQuery;
+        } elseif($this->getAffectedRows() > 0) {
             $result=array();
             $i=0;
-            while ($row = $this->lastQuery->fetch_assoc()) {
+            while($row = $this->lastQuery->fetch_assoc()) {
                 $result[$i] = $row;
                 $i++;
             }
             $this->freeResult();
-            if(sizeof($result) > 0) { //la query ha restituito un risultato
-                return $result;
-            } else { //la query ha semplicemente modificato il DB (es: INSERT, UPDATE, DELETE)
-                return true;
-            }
-            
-        } else {
-            return false; //non ha avuto alcun risultato la query
+            return $result;  
         }
+        
+        return false;
     }
 }
 ?>
