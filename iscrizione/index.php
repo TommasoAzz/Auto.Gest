@@ -39,7 +39,7 @@
             //eseguito nel caso (2) se l'utente ha terminato il processo di iscrizione per intero
             /* processo di comunicazione errore */
             Session::set("errIscrizione",$nGiorno);
-            die("<script>location.href='messaggio.php';</script>"); //provare a usare header()
+            die("<script>location.href='iscrizione.php';</script>"); //provare a usare header()
         } else { //se non assume quei valori lì allora è un numero intero e posso convertirlo
             $nGiorno=intval($nGiorno);
         }
@@ -49,7 +49,7 @@
 
         if($nOra === "errore_db_ora_iscrizione") { //eseguito in caso di errore
             Session::set("errIscrizione",$nOra);
-            die("<script>location.href='messaggio.php';</script>");
+            die("<script>location.href='iscrizione.php';</script>");
         } else { //se non assume quel valori lì allora è un numero intero e posso convertirlo
             $nOra=intval($nOra);
         }
@@ -79,9 +79,9 @@
                 <form id='iscrizione' action="script/updateDB.php" method="post">
                     <?php creazioneBloccoIscrizione($db,$utente,$nGiorno,$nOra); ?>
                 </form>
-                <?php if($altreAttivita !== "errore_altre_attivita" && $altreAttivita !== "no_altre_attivita") { ?>
+                <?php if($altreAttivita !== "errore_altre_attivita" && $altreAttivita !== "no_altre_attivita"): ?>
                     <p class='text-center'><span class='fa fa-info'></span>  Che corso è <a href='#altreAttivita' data-toggle='modal' role='button'>Altre attività</a>?</p>";
-                <?php } ?>
+                <?php endif; ?>
             </div>
             <div class="hidden-xs hidden-sm col-md-3 col-lg-3"></div>
         </div>

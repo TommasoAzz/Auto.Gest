@@ -6,5 +6,5 @@ $db=new Database(dbHost,dbUser,dbPwd,dbName); //allocamento del database
 
 $db->connect(); //connessione a database
 
-$utf8_set=$db->queryDB("SET NAMES 'utf8'");
+$utf8_set=$db->queryDB("SET NAMES 'utf8mb4'");
 ?>

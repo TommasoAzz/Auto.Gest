@@ -1,4 +1,4 @@
-<div class="modal fade" id="login_interni" role="dialog">
+<div class="modal fade" id="login_interni" role="dialog" aria-labelledby="Login interni">
     <div class="modal-dialog">
         <div class="modal-content">
             <form class="form-horizontal" id="userlogin" name="userlogin" method="post">

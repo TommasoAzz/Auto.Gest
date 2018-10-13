@@ -2,8 +2,8 @@
 require_once "../../caricaClassi.php";
 require_once "../../connettiAlDB.php";
 
-if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
-    $aA=GlobalVar::getPost("aA");
+if(GlobalVar::SERVER("REQUEST_METHOD")==="POST") {
+    $aA=GlobalVar::POST("aA");
 
     $query="UPDATE AltreAttivita SET Lista='".$aA."' WHERE ID=1";
     $modificaEff=$db->queryDB($query);

@@ -1,19 +1,19 @@
 <?php
-$scuola=$info["istituto"];
+$scuola = $info["istituto"];
 
 if(isset($utente)) {
-    $nome=$utente->getNome()." ".$utente->getCognome();
+    $nome = $utente->getNome() . " " . $utente->getCognome();
 
-    if($utente->getIndirizzo() === "ESTERNO" || $utente->getIndirizzo() === "PERSONALE") {
-        $classe=$utente->getIndirizzo();
+    if($utente->classe->getIndirizzo() === "ESTERNO" || $utente->classe->getIndirizzo() === "PERSONALE") {
+        $classe = $utente->classe->getIndirizzo();
     } else { //studenti
-        $classe=$utente->getClasse()."°".$utente->getSezione()." ".$utente->getIndirizzo();
+        $classe = $utente->classe->getClasse() . "°" . $utente->classe->getSezione() . " " . $utente->classe->getIndirizzo();
     }
 
     switch($utente->getLivello()) {
-        case 1: $categoria="Studente"; break;
-        case 2: $categoria="Responsabile di un corso"; break;
-        case 3: $categoria="Amministratore dell'evento"; break;
+        case 1: $categoria = "Studente"; break;
+        case 2: $categoria = "Responsabile di un corso"; break;
+        case 3: $categoria = "Amministratore dell'evento"; break;
     }
 }
 
@@ -40,8 +40,6 @@ if(isset($utente)) {
                     case 3: require_once "header_admin.php"; //amministratore
                         break;
                 }
-                //carico il modal dei dati dell'utente
-                require_once "modal/datiUtente.php";
             } else {
                 //seleziono la barra di navigazione base
                 require_once "header.php";
@@ -50,3 +48,4 @@ if(isset($utente)) {
         </div>
     </div>
 </div>
+<?php if(isset($utente)): require_once "modal/datiUtente.php"; endif; ?>

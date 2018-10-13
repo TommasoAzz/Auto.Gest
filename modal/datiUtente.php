@@ -1,4 +1,4 @@
-<div class="modal fade" id="datiUtente" tabindex="-1" role="dialog" aria-labelledby="I tuoi dati">
+<div class="modal fade" id="datiUtente" role="dialog" aria-labelledby="I miei dati">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -35,23 +35,23 @@
                     <div class="col-xs-9 col-sm-9 col-md-8 col-lg-8"><p><?php echo $categoria; ?></p></div>
                     <div class="hidden-xs hidden-sm col-md-1 col-lg-11"></div>
                 </div>
-                <?php if($utente->getLivello() == 1) { ?>
+                <?php if($utente->getLivello() == 1): ?>
                 <div class="row">
                     <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
                     <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><p><strong>Corsi a cui sei iscritto</strong></p></div>
                     <div class="col-xs-9 col-sm-9 col-md-8 col-lg-8"><a href="/i-miei-corsi/">Clicca qui</a></div>
                     <div class="hidden-xs hidden-sm col-md-1 col-lg-11"></div>
                 </div>
-                <?php } ?>
+                <?php endif; ?>
             </div>
             <div class="modal-footer">
-                    <div class="row">
-                        <div class="col-xs-8 col-sm-8 col-md-10 col-lg-10"></div>
-                        <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
-                            <a class="btn btn-danger btn-block" type="button" data-dismiss="modal">Chiudi</a>
-                        </div>
+                <div class="row">
+                    <div class="col-xs-8 col-sm-8 col-md-10 col-lg-10"></div>
+                    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+                        <a class="btn btn-danger btn-block" type="button" data-dismiss="modal">Chiudi</a>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
 </div>

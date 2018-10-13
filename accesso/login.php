@@ -4,19 +4,15 @@ require_once "../connettiAlDB.php";
 require_once "../funzioni.php";
 Session::open();
 
-if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
-    if(!isset($utente)) {
-        $utente=new User(); //dichiaro utente, oggetto di User
-    }
-
+if(GlobalVar::SERVER("REQUEST_METHOD")==="POST") {
     //reperisco i dati
-    $cla=GlobalVar::getPost("classe");
-    $sez=GlobalVar::getPost("sezione");
-    $ind=GlobalVar::getPost("indirizzo");
-    $postPass=md5(GlobalVar::getPost("psw"));
+    $cla = GlobalVar::POST("classe");
+    $sez = GlobalVar::POST("sezione");
+    $ind = GlobalVar::POST("indirizzo");
+    $postPass = md5(GlobalVar::POST("psw"));
 
     //eseguo la funzione login()
-    $risultatoLogin=login($db,$utente,$cla,$sez,$ind,$postPass); //stringa
+    $risultatoLogin = login($db, $cla, $sez, $ind, $postPass); //stringa
     echo $risultatoLogin;
 } else {
     header("Location: ../");

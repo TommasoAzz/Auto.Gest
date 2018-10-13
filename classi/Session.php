@@ -1,12 +1,11 @@
 <?php
-
 /**
     Classe per la gestione della Sessione, per gestire l'apertura e chiusura 
     di essa, il settaggio e il reperimento dei dati di sessione
     N.B: Non deve essere allocato, di conseguenza,
-    nella classe: self::$attributo
+    nella classe:   self::$attributo
                     self::metodo()
-    fuori classe: NomeClasse::$attributo
+    fuori classe:   NomeClasse::$attributo
                     NomeClasse::metodo()
 */
 

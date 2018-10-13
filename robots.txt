@@ -8,4 +8,4 @@ Disallow: /fonts/
 Disallow: /iscrizione/
 Disallow: /modal/
 Disallow: /accesso/
-Sitemap: https://autogestionekennedy.altervista.org/sitemap.xml
+Sitemap: https://autoges.razzbe.it/sitemap.xml

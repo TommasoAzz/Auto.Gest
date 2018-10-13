@@ -23,22 +23,23 @@
 
 function getURL($pagina) {
     //URL BASE 
-    if((isset($_SERVER["HTTPS"]) && GlobalVar::getServer("HTTPS") == "on") || Session::is_secure()) {
-        $base_url="https://";
+    if((isset($_SERVER["HTTPS"]) && GlobalVar::SERVER("HTTPS") == "on") || Session::is_secure()) {
+        $base_url = "https://";
     } else {
-        $base_url='http://';
+        $base_url = 'http://';
     }
-    if(GlobalVar::getServer("SERVER_PORT") != "80") {
-        $base_url.=GlobalVar::getServer("SERVER_NAME").":".GlobalVar::getServer("SERVER_PORT");
+
+    if(GlobalVar::SERVER("SERVER_PORT") != "80") {
+        $base_url .= GlobalVar::SERVER("SERVER_NAME") . ":" . GlobalVar::SERVER("SERVER_PORT");
     } else {
-        $base_url.=GlobalVar::getServer("SERVER_NAME");
+        $base_url .= GlobalVar::SERVER("SERVER_NAME");
     }
 
     //RITORNO URL BASE+URL PAGINA
-    return $base_url.$pagina;
+    return $base_url . $pagina;
 } //recupero dell'URL della pagina per creare link assoluti
 
-function controlloAccesso($db,$utente,$livelliAmmessi) {
+function controlloAccesso($db, $utente, $livelliAmmessi) {
     //se il controllo risulta verificato allora $db o $utente non sono settate (oppure entrambe), quindi torno alla homepage
     if(!isset($db) || !isset($utente)) header("Location: /");
 
@@ -48,7 +49,7 @@ function controlloAccesso($db,$utente,$livelliAmmessi) {
 
 function getNumGiorni($db) {
     //query al db
-    $numGiorni=$db->queryDB("SELECT COUNT(ID_DataEvento) AS Giorni FROM DateEvento"); //ritornato un array
+    $numGiorni = $db->queryDB("SELECT COUNT(ID_DataEvento) AS Giorni FROM DateEvento"); //ritornato un array
 
     //operazione da eseguire se il db non ha restituito valori
     if(!$numGiorni) return "errore_db_giorni";
@@ -58,15 +59,15 @@ function getNumGiorni($db) {
 
 function getAltreAttivita($db) {
     //query al db
-    $lista_aa=$db->queryDB("SELECT Lista FROM AltreAttivita WHERE ID=1");
-    $flag_esistenza=$db->queryDB("SELECT COUNT(*) AS Esiste FROM Corsi WHERE Nome='Altre attività'");
+    $lista_aa = $db->queryDB("SELECT Lista FROM AltreAttivita WHERE ID=1");
+    $flag_esistenza = $db->queryDB("SELECT COUNT(*) AS Esiste FROM Corsi WHERE Nome='Altre attività'");
     
     //operazione da eseguire se il db non ha restituito valori
     if(!$lista_aa || !$flag_esistenza) return "errore_altre_attivita";
     
     //operazione da eseguire se il db ha restituito qualcosa
     if($flag_esistenza[0]["Esiste"] === 1) {
-        $lista_aa=trim($lista_aa[0]["Lista"]);
+        $lista_aa = trim($lista_aa[0]["Lista"]);
 
         if($lista_aa !== "") return $lista_aa;
     }
@@ -75,10 +76,10 @@ function getAltreAttivita($db) {
 
 } //richiesta delle attività fuori dalla lista dei corsi a cui alcuni studenti devono partecipare
 
-function getDatiPersona($db,$nome,$cognome) {
+function getDatiPersona($db, $nome, $cognome) {
     //query al db
-    $q="SELECT ID_Persona,Classe,Sezione,Indirizzo FROM Persone P INNER JOIN Classi C ON P.ID_Classe=C.ID_Classe WHERE Nome LIKE '".$nome."' AND Cognome LIKE '".$cognome."'";
-    $datiPersona=$db->queryDB($q); //ritornato un array
+    $q = "SELECT ID_Persona,Classe,Sezione,Indirizzo FROM Persone P INNER JOIN Classi C ON P.ID_Classe=C.ID_Classe WHERE Nome LIKE '".$nome."' AND Cognome LIKE '".$cognome."'";
+    $datiPersona = $db->queryDB($q); //ritornato un array
 
     //operazione da eseguire se il db non ha restituito valori
     if(!$datiPersona) return "errore_db_idPersona";
@@ -90,10 +91,10 @@ function getDatiPersona($db,$nome,$cognome) {
     return $datiPersona;
 } //richiesta dell'ID (o degli ID) della persona/e con quel/i nome e cognome
 
-function getCorsiGiorno($db,$idStudente,$giorno) {
+function getCorsiGiorno($db, $idStudente, $giorno) {
     //query al db
-    $q = "SELECT Nome, Aula, Ora, Durata, ID_SessioneCorso AS id_sc FROM SessioniCorsi S INNER JOIN Corsi C ON C.ID_Corso=S.ID_Corso INNER JOIN Iscrizioni I ON S.ID_SessioneCorso=I.ID_SessioneCorso WHERE ID_Studente=$idStudente AND Giorno=$giorno ORDER BY Ora";
-    $vCorsi=$db->queryDB($q);
+    $q = "SELECT Nome, Aula, Ora, Durata, I.ID_SessioneCorso AS id_sc FROM SessioniCorsi S INNER JOIN Corsi C ON C.ID_Corso=S.ID_Corso INNER JOIN Iscrizioni I ON S.ID_SessioneCorso=I.ID_SessioneCorso WHERE ID_Studente=$idStudente AND Giorno=$giorno ORDER BY Ora";
+    $vCorsi = $db->queryDB($q);
 
     //operazione da eseguire se il db non ha restituito valori
     if(!$vCorsi) return "errore_db_corsi_iscritti_giorno";
@@ -101,9 +102,9 @@ function getCorsiGiorno($db,$idStudente,$giorno) {
     return $vCorsi;
 } //restituisce un array, con tutti i corsi in cui lo studente di ID = $idStudente si è iscritto in quel giorno
 
-function getSessioniStudente($db,$id) {
-    $qID_SessioneCorso="SELECT ID_SessioneCorso FROM Iscrizioni WHERE ID_Studente=$id";
-    $rID_SessioneCorso=$db->queryDB($qID_SessioneCorso);
+function getSessioniStudente($db, $id) {
+    $qID_SessioneCorso = "SELECT ID_SessioneCorso FROM Iscrizioni WHERE ID_Studente=$id";
+    $rID_SessioneCorso = $db->queryDB($qID_SessioneCorso);
 
     //operazione da eseguire se il db non ha restituito valori
     if(!$rID_SessioneCorso) return "errore_sessioni_corso_studente";
@@ -111,14 +112,16 @@ function getSessioniStudente($db,$id) {
     return $rID_SessioneCorso; 
 } //restituisce un array con gli ID delle sessioni dei corsi a cui è iscritto lo studente di ID=$id
 
-function getIscrizioniStudente($db,$id_p,$id_sc) {
-    $qID_Iscrizione="SELECT ID_Iscrizione FROM Iscrizioni WHERE ID_SessioneCorso IN (";
-    for($i=0,$l=sizeof($id_sc),$ultimo=$l-1;$i<$l;$i++) {
-        $qID_Iscrizione.=$id_sc[$i]["ID_SessioneCorso"];
+function getIscrizioniStudente($db, $id_p, $id_sc) {
+    $qID_Iscrizione = "SELECT ID_Iscrizione FROM Iscrizioni WHERE ID_SessioneCorso IN (";
+    
+    for($i = 0, $l = sizeof($id_sc), $ultimo=$l-1; $i < $l; $i++) {
+        $qID_Iscrizione .= $id_sc[$i]["ID_SessioneCorso"];
         if($i < $ultimo) $qID_Iscrizione.=", ";
     }
-    $qID_Iscrizione.=") AND ID_Studente=".$id_p;
-    $rID_Iscrizione=$db->queryDB($qID_Iscrizione);
+
+    $qID_Iscrizione .= ") AND ID_Studente=" . $id_p;
+    $rID_Iscrizione = $db->queryDB($qID_Iscrizione);
 
     if(!$rID_Iscrizione) return "errore_iscrizioni_sessioni";
 
@@ -129,25 +132,82 @@ function getIscrizioniStudente($db,$id_p,$id_sc) {
 /*                                          SEZIONE: Accesso                                     */
 /*************************************************************************************************/
 
-function login($db,$utente,$cla,$sez,$ind,$postPass) {
-    $query="SELECT ID_Persona FROM Persone P INNER JOIN Classi C ON P.ID_Classe=C.ID_Classe "; //lasciare spazio dopo ID_Classe
-    $query.="WHERE Classe='".$cla."' AND Sezione='".$sez."' AND Indirizzo='".$ind."' AND Pwd='".$postPass."'";
-    $result_id=$db->queryDB($query);
-    if(!$result_id) return "errore-generico";
+function inizializzaUtente($db, $ID_Persona) {
+    $query = "SELECT * FROM Persone P INNER JOIN Classi C ON P.ID_Classe=C.ID_Classe WHERE ID_Persona=$ID_Persona";
+    $richiesta = $db->queryDB($query);
 
-    $id=intval($result_id[0]["ID_Persona"]);
-    $user_init=$utente->initUser($db,$id);
-    if($user_init) {
-        Session::set("utente",$utente);
-        //controllo del login
-        $browser=GlobalVar::getServer("HTTP_USER_AGENT"); //browser in uso
-        //Session::set("ID_Persona",$id);
-        Session::set("login",hash('sha512',$postPass.$browser));
-        return "utente-esistente";
-    } else {
-        return "password-errata";
-    }
+    if(!$richiesta) return false;
+
+    //recupero i valori dalla risposta del database
+    $dati = $richiesta[0]; //copio in altra variabile per semplicità di lettura
+
+    $utente = new Utente(
+        $dati["ID_Persona"],
+        $dati["Nome"],
+        $dati["Cognome"],
+        new Classe(
+            $dati["ID_Classe"],
+            $dati["Classe"],
+            $dati["Sezione"],
+            $dati["Indirizzo"]
+        ),
+        $dati["GiornoIscritto"],
+        $dati["OraIscritta"],
+        $dati["Livello"]
+    );
+
+    return $utente;
+} //interroga il db per recuperare i dati di un utente
+
+function login($db, $cl, $s, $ind, $postPass) {
+    $q_idpersona = "SELECT ID_Persona FROM Persone P INNER JOIN Classi C ON P.ID_Classe=C.ID_Classe WHERE Classe='".$cl."' AND Sezione='".$s."' AND Indirizzo='".$ind."' AND Pwd='".$postPass."'";
+    $r_idpersona = $db->queryDB($q_idpersona);
+    if(!$r_idpersona) return "errore_db_dati_input";
+
+    $id = intval($r_idpersona[0]["ID_Persona"]);
+    $utente = inizializzaUtente($db,$id);
+    if(!$utente) return "errore_db_idpersona";
+
+    Session::set("utente",$utente);
+
+    //controllo del login
+    $browser=GlobalVar::SERVER("HTTP_USER_AGENT"); //browser in uso
+    Session::set("login",hash('sha512',$postPass.$browser));
+
+    return "utente_esistente";
 } //permette il login al sito
+
+function getIndirizzi($db) {
+    //query al db
+    $indirizzi = $db->queryDB("SELECT DISTINCT Indirizzo FROM Classi WHERE NOT (Classe='E' OR Classe='P') ORDER BY Indirizzo");
+
+    //operazione da eseguire se il db non ha restituito valori
+    if(!$indirizzi) return "errore_db_indirizzi";
+
+    for($i = 0, $l = sizeof($indirizzi); $i < $l; $i++) {
+        $indirizzi[$i] = $indirizzi[$i]["Indirizzo"];
+    }
+
+    return $indirizzi;
+} //restituisce gli indirizzi delle classi dell'istituto
+
+function getEsterni($db) {
+    //query al db
+    $esterni = $db->queryDB("SELECT DISTINCT Classe AS extC,Sezione AS extS,Indirizzo AS extI FROM Classi WHERE Classe IN ('E','P') ORDER BY Indirizzo");
+
+    if(!$esterni) return "errore_db_esterni";
+
+    return $esterni;
+} //restituisce le "classi e sezioni" degli indirizzi speciali dell'istituto
+
+function getClassi($db, $indirizzo) {
+    //query al db
+    $classi = $db->queryDB("SELECT Classe,Sezione FROM Classi WHERE Indirizzo='".$indirizzo."' ORDER BY Classe,Sezione");
+
+    if(!$classi) return "errore_db_classi_istituto";
+
+    return $classi;
+} //restituisce le classi di un determinato indirizzo dell'istituto
 
 
 /*************************************************************************************************/
@@ -155,7 +215,7 @@ function login($db,$utente,$cla,$sez,$ind,$postPass) {
 /*************************************************************************************************/
 function getListaCorsi($db) {
     //query al db
-    $corsi=$db->queryDB("SELECT Nome FROM Corsi ORDER BY Nome ASC"); //ritornato un array
+    $corsi = $db->queryDB("SELECT Nome FROM Corsi ORDER BY Nome ASC"); //ritornato un array
 
     //operazione da eseguire se il db non ha restituito valori
     if(!$corsi) return "errore_db_corsi";
@@ -163,21 +223,21 @@ function getListaCorsi($db) {
     return $corsi;
 } //restituisce la lista completa dei corsi dell'evento
 
-function getDatiCorso($db,$nomeCorso) {
+function getDatiCorso($db, $nomeCorso) {
     //query al db
-    $q_corso="SELECT ID_Corso, Durata, Aula, MaxPosti FROM Corsi WHERE Nome='".$nomeCorso."'";
-    $r_corso=$db->queryDB($q_corso); //ritornato un array
+    $q_corso = "SELECT ID_Corso, Durata, Aula, MaxPosti FROM Corsi WHERE Nome='".$nomeCorso."'";
+    $r_corso = $db->queryDB($q_corso); //ritornato un array
 
     //se qualcosa va male
     if(!$r_corso) return "errore_db_dati_corso";
 
-    return $r_corso;
+    return $r_corso[0]; //restituisco $r_corso[0] perché è certamente l'unica riga dell'array risultato
 } //restituisce i dati del corso $nomeCorso
 
-function getSessioniCorso($db,$idCorso) {
+function getSessioniCorso($db, $idCorso) {
     //query al db
-    $q_sessioniCorso="SELECT Giorno, Ora, PostiRimasti, ID_SessioneCorso AS id_sc FROM SessioniCorsi WHERE ID_Corso=$idCorso ORDER BY Giorno,Ora";
-    $r_sessioniCorso=$db->queryDB($q_sessioniCorso);
+    $q_sessioniCorso = "SELECT Giorno, Ora, PostiRimasti, ID_SessioneCorso AS id_sc FROM SessioniCorsi WHERE ID_Corso=$idCorso ORDER BY Giorno,Ora";
+    $r_sessioniCorso = $db->queryDB($q_sessioniCorso);
 
     //se qualcosa va male
     if(!$r_sessioniCorso) return "errore_db_sessione_corso";
@@ -185,23 +245,25 @@ function getSessioniCorso($db,$idCorso) {
     return $r_sessioniCorso;
 } //restituisce le sessioni del corso dall'ID_Corso: $idCorso
 
-function getPresenzeSessione($db,$id) {
+function getPresenzeSessione($db, $id) {
     //query al db
-    $q_presenze="SELECT P.Cognome, P.Nome, R.Presenza FROM Persone AS P, Iscrizioni AS I, SessioniCorsi AS S, RegPresenze AS R WHERE I.ID_Studente=P.ID_Persona AND S.ID_SessioneCorso=I.ID_SessioneCorso AND R.ID_Iscrizione=I.ID_Iscrizione AND S.ID_SessioneCorso=$id";
-    $r_presenze=$db->queryDB($q_presenze); //ritornato un array
+    $q_presenze = "SELECT P.Cognome, P.Nome, R.Presenza FROM Persone AS P, Iscrizioni AS I, SessioniCorsi AS S, RegPresenze AS R WHERE I.ID_Studente=P.ID_Persona AND S.ID_SessioneCorso=I.ID_SessioneCorso AND R.ID_Iscrizione=I.ID_Iscrizione AND S.ID_SessioneCorso=$id";
+    $r_presenze = $db->queryDB($q_presenze); //ritornato un array
 
     //se qualcosa va male
     if(!$r_presenze) return "errore_db_presenze";
 
     return $r_presenze;
 } //restituisce il registro presenze della sessione corso con ID_SessioneCorso: $id
+
+
 /*************************************************************************************************/
 /*                                      SEZIONE: I miei corsi                                    */
 /*************************************************************************************************/
 
-function getMese($db,$i) {
+function getMese($db, $i) {
     //query al db
-    $vMese=$db->queryDB("SELECT Mese FROM DateEvento");
+    $vMese = $db->queryDB("SELECT Mese FROM DateEvento");
 
     //controllo che il db restituisca qualcosa
     if(!$vMese) return "errore_db_mese";
@@ -209,9 +271,9 @@ function getMese($db,$i) {
     return $vMese[$i]["Mese"];
 } //Restituisce il mese
 
-function getGiorno($db,$i) {
+function getGiorno($db, $i) {
     //query al db
-    $vGiorni=$db->queryDB("SELECT Giorno FROM DateEvento");
+    $vGiorni = $db->queryDB("SELECT Giorno FROM DateEvento");
 
     //controllo che il db restituisca qualcosa
     if(!$vGiorni) return "errore_db_giorno";
@@ -219,78 +281,78 @@ function getGiorno($db,$i) {
     return $vGiorni[$i]["Giorno"];
 } //Restituisce il giorno i=0 -> "primo giorno"
 
-function getRigheCorsi($db,$utente,$giorno) {
-    $vCorsi = getCorsiGiorno($db,$utente->getId(),$giorno); //restituisce un array, con tutti i corsi in cui l'utente si è iscritto in quel giorno
+function getRigheCorsi($db, $utente, $giorno) {
+    $vCorsi = getCorsiGiorno($db,$utente->getID(),$giorno); //restituisce un array, con tutti i corsi in cui l'utente si è iscritto in quel giorno
 
-    if($vCorsi === "errore_db_corsi_iscritti_giorno") return "errore_db_lista_corsi";
+    if($vCorsi === "errore_db_corsi_iscritti_giorno") return $vCorsi;
 
-    $corsoInTab="";
-    for($i=0,$l=sizeof($vCorsi);$i<$l;$i++) {
-        $corsoInTab.="<tr>";
-        $corsoInTab.="<td>".$vCorsi[$i]["Ora"]."°</td>";
-        $corsoInTab.="<td>".$vCorsi[$i]["Nome"]."</td>";
-        $corsoInTab.="<td>".$vCorsi[$i]["Durata"]." ore</td>";
-        $corsoInTab.="<td>".$vCorsi[$i]["Aula"]."</td>";
-        $corsoInTab.="</tr>";
+    $corsoInTab = "";
+    for($i = 0, $l = sizeof($vCorsi); $i < $l; $i++) {
+        $corsoInTab .= "<tr>";
+        $corsoInTab .= "<td>" . $vCorsi[$i]["Ora"] . "°</td>";
+        $corsoInTab .= "<td>" . $vCorsi[$i]["Nome"] . "</td>";
+        $corsoInTab .= "<td>" . $vCorsi[$i]["Durata"] . " ore</td>";
+        $corsoInTab .= "<td>" . $vCorsi[$i]["Aula"] . "</td>";
+        $corsoInTab .= "</tr>";
     }
 
     return $corsoInTab;
 } //Crea l'HTML da aggiungere alla tabella dell'elenco dei corsi
 
-function stampaGiorno($db,$i) {
+function stampaGiorno($db, $i) {
     $giorno = getGiorno($db,$i);
     $mese = getMese($db,$i);
 
     if($mese === "errore_db_mese") $mese = "Err. mese";
     if($giorno === "errore_db_giorno") $giorno = "Err. giorno";
 
-    $panelGiorno="<div class='panel-heading'>";
-    $panelGiorno.="<h2 class='panel-title'>";
-    $panelGiorno.="<strong>Giorno</strong>: ".$giorno." ".$mese;
-    $panelGiorno.="</h2></div>";
+    $panelGiorno = "<div class='panel-heading'>";
+    $panelGiorno .= "<h2 class='panel-title'>";
+    $panelGiorno .= "<strong>Giorno</strong>: ".$giorno." ".$mese;
+    $panelGiorno .= "</h2></div>";
 
     return $panelGiorno;
 } //Stampa la riga del giorno riferito ai dati sottostanti
 
-function creaTabella($db,$utente,$giorno) {
+function creaTabella($db, $utente, $giorno) {
     $lista = getRigheCorsi($db,$utente,$giorno);
 
-    if($lista === "errore_db_lista_corsi") {
+    if($lista === "errore_db_corsi_iscritti_giorno") {
         $lista = "<tr><td>Err. lista corsi</td><td></td><td></td><td></td></tr>";
     }
 
-    $tabella="<div class='panel-body'>";
-    $tabella.="<div class='table-responsive'>";
-    $tabella.="<table class='table table-hover'>";
-    $tabella.="<thead><tr>";
-    $tabella.="<th><strong>Ora</strong></th><th><strong>Corso</strong></th><th><strong>Durata</strong></th><th><strong>Aula</strong></th>";
-    $tabella.="</tr></thead>";
-    $tabella.="<tbody>".$lista."</tbody>";
-    $tabella.="</table>";
-    $tabella.="</div></div>";
+    $tabella = "<div class='panel-body'>";
+    $tabella .= "<div class='table-responsive'>";
+    $tabella .= "<table class='table table-hover'>";
+    $tabella .= "<thead><tr>";
+    $tabella .= "<th><strong>Ora</strong></th><th><strong>Corso</strong></th><th><strong>Durata</strong></th><th><strong>Aula</strong></th>";
+    $tabella .= "</tr></thead>";
+    $tabella .= "<tbody>" . $lista . "</tbody>";
+    $tabella .= "</table>";
+    $tabella .= "</div></div>";
 
     return $tabella;        
 } //Crea la tabella dei corsi in cui si è iscritto l'utente a seconda del giorno
 
-function creazioneTabella($db,$utente) {
-    $nGiorni=getNumGiorni($db);
+function creazioneTabella($db, $utente) {
+    $nGiorni = getNumGiorni($db);
 
-    $panels="";
+    $panels = "";
 
     if($nGiorni === "errore_db_giorni") {
-        $panels.="<div class='panel panel-default'>";
-        $panels.="<div class='panel-heading'><h2 class='panel-title'>Err. giorni</h2></div>";
-        $panels.="<div class='panel-body'><p class='error'>Err.lista corsi</p></div>";
-        $panels.="</div>"; 
+        $panels .= "<div class='panel panel-default'>";
+        $panels .= "<div class='panel-heading'><h2 class='panel-title'>Err. giorni</h2></div>";
+        $panels .= "<div class='panel-body'><p class='error'>Err.lista corsi</p></div>";
+        $panels .= "</div>"; 
         return $panels;   
     }
     //Stampa tabella, fino al numero massimo di giorni restituito dalla funzione getNumGiorni()
     
-    for($i=0;$i<$nGiorni;$i++) {
-        $panels.="<div class='panel panel-default'>";
-        $panels.=stampaGiorno($db,$i);
-        $panels.=creaTabella($db,$utente,$i+1);
-        $panels.="</div>";
+    for($i = 0; $i < $nGiorni; $i++) {
+        $panels .= "<div class='panel panel-default'>";
+        $panels .= stampaGiorno($db, $i);
+        $panels .= creaTabella($db, $utente, $i+1);
+        $panels .= "</div>";
     }
 
     return $panels;
@@ -301,23 +363,23 @@ function creazioneTabella($db,$utente) {
 /*                                      SEZIONE: Iscrizione                                      */
 /*************************************************************************************************/
 
-function getSottotitolo($db,$nGiorno) {
+function getSottotitolo($db, $nGiorno) {
     //query al db
-    $q="SELECT Giorno,Mese FROM DateEvento";
-    $datiEvento=$db->queryDB($q);
+    $q = "SELECT Giorno,Mese FROM DateEvento";
+    $datiEvento = $db->queryDB($q);
 
     //operazione da eseguire se il db non ha restituito valori
     if(!$datiEvento) return "errore_db_sottotitolo";
 
     //operazione da eseguire se il db ha restituito le informazione per il sottotitolo
-    $pos=$nGiorno-1; //creo l'indice per leggere correttamente l'array risultato dal db
-    $sottotitolo=$datiEvento[$pos]["Giorno"]." ".$datiEvento[$pos]["Mese"]; //imposto la variabile contenente il valore del titolo
+    $pos = $nGiorno-1; //creo l'indice per leggere correttamente l'array risultato dal db
+    $sottotitolo = $datiEvento[$pos]["Giorno"] . " " . $datiEvento[$pos]["Mese"]; //imposto la variabile contenente il valore del titolo
     return $sottotitolo;
 } //imposta il titolo alla pagina
 
-function getNumOre($db,$nGiorno) {
+function getNumOre($db, $nGiorno) {
     //query al db
-    $numOre=$db->queryDB("SELECT MAX(Ora) AS Ore FROM SessioniCorsi WHERE Giorno=$nGiorno"); //ritornato un array
+    $numOre = $db->queryDB("SELECT MAX(Ora) AS Ore FROM SessioniCorsi WHERE Giorno=$nGiorno"); //ritornato un array
     
     //operazione da eseguire se il db non ha restituito valori
 	if(!$numOre) return "errore_db_ore";
@@ -326,18 +388,18 @@ function getNumOre($db,$nGiorno) {
     return intval($numOre[0]["Ore"]); 
 } //richiesta dell'ultima ora in cui inizia un corso del giorno passato per parametro
 
-function getGiornoDaIscriversi($db,$utente) {
-    $numGiorni=getNumGiorni($db); //reperisco il numero dei giorni di evento
+function getGiornoDaIscriversi($db, $utente) {
+    $numGiorni = getNumGiorni($db); //reperisco il numero dei giorni di evento
     
     //operazione da eseguire se getNumGiorni($db) non e' riuscito a reperire il numero di giorni
     if($numGiorni === "errore_db_giorni") return "errore_db_giorno_iscrizione";
     
-    $iscrivi_giorno=$numGiorni; //assegno a $iscrivi_giorno il valore di $numGiorni per confrontarlo successivamente con $numGiorni che è costante (mentre $iscrivi_giorno varia)
+    $iscrivi_giorno = $numGiorni; //assegno a $iscrivi_giorno il valore di $numGiorni per confrontarlo successivamente con $numGiorni che è costante (mentre $iscrivi_giorno varia)
     
     //se $iscrivi_giorno risulterà maggiore di $numGiorni nel prossimo controllo significa che l'utente ha finito di iscriversi
-    for($i=0;$i<=$numGiorni;$i++) {
+    for($i=0; $i <= $numGiorni; $i++) {
         if($i == $utente->getGiornoIscritto()) { //se $i equivale al valore di GiornoIscritto della Persona indica che è iscritto fino al giorno di valore $i
-            $iscrivi_giorno=$i+1; //assegno a $iscrivi_giorno il valore di $i incrementato, sta a indicare il giorno in cui la persona si deve iscrivere
+            $iscrivi_giorno = $i+1; //assegno a $iscrivi_giorno il valore di $i incrementato, sta a indicare il giorno in cui la persona si deve iscrivere
         }
     }
 
@@ -346,32 +408,31 @@ function getGiornoDaIscriversi($db,$utente) {
     return intval($iscrivi_giorno);
 } //richiesta del giorno in cui l'utente deve iscriversi
 
-function getOraDaIscriversi($db,$utente,$nGiorno) {
-    $numOre=getNumOre($db,$nGiorno); //reperisco il numero delle ore della giornata $nGiorno
+function getOraDaIscriversi($db, $utente, $nGiorno) {
+    $numOre = getNumOre($db,$nGiorno); //reperisco il numero delle ore della giornata $nGiorno
 
     //operazione da eseguire se getNumOre() non è riuscito a reperire il numero di ore
     if($numOre === "errore_db_ore") return "errore_db_ora_iscrizione";
 
     
-    $iscrivi_ora=$numOre; //assegno a $iscrivi_ora il valore di $maxOra
+    $iscrivi_ora = $numOre; //assegno a $iscrivi_ora il valore di $maxOra
 
     //se $iscrivi_ora risulterà maggiore di $numOre nel prossimo controllo significa che l'utente ha finito di iscriversi nella giornata
-    for($i=0;$i<=$numOre;$i++) {
-        if($i==$utente->getOraIscritta()) { //quando $i equivale al valore di OraIscritta della Persona indica che è iscritto fino a quell'ora
-            $iscrivi_ora=$i+1; //assegno a $iscrivi_ora il valore di $i incrementato, sta a indicare l'ora a cui si deve iscrivere la persona
+    for($i = 0; $i <= $numOre; $i++) {
+        if($i == $utente->getOraIscritta()) { //quando $i equivale al valore di OraIscritta della Persona indica che è iscritto fino a quell'ora
+            $iscrivi_ora = $i+1; //assegno a $iscrivi_ora il valore di $i incrementato, sta a indicare l'ora a cui si deve iscrivere la persona
         }
     }
 
     //if($iscrivi_ora > $numOre) return "cambio_giorno";
     
-    
     return intval($iscrivi_ora);
 } //richiesta dell'ora in cui l'utente deve iscriversi
 
-function getCorsiDisponibili($db,$utente,$nGiorno,$nOra) {
+function getCorsiDisponibili($db, $utente, $nGiorno, $nOra) {
     //query al db
-	$query="SELECT Nome,Durata,Ora FROM Corsi C INNER JOIN SessioniCorsi S ON C.ID_Corso=S.ID_Corso WHERE Giorno=$nGiorno AND Ora=$nOra AND PostiRimasti>0";
-    $lista_corsi=$db->queryDB($query);	
+	$query = "SELECT Nome,Durata,Ora FROM Corsi C INNER JOIN SessioniCorsi S ON C.ID_Corso=S.ID_Corso WHERE Giorno=$nGiorno AND Ora=$nOra AND PostiRimasti>0";
+    $lista_corsi = $db->queryDB($query);	
     
     //operazione da eseguire se il db non ha restituito valori
     if(!$lista_corsi) return "errore_db_lista_corsi";
@@ -380,34 +441,34 @@ function getCorsiDisponibili($db,$utente,$nGiorno,$nOra) {
     return $lista_corsi;
 } //richiesta dei corsi a cui è possibile iscriversi nel giorno e ora selezionati
 
-function creazioneBloccoIscrizione($db,$utente,$nGiorno,$nOra) {
-    $vCorsi=getCorsiDisponibili($db,$utente,$nGiorno,$nOra); //reperisco la lista dei corsi
+function creazioneBloccoIscrizione($db, $utente, $nGiorno, $nOra) {
+    $vCorsi = getCorsiDisponibili($db, $utente, $nGiorno, $nOra); //reperisco la lista dei corsi
 
-    $blocco="<div class='panel panel-default'><div class='panel-heading'><h2 class='panel-title'><span class='fa fa-clock-o'></span>&nbsp;&nbsp;".$nOra."° ora</h2></div>";
-    $blocco.="<div class='panel-body'>";
-    $blocco.="<div class='input-group input-group-lg'><select class='form-control' id='corso' name='corso'>";
-    $blocco.="<option value=''></option>";
-    for($i=0,$l=sizeof($vCorsi);$i<$l;$i++) {
+    $blocco = "<div class='panel panel-default'><div class='panel-heading'><h2 class='panel-title'><span class='fa fa-clock-o'></span>&nbsp;&nbsp;" . $nOra . "° ora</h2></div>";
+    $blocco .= "<div class='panel-body'>";
+    $blocco .= "<div class='input-group input-group-lg'><select class='form-control' id='corso' name='corso'>";
+    $blocco .= "<option value=''></option>";
+    for($i = 0, $l = sizeof($vCorsi); $i < $l; $i++) {
         //recupero l'istanza i-esima dell'array dei corsi
-        $corso=$vCorsi[$i];
-        $durata=intval($corso["Durata"]);
+        $corso = $vCorsi[$i];
+        $durata = intval($corso["Durata"]);
         
-        if($durata == 1) $stringCorso=$corso['Nome']." - ".$durata." ora";
-        else $stringCorso=$corso['Nome']." - ".$durata." ore";
+        if($durata == 1) $stringCorso = $corso['Nome'] . " - " . $durata . " ora";
+        else $stringCorso = $corso['Nome'] . " - " . $durata . " ore";
 
-        $stringCorsoVal=$corso['Nome']."_".$corso['Ora'];
-        $blocco.='<option value="'.$stringCorsoVal.'">'.$stringCorso.'</option>';
+        $stringCorsoVal = $corso['Nome'] . "_" . $corso['Ora'];
+        $blocco .= '<option value="' . $stringCorsoVal . '">' . $stringCorso . '</option>';
     }
-    $blocco.="</select>";
-    $blocco.="<div class='input-group-btn'><button type='submit' id='btnProsegui' class='btn btn-success'><span class='fa fa-check'></span><span class='hidden-xs hidden-sm'>&nbsp;&nbsp;Prosegui</span></button></div>";
-    $blocco.="</div></div></div>";
+    $blocco .= "</select>";
+    $blocco .= "<div class='input-group-btn'><button type='submit' id='btnProsegui' class='btn btn-success'><span class='fa fa-check'></span><span class='hidden-xs hidden-sm'>&nbsp;&nbsp;Prosegui</span></button></div>";
+    $blocco .= "</div></div></div>";
     echo $blocco;
 } //crea select con numero ora nei campi id e appende select alla pagina
 
-function getID_SessioneCorso($db,$nomeC,$giorno,$ora) {
+function getID_SessioneCorso($db, $nomeC, $giorno, $ora) {
     //query al db
-    $q_id="SELECT ID_SessioneCorso FROM SessioniCorsi S INNER JOIN Corsi C ON S.ID_Corso=C.ID_Corso WHERE Nome='".$nomeC."' AND Giorno=$giorno AND Ora=$ora";
-    $r_id=$db->queryDB($q_id); //ritornato un array
+    $q_id = "SELECT ID_SessioneCorso FROM SessioniCorsi S INNER JOIN Corsi C ON S.ID_Corso=C.ID_Corso WHERE Nome='".$nomeC."' AND Giorno=$giorno AND Ora=$ora";
+    $r_id = $db->queryDB($q_id); //ritornato un array
 
     //se qualcosa va male
     if(!$r_id) return "errore_db_id_sessione_corso";
@@ -416,25 +477,25 @@ function getID_SessioneCorso($db,$nomeC,$giorno,$ora) {
     return intval($r_id[0]["ID_SessioneCorso"]);
 }
 
-function getPostiRimastiSessione($db,$id_sc) {
+function getPostiRimastiSessione($db, $id_sc) {
     //query al db
-    $q_posti="SELECT PostiRimasti FROM SessioniCorsi WHERE ID_SessioneCorso=$id_sc";
-    $r_posti=$db->queryDB($q_posti);
+    $q_posti = "SELECT PostiRimasti FROM SessioniCorsi WHERE ID_SessioneCorso=$id_sc";
+    $r_posti = $db->queryDB($q_posti);
 
     //se qualcosa va male
     if(!$r_posti) return "errore_db_posti_sessione_corso";
 
     //se invece è tutto ok
-    $postiRimasti=intval($r_posti[0]["PostiRimasti"]);
+    $postiRimasti = intval($r_posti[0]["PostiRimasti"]);
     if($postiRimasti <= 0) return "posti_terminati_sessione_corso";
 
     return $postiRimasti;
 }
 
-function inserisciIscrizione($db,$idStudente,$id_sc) {
+function inserisciIscrizione($db, $idStudente, $id_sc) {
     //query al db
-    $q_iscrizioni="INSERT INTO Iscrizioni (ID_Studente,ID_SessioneCorso) VALUES ($idStudente,$id_sc)";
-    $r_iscrizioni=$db->queryDB($q_iscrizioni); //restituisce true se insert viene fatta, false altrimenti
+    $q_iscrizioni = "INSERT INTO Iscrizioni (ID_Studente,ID_SessioneCorso) VALUES ($idStudente,$id_sc)";
+    $r_iscrizioni = $db->queryDB($q_iscrizioni); //restituisce true se insert viene fatta, false altrimenti
 
     //se qualcosa va male
     if(!$r_iscrizioni) return "errore_db_upd8_iscrizioni";
@@ -443,10 +504,10 @@ function inserisciIscrizione($db,$idStudente,$id_sc) {
     return $r_iscrizioni;
 }
 
-function decrementaPostiSessione($db,$id_sc) {
+function decrementaPostiSessione($db, $id_sc) {
     //query al db
-    $q_posti="UPDATE SessioniCorsi SET PostiRimasti=PostiRimasti-1 WHERE ID_SessioneCorso=$id_sc";
-    $r_posti=$db->queryDB($q_posti);
+    $q_posti = "UPDATE SessioniCorsi SET PostiRimasti=PostiRimasti-1 WHERE ID_SessioneCorso=$id_sc";
+    $r_posti = $db->queryDB($q_posti);
 
     //se qualcosa va male
     if(!$r_posti) return "errore_db_upd8_posti_rimasti";
@@ -454,23 +515,23 @@ function decrementaPostiSessione($db,$id_sc) {
     return $r_posti;
 }
 
-function creazioneIstanzaRegistroSessione($db,$idStudente,$id_sc) {
+function creazioneIstanzaRegistroSessione($db, $idStudente, $id_sc) {
     //-- RICERCA del CODICE della ISCRIZIONE appena creata
     //query al db
-    $q_iscrizione="SELECT ID_Iscrizione FROM Iscrizioni WHERE ID_SessioneCorso=$id_sc AND ID_Studente=$idStudente";
-    $r_iscrizione=$db->queryDB($q_iscrizione);
+    $q_iscrizione = "SELECT ID_Iscrizione FROM Iscrizioni WHERE ID_SessioneCorso=$id_sc AND ID_Studente=$idStudente";
+    $r_iscrizione = $db->queryDB($q_iscrizione);
 
     //se qualcosa va male
     if(!$r_iscrizione) return "errore_db_id_iscrizione";
 
     //se invece è tutto ok
-    $id_iscriz=$r_iscrizione[0]["ID_Iscrizione"];
+    $id_iscriz = $r_iscrizione[0]["ID_Iscrizione"];
 
 
     //-- AGGIORNAMENTO del REGISTRO PRESENZE della SESSIONE DEL CORSO
     //query al db
-    $q_registro="INSERT INTO RegPresenze (ID_Iscrizione) VALUES ($id_iscriz)";
-    $r_registro=$db->queryDB($q_registro);
+    $q_registro = "INSERT INTO RegPresenze (ID_Iscrizione) VALUES ($id_iscriz)";
+    $r_registro = $db->queryDB($q_registro);
 
     //se qualcosa va male
     if(!$r_registro) return "errore_db_upd8_registro"; 
@@ -478,16 +539,16 @@ function creazioneIstanzaRegistroSessione($db,$idStudente,$id_sc) {
     return $r_registro;
 }
 
-function registraIscrizione($db,$idStudente,$id_sc) {
+function registraIscrizione($db, $idStudente, $id_sc) {
     //-- AGGIORNAMENTO della tabella delle ISCRIZIONI
-    $insIscrizioni=inserisciIscrizione($db,$idStudente,$id_sc);
+    $insIscrizioni = inserisciIscrizione($db, $idStudente, $id_sc);
     if($insIscrizioni === "errore_db_upd8_iscrizioni") return $insIscrizioni;
     else {
         //-- AGGIORNAMENTO della SESSIONE DEL CORSO (decremento i POSTI DISPONIBILI)
-        $decrementoPosti=decrementaPostiSessione($db,$id_sc);
+        $decrementoPosti = decrementaPostiSessione($db, $id_sc);
         if($decrementoPosti === "errore_db_upd8_posti_rimasti") return $decrementoPosti;
         else {
-            $creataIstanzaRegistroSessione=creazioneIstanzaRegistroSessione($db,$idStudente,$id_sc);
+            $creataIstanzaRegistroSessione = creazioneIstanzaRegistroSessione($db, $idStudente, $id_sc);
             if($creataIstanzaRegistroSessione === "errore_db_id_iscrizione" || $creataIstanzaRegistroSessione === "errore_db_upd8_registro") return $creataIstanzaRegistroSessione;
         }
     }
@@ -495,24 +556,24 @@ function registraIscrizione($db,$idStudente,$id_sc) {
     return true;
 }
 
-function aggiornaInfoUtente($db,$utente,$giornoCorso,$oreTotGiorno,$oraCorso,$durataCorso) {
-    $nuova_oraIscritta=$utente->getOraIscritta()+$durataCorso;
+function aggiornaInfoUtente($db, $utente, $giornoCorso, $oreTotGiorno, $oraCorso, $durataCorso) {
+    $nuova_oraIscritta = $utente->getOraIscritta() + $durataCorso;
     if($oraCorso === $oreTotGiorno || $nuova_oraIscritta === $oreTotGiorno) { //caso in cui utente si sta iscrivendo all'ultima ora di un giorno o alle ultime ore di un giorno
         //aggiorno oggetto utente
         $utente->setOraIscritta(0); //resetto il contatore delle ore iscritte di una giornata
         $utente->setGiornoIscritto($giornoCorso); //imposto come iscritta completamente la giornata n° $giornoCorso
 
         //query al db
-        $q_persone="UPDATE Persone SET OraIscritta=0, GiornoIscritto=".$utente->getGiornoIscritto()." WHERE ID_Persona=".$utente->getId();
+        $q_persone = "UPDATE Persone SET OraIscritta=0, GiornoIscritto=" . $utente->getGiornoIscritto() . " WHERE ID_Persona=" . $utente->getID();
     } else {
         //aggiorno oggetto utente
         $utente->setOraIscritta($nuova_oraIscritta); //imposto come iscritta l'ora della giornata n° $giornoCorso
         //nessuna operazione su GiornoIscritto perché non è terminata la giornata, e quindi non è iscritta per intero
 
         //query al db
-        $q_persone="UPDATE Persone SET OraIscritta=".$utente->getOraIscritta()." WHERE ID_Persona=".$utente->getId();
+        $q_persone = "UPDATE Persone SET OraIscritta=" . $utente->getOraIscritta() . " WHERE ID_Persona=" . $utente->getID();
     }
-    $r_persone=$db->queryDB($q_persone);
+    $r_persone = $db->queryDB($q_persone);
     
     //se qualcosa va male
     if(!$r_persone) return "errore_db_upd8_persone";
@@ -522,6 +583,5 @@ function aggiornaInfoUtente($db,$utente,$giornoCorso,$oreTotGiorno,$oraCorso,$du
 /*************************************************************************************************/
 /*                                  SEZIONE: Registro Presenze                                   */
 /*************************************************************************************************/
-
 
 ?>

@@ -3,8 +3,8 @@ require_once "../../caricaClassi.php";
 require_once "../../connettiAlDB.php";
 Session::open();
 
-if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
-    $status=GlobalVar::getPost("aggiornamenti");
+if(GlobalVar::SERVER("REQUEST_METHOD")==="POST") {
+    $status=GlobalVar::POST("aggiornamenti");
     $status=json_decode($status);
 
     for($i=0,$l=sizeof($status);$i<$l;$i++){

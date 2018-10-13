@@ -3,9 +3,9 @@ require_once "../../caricaClassi.php";
 require_once "../../connettiAlDB.php";
 require_once "../../funzioni.php";
 
-if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
-    $nome=GlobalVar::getPost("nome");
-    $cognome=GlobalVar::getPost("cognome");
+if(GlobalVar::SERVER("REQUEST_METHOD")==="POST") {
+    $nome=GlobalVar::POST("nome");
+    $cognome=GlobalVar::POST("cognome");
     
     $dati=getDatiPersona($db,$nome,$cognome);
 

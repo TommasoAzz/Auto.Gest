@@ -3,8 +3,8 @@ require_once "../../caricaClassi.php";
 require_once "../../connettiAlDB.php";
 require_once "../../funzioni.php";
 
-if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
-    $ID_Persona=GlobalVar::getPost("ID");
+if(GlobalVar::SERVER("REQUEST_METHOD")==="POST") {
+    $ID_Persona=GlobalVar::POST("ID");
 
     $returnVal="";
     try {

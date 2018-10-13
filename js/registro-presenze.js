@@ -95,7 +95,7 @@ $(document).ready(function() {
         //console.log("Premuto il pulsante di conferma.");
         const aggiornamenti = JSON.stringify(aggiornaDB());
 
-        $.post("/registro-presenze/script/updateReg.php",{aggiornamenti: aggiornamenti},function(result){
+        $.post("/registro-presenze/script/aggiornaRegistro.php",{aggiornamenti: aggiornamenti},function(result){
             const statoUpdate=result.trim();
             if(statoUpdate === "registro-aggiornato") {
                 let titolo="Operazione completata",contenuto="Il registro è stato aggiornato con successo.";

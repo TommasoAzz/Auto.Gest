@@ -4,8 +4,8 @@ require_once "connettiAlDB.php";
 Session::open();
 header("Content-Type: text/html;charset=utf-8");
 
-$queryInfo="SELECT Titolo,PeriodoSvolgimento,NomeContatto1,NomeContatto2,NomeContatto3,LinkContatto1,LinkContatto2,LinkContatto3,Istituto FROM InfoEvento WHERE ID=1";
-$result_info=$db->queryDB($queryInfo);
+$queryInfo = "SELECT Titolo,PeriodoSvolgimento,NomeContatto1,NomeContatto2,NomeContatto3,LinkContatto1,LinkContatto2,LinkContatto3,Istituto FROM InfoEvento WHERE ID=1";
+$result_info = $db->queryDB($queryInfo);
 
 if($resInfo = $result_info[0]) {
     $info=array(

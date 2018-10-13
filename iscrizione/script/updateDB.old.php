@@ -1,13 +1,13 @@
 <?php
 require_once "../../caricaClassi.php";
-if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
+if(GlobalVar::SERVER("REQUEST_METHOD")==="POST") {
     Session::open();
     require_once "../../connettiAlDB.php";
     require_once "../../funzioni.php";
     $db=Session::get("db");
     $utente=Session::get("utente");
     //reperisco i dati POST
-    $corso=explode("_",GlobalVar::getPost("corso"));
+    $corso=explode("_",GlobalVar::POST("corso"));
     $nomeCorso=$corso[0];
     $oraCorso=intval($corso[1]);
     $giornoCorso=intval(getGiornoDaIscriversi($db,$utente));
@@ -106,7 +106,7 @@ if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
     } else {
         $ris="sessione_corso";
         Session::set("errIscrizione",$ris);
-        header("Location: ../messaggio.php");
+        header("Location: ../iscrizione.php");
     }
 } else {
     header("Location: ../../");

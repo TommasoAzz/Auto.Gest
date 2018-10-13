@@ -3,7 +3,7 @@ require_once "../../caricaClassi.php";
 require_once "../../connettiAlDB.php";
 require_once "../../funzioni.php";
 
-if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
+if(GlobalVar::SERVER("REQUEST_METHOD")==="POST") {
     $corsi=getListaCorsi($db);
 
     if($corsi === "errore_db_corsi") echo $corsi;

@@ -1,35 +1,37 @@
 <?php
-/*
-  Classe per la gestione del Database, per gestire la connessione ad esso,
-  l'invio di query e la gestione dei risultati
-  N.B: Necessita allocazione, di conseguenza,
-  nella classe: $this->attributo
-  $this->metodo()
-  fuori classe: $nome_oggetto->attributo
-  $nome_oggetto->metodo()
- */
- 
+/**
+    Classe per la gestione del Database, per gestire la connessione ad esso,
+    l'invio di query e la gestione dei risultati
+    N.B: Necessita allocazione, di conseguenza,
+    nella classe: $this->attributo
+                    $this->metodo()
+    fuori classe: $nome_oggetto->attributo
+                    $nome_oggetto->metodo()
+*/
+
 class Database {
     //attributi
     //--per connessione a DB
     private $hostname; //hostname di connessione 
     private $username; //username per la connessione al db
     private $password; //password per la connessione al db
-    private $db_name; //nome del database a cui connettersi
+    private $dbName; //nome del database a cui connettersi
     //--per gestione DB (eseguire query, controllo query, risultati query)
     private $conn; //oggetto del database
     //--per gestire query
     private $lastQuery; //oggetto dell'ultima query eseguita
     private $lastQueryRes; //array dei risultati dell'ultima query eseguita
+
     //metodi
     //--costruttore
     public function __construct($host, $un, $psw, $db) {
         $this->hostname = $host;
         $this->username = $un;
         $this->password = $psw;
-        $this->db_name = $db;
+        $this->dbName = $db;
         $this->lastQueryRes = array();
     }
+
     //--per il controllo (privati)
     private function checkConnection() {
         if($this->conn->connect_errno > 0) {
@@ -40,6 +42,7 @@ class Database {
             return true;
         }
     }
+
     public function checkQuery() {
         if($this->lastQuery) {
             return true;
@@ -47,47 +50,31 @@ class Database {
             return false;
         }
     }
+
     //--per la connessione al database
     public function connect() {
         if($this->conn == null) {
-            $this->conn = new mysqli($this->hostname, $this->username, $this->password, $this->db_name);
+            $this->conn = new mysqli($this->hostname, $this->username, $this->password, $this->dbName);
             if($this->checkConnection()) {
-                $this->conn->autocommit(TRUE);
+                $this->conn->autocommit(true);
             }
         }
     }
+
     public function disconnect() {
         $this->conn->close();
     }
-    public function getConn() {
-        return $this->conn;
-    }
+
     public function getAffectedRows() {
         return $this->conn->affected_rows; //restituisce il numero delle righe affette dalla query
     }
-    //--per inviare/annullare le query eseguite (se autocommit e' false)
-    public function commitQueries() {
-        $this->conn->commit();
+    
+    //--per gestire le query (inviarle e visualizzare risultati)
+    public function escape($string) {
+        $string = $this->conn->real_escape_string($string);
+        return $string;
     }
-    public function rollbackQueries() {
-        $this->conn->rollback();
-    }
-    //--per gestire le query (inviarle e visualizzare risultati
-    public function sendQuery($string) {
-        $this->lastQuery = $this->conn->query($string);
-        if($this->lastQuery && $this->getAffectedRows() > 0) {
-            while($row = $this->lastQuery->fetch_assoc()) {
-                $this->lastQueryRes = $row;
-            }
-        } else {
-            return false;
-        }
-    }
-    public function getResult($needed_field) {
-        if($this->lastQuery !== false) {
-            return $this->lastQueryRes[$needed_field];
-        }
-    }
+
     public function freeResult() {
         $this->lastQuery->free();
     } //Svuota lastQuery

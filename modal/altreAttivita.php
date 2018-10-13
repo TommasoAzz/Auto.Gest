@@ -1,4 +1,4 @@
-<div class="modal fade" id="altreAttivita" role="dialog">
+<div class="modal fade" id="altreAttivita" role="dialog" aria-labelledby="Altre attività">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

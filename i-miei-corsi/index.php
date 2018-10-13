@@ -44,7 +44,7 @@ $utente=Session::get("utente");
             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                 <h4 class="text-center">
                     <strong>Nome</strong>: <?php echo $utente->getNome()." ".$utente->getCognome(); ?>&nbsp;
-                    <strong>Classe</strong>: <?php echo $utente->getClasse()."°".$utente->getSezione()." ".$utente->getIndirizzo(); ?>
+                    <strong>Classe</strong>: <?php echo $utente->classe->getClasse()."°".$utente->classe->getSezione()." ".$utente->classe->getIndirizzo(); ?>
                 </h4>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">

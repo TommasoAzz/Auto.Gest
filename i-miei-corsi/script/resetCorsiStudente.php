@@ -5,7 +5,7 @@ require_once "../../funzioni.php";
 Session::open();
 $utente=Session::get("utente");
 
-if(GlobalVar::getServer("REQUEST_METHOD")==="POST") {
+if(GlobalVar::SERVER("REQUEST_METHOD")==="POST") {
     /**************************************************************/
     /*  SCRIPT DI RESET TOTALE DELLE ISCRIZIONI DI UNO STUDENTE   */
     /**************************************************************/

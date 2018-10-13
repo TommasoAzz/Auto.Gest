@@ -1,4 +1,4 @@
-<div class="modal fade" id="login_esterni" role="dialog">
+<div class="modal fade" id="login_esterni" role="dialog" aria-labelledby="Login esterni">
     <div class="modal-dialog">
         <div class="modal-content">
             <form class="form-horizontal" id="extUserlogin" name="extUserlogin" method="post">

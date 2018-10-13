@@ -4,8 +4,8 @@
     include_once "../getInfo.php";
     require_once "../funzioni.php";
     Session::open();
-    $info=Session::get("info");
-    $utente=Session::get("utente");
+    $info = Session::get("info");
+    $utente = Session::get("utente");
 ?>
 <html>
     <head>

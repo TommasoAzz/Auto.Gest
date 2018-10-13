@@ -37,22 +37,10 @@
         $h4="";
         $p="Clicca <a href='/'>qui</a> per riprovare. Se il problema persiste, contatta i tuoi Rappresentanti degli Studenti.";
         switch($errore) {
-            //funzione-iscrizione.php
+            //funzione.php e updateDB.php
             case "errore_db_giorno_iscrizione": //errore nel reperimento del giorno d'iscrizione dal database
-                $h4="Mentre stavamo chiedendo a che giorno ti dovessi iscrivere, qualcosa è andato storto.";
-                break;
             case "errore_db_ora_iscrizione": //errore nel reperimento dell'ora dal database
-                $h4="Mentre stavamo chiedendo a che ora ti dovessi iscrivere, qualcosa è andato storto.";
-                break;
             case "errore_db_lista_corsi": //errore nel reperimento della lista dei corsi
-                $h4="Mentre stavamo chiedendo quali fossero i possibili corsi a cui ti potresti iscrivere, qualcosa è andato storto.";
-                break;
-            case "fine_iscrizione": //iscrizione completata
-                $h2="Congratulazioni!";
-                $h4="Hai completato l'iscrizione a ".$info['titolo'];
-                $p="Clicca <a href='".getURL("/i-miei-corsi/")."'>qui</a> per visualizzare un promemoria dei corsi da te scelti, oppure torna alla <a href='../'>Home page</a>.";
-                break;
-            //updateDB.php
             case "errore_db_id_sessione_corso": //errore nel reperimento dell'id della sessione del corso
             case "errore_db_posti_sessione_corso": //errore nel reperimento dei posti rimasti nella sessione di corso scelta
             case "errore_db_upd8_iscrizioni": //errore nell'update della tabella Iscrizioni
@@ -62,6 +50,12 @@
             case "errore_db_id_iscrizione": //errore nel reperimento del codice dell'iscrizione generata
             case "errore_db_upd8_registro": //errore nell'update della tabella RegPresenze
                 $h4="Mentre stavamo per iscriverti al corso che avevi scelto, qualcosa è andato storto.";
+                $p="Codice errore: <strong>".$errore."</strong><br />".$p;
+                break;
+            case "fine_iscrizione": //iscrizione completata
+                $h2="Congratulazioni!";
+                $h4="Hai completato l'iscrizione a ".$info['titolo'];
+                $p="Clicca <a href='".getURL("/i-miei-corsi/")."'>qui</a> per visualizzare un promemoria dei corsi da te scelti, oppure torna alla <a href='../'>Home page</a>.";
                 break;
             case "posti_terminati_sessione_corso": //corso non disponibile (posti terminati)
                 $h2="Siamo spiacenti!";

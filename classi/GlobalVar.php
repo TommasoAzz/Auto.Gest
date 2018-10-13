@@ -1,11 +1,10 @@
 <?php
-
 /**
     Classe per la gestione degli array globali, per gestire il recupero di dati da essi
     N.B: Non deve essere allocato, di conseguenza,
-    nella classe: self::$attributo
+    nella classe:   self::$attributo
                     self::metodo()
-    fuori classe: NomeClasse::$attributo
+    fuori classe:   NomeClasse::$attributo
                     NomeClasse::metodo()
 */
 
@@ -26,22 +25,22 @@ class GlobalVar {
     }
 
     //--per il recupero dati dagli array
-    public static function getPost($key) {
+    public static function POST($key) {
         self::init();
         return filter_input(INPUT_POST,$key);
     }
 
-    public static function getGet($key) {
+    public static function GET($key) {
         self::init();
         return filter_input(INPUT_GET,$key);
     }
 
-    public static function getServer($key) {
+    public static function SERVER($key) {
         self::init();
         return filter_input(INPUT_SERVER,$key);
     }
 
-    public static function getCookie($key) {
+    public static function COOKIE($key) {
         self::init();
         return filter_input(INPUT_COOKIE,$key);
     }
