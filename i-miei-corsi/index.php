@@ -1,12 +1,11 @@
-<!-- Auto.Gest -->
 <?php
-    require_once "../connectToDB.php";
-    require_once "../classes.php";
-    include_once "../getInfo.php";
-    Session::open();
-    $info=Session::get("info");
-    require_once "funzioni.php";
-    $db=Session::get("db"); 
+require_once "../caricaClassi.php";
+require_once "../connettiAlDB.php";
+include_once "../getInfo.php";
+require_once "../funzioni.php";
+Session::open();
+$info=Session::get("info");
+$utente=Session::get("utente");
 ?>
 <html>
     <head>
@@ -16,20 +15,20 @@
     </head>
     <body>
     <div id="wrapper" class="clearfix"><!-- inizio wrapper -->
-    <!-- NAVBAR -->
-    <?php require "../switch_header.php"; ?>
     <!-- CONTROLLO ACCESSO -->
     <?php
         // PAGINA ACCESSIBILE SOLO DA UTENTI DI LIVELLO: 1, 3
-        /*if(!isset($utente)) { 
-            header("Location: /");
-        } elseif($utente->getLivello() == 2) {
-            die("<script>location.href='/';</script>");
-        }*/
-        if(!isset($utente) || $utente->getLivello() == 2) {
-            header("Location: /");
-        }
+        
+        $livelliAmmessi = array(
+            1 => true, //livello studente
+            2 => false, //livello responsabile corso
+            3 => true //livello amministratore
+        );
+
+        controlloAccesso($db,$utente,$livelliAmmessi);
     ?>
+    <!-- NAVBAR -->
+    <?php require "../caricaHeader.php"; ?>
 	<div id="content" class="container">
         <!-- INTESTAZIONE PAGINA -->
         <div id="intestazione" class="row">
@@ -45,14 +44,14 @@
             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                 <h4 class="text-center">
                     <strong>Nome</strong>: <?php echo $utente->getNome()." ".$utente->getCognome(); ?>&nbsp;
-                    <strong>Classe</strong>: <?php echo $utente->getClasse()."°".$utente->getSezione()." ".$utente->getIndirizzo(); ?>
+                    <strong>Classe</strong>: <?php echo $utente->classe->getClasse()."°".$utente->classe->getSezione()." ".$utente->classe->getIndirizzo(); ?>
                 </h4>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                <button type="button" id="btnPrint" class="btn btn-success btn-lg btn-block"><span class="fa fa-print" aria-hidden='true'></span> Stampa</button>    
+                <button type="button" id="btnPrint" class="btn btn-success btn-lg btn-block"><span class="fa fa-print" aria-hidden='true'></span> Stampa</button>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                <button type="button" id="btnReset" class="btn btn-danger btn-lg btn-block"><span class="fa fa-ban" aria-hidden='true'></span> Annulla l'iscrizione</button>    
+                <button type="button" id="btnReset" class="btn btn-danger btn-lg btn-block"><span class="fa fa-ban" aria-hidden='true'></span> Annulla l'iscrizione</button>
             </div>
             <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
         </div>
@@ -75,7 +74,7 @@
                         <h2 class='panel-title'>Non ti sei ancora iscritto ad alcun corso!</h2>
                     </div>
                     <div class='panel-body'>
-                        <p>Quando ti sarai iscritto ad almeno un corso visualizzerai qui le tue scelte. Per iscriverti, clicca <a href=".getBaseUrl()."/iscrizione/ title='Iscrizione'>qui</a>.</p>
+                        <p>Quando ti sarai iscritto ad almeno un corso visualizzerai qui le tue scelte. Per iscriverti, clicca <a href="<?php echo getURL('/iscrizione/'); ?>" title='Iscrizione'>qui</a>.</p>
                     </div>
                 </div>
             <?php

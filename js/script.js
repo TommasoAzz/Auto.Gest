@@ -27,7 +27,7 @@ function getCookie(nomeCookie) { //restituisce contenuto cookie passato come par
 function reverseString(str) { //rovescia e restituisce stringa passata come parametro
     var rev=""; //variabile contenente la stringa rovesciata
     for(let i=(str.length-1);i>=0;i--) rev+=str.charAt(i);
-    return rev;    
+    return rev;
 } //rimovibile
 
 function gestioneNavbar() { //controlla la pagina e attiva menu diversamente
@@ -50,29 +50,29 @@ function $alert(titolo, contenuto) {
             theme: "modern",
             title: titolo,
             content: contenuto
-        });   
+        });
     }
 }
 //___ METODO PRINCIPALE ___//
 
 $(document).ready(function() {
-	
+
     //___ GENERALE ___//
 
     gestioneNavbar(); //metodi che gestiscono la barra di navigazione e il footer
-   
+
     $('a#linkModalEsterni').click(function() { //evento che gestisce l'apertura del modal per i non studenti
-        $("div#login").modal('hide');
+        $("div#login_interni").modal('hide');
     });
 
     $('a#linkModalInterni').click(function() {
-        $("div#extLogin").modal('hide');
+        $("div#login_esterni").modal('hide');
     })
-    
+
     $("body").keyup(function(e) { //evento per la gestione della chiusura dei modal con tasto ESC -- aggiungere tasto invio per l'invio dei dati
         if(e.which == 27) {
-            $("div#login, div#extLogin").modal("hide");
+            $("div#login_interni, div#login_esterni").modal("hide");
         }
     });
-    
+
 });

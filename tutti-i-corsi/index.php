@@ -1,10 +1,11 @@
-<!-- Auto.Gest -->
 <?php
-    require_once "../connectToDB.php";
-    require_once "../classes.php";
-    include "../getInfo.php";
+    require_once "../caricaClassi.php";
+    require_once "../connettiAlDB.php";
+    include_once "../getInfo.php";
+    require_once "../funzioni.php";
     Session::open();
-    $info=Session::get("info");
+    $info = Session::get("info");
+    $utente = Session::get("utente");
 ?>
 <html>
     <head>
@@ -15,7 +16,7 @@
     <body>
     <div id="wrapper" class="clearfix"><!-- inizio wrapper -->
     <!-- NAVBAR -->
-    <?php require_once "../switch_header.php"; ?>
+    <?php require_once "../caricaHeader.php"; ?>
     <!-- BODY -->
     <div id="content" class="container">
         <!-- INTESTAZIONE PAGINA -->
@@ -73,7 +74,7 @@
                                 <th><strong>Aula</strong></th>
                                 <th><strong>Durata</strong></th>
                                 <th><strong>Posti totali</strong></th>
-                                <th><strong>Posti rimasti</strong></th>                        
+                                <th><strong>Posti rimasti</strong></th>
                             </tr>
                         </thead>
                         <tbody id="tbody">
@@ -89,7 +90,7 @@
     <!-- FOOTER -->
     <?php require_once "../footer.php"; ?>
     <!-- LOGIN MODAL -->
-    <?php require_once "../login_modals.php"; ?>
+    <?php require_once "../caricaModalLogin.php"; ?>
     </div> <!-- fine wrapper -->
     </body>
 </html>

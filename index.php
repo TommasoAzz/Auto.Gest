@@ -1,35 +1,36 @@
-<!-- Auto.Gest -->
 <?php
-    require_once "connectToDB.php";
-    require_once "classes.php";
+    require_once "caricaClassi.php";
+    require_once "connettiAlDB.php";
     include_once "getInfo.php";
+    require_once "funzioni.php";
     Session::open();
     $info=Session::get("info");
+    $utente=Session::get("utente");
 ?>
 <html>
     <head>
-        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet"> 
         <?php require_once "head.php"; ?>
+        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
         <script type='text/javascript' src="/js/login.js"></script>
     </head>
     <body>
     <div id="wrapper" class="clearfix"><!-- inizio wrapper -->
     <!-- NAVBAR -->
     <?php
-        require_once "switch_header.php";
-
+        require_once "caricaHeader.php";
         //scelta pulsante per Jumbotron -> viene inserito nel div.jumbotron
-        $button="<p class='text-center'><a class='btn btn-primary btn-lg' href='#login' data-toggle='modal' role='button'>Accedi al sito</a></p>";
-        if(isset($utente)) {
+        if(!isset($utente)) {
+            $button="<p class='text-center'><a class='btn btn-primary btn-lg' href='#login_interni' data-toggle='modal' role='button'>Accedi al sito</a></p>";
+        } else {
             switch($utente->getLivello()) {
-                case 1: $button="<p class='text-center'><a class='btn btn-primary btn-lg' href='".getBaseURL()."/iscrizione/'>Iscriviti qui</a></p>";
+                case 1: $button="<p class='text-center'><a class='btn btn-primary btn-lg' href='".getURL("/iscrizione/")."'>Iscriviti qui</a></p>";
                     break; //studente
-                case 2: $button="<p class='text-center'><a class='btn btn-primary btn-lg' href='".getBaseURL()."/registro-presenze/'>Gestisci il tuo corso</a></p>";
+                case 2: $button="<p class='text-center'><a class='btn btn-primary btn-lg' href='".getURL("/registro-presenze/")."'>Gestisci il tuo corso</a></p>";
                     break;
-                case 3: $button="<p class='text-center'><a class='btn btn-primary btn-lg' href='".getBaseURL()."/amministrazione/'>Amministra l'evento</a></p>";
+                case 3: $button="<p class='text-center'><a class='btn btn-primary btn-lg' href='".getURL("/amministrazione/")."'>Amministra l'evento</a></p>";
                     break;
             }
-        }  
+        }
     ?>
     <div id="content" class="container">
         <!-- INTESTAZIONE PAGINA -->
@@ -38,7 +39,7 @@
             <h1 class="text-center"><?php echo $info["titolo"]; ?></h1>
             <h5 class="text-center sottotitolo"><?php echo $info["istituto"]; ?></h5>
             <p class="text-center sottotitolo"><?php echo $info["periodosvolgimento"]; ?></p>
-            <?php echo $button; ?>  
+            <?php echo $button; ?>
         </div>
         <!-- CORPO PAGINA -->
         <div class="row">
@@ -50,7 +51,7 @@
     <!-- FOOTER -->
     <?php require_once "footer.php"; ?>
     <!-- LOGIN MODAL -->
-    <?php require_once "login_modals.php"; ?>
+    <?php require_once "caricaModalLogin.php"; ?>
     </div><!-- fine wrapper -->
     </body>
 </html>

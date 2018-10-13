@@ -9,7 +9,7 @@ function aggiornaDati(gg_hh) {
 function richiestaGiorni() {
     const $scelta_giorno=$("select#scelta_giorno");
     $scelta_giorno.html('');
-    $.post("/tutti-i-corsi/getGiorni.php",function(result){
+    $.post("/tutti-i-corsi/script/getGiorni.php",function(result){
         const datiDaServer=result.trim(); //ottengo i dati dal server
         if(datiDaServer !== "false") {
             const dati=$.parseJSON(datiDaServer);
@@ -26,7 +26,7 @@ function richiestaGiorni() {
 function richiestaOre() {
     const $scelta_ora=$("select#scelta_ora");
     $scelta_ora.html('');
-    $.post("/tutti-i-corsi/getOre.php",function(result) {
+    $.post("/tutti-i-corsi/script/getOre.php",function(result) {
         const datiDaServer=result.trim(); //ottengo i dati dal server
         if(datiDaServer !== "false") {
             const vOre=$.parseJSON(datiDaServer);
@@ -43,7 +43,7 @@ function richiestaOre() {
 function aggiornaLista(gg_hh) {
     const $tbody=$("tbody#tbody");
     $tbody.html('');
-    $.post("/tutti-i-corsi/getListaCorsi.php",{giorno: gg_hh.giorno,ora: gg_hh.ora},function(result) {
+    $.post("/tutti-i-corsi/script/getListaCorsi.php",{giorno: gg_hh.giorno,ora: gg_hh.ora},function(result) {
             const datiDaServer=result.trim(); //ottengo i dati dal server
             if(datiDaServer !== "false") { //non è valore booleano perchè non viene effettuato parsing
                 const vCorsi=$.parseJSON(datiDaServer);
@@ -60,7 +60,7 @@ function aggiornaLista(gg_hh) {
                         riga+="</tr>";
                         $tbody.append(riga); //aggiunta riga alla tabella
 
-                        //controllo contenuto tabella  
+                        //controllo contenuto tabella
                         const pTotali=parseInt($("td#pTotali_"+i).html()); //ottengo posti totali corso
                         const pRimasti=parseInt($("td#pRimasti_"+i).html()); //ottengo posti rimasti corso
 
@@ -74,13 +74,14 @@ function aggiornaLista(gg_hh) {
                             $("td#corso_"+i).parent().removeClass("warning danger"); //rimuovo classi
                         }
                     }
-                }    
+                }
             } else {
-                let riga="<tr><td>Non sono rimasti corsi disponibili.</td><td></td><td></td><td></td><td></td></tr>";    
+                let riga="<tr><td>Non sono rimasti corsi disponibili.</td><td></td><td></td><td></td><td></td></tr>";
                 $tbody.append(riga);
             }
         });
 }
+
 $(document).ready(function() {
     //const timerUpdateLista=10000;
     var giorno_ora={
@@ -93,13 +94,13 @@ $(document).ready(function() {
     richiestaOre();
 
     //primo download della lista dei corsi
-    aggiornaLista(giorno_ora); 
+    aggiornaLista(giorno_ora);
 
     //aggiornamento della lista corsi al click del pulsante "Aggiorna la lista"
     $("button#updateBtn").click(function() {
         giorno_ora=aggiornaDati(giorno_ora);
         aggiornaLista(giorno_ora);
-    }); 
+    });
 
     //timer per aggiornamento automatico della lista dei corsi (senza aggiornamento dei dati)
     /*window.setInterval(function() {

@@ -1,5 +1,5 @@
 function resetPersona() {
-    $.post("/i-miei-corsi/resetPersona.php",function(result) {
+    $.post("/i-miei-corsi/script/resetCorsiStudente.php",function(result) {
         if(result.trim()=="reset-effettuato") {
             let titolo="Operazione completata",contenuto="Reset effettuato! Verrai reindirizzato alla pagina per effettuare nuovamente l'iscrizione.";
             $alert(titolo,contenuto);
@@ -9,20 +9,24 @@ function resetPersona() {
             let titolo="Operazione non completata",contenuto="Non è stato possibile effettuare il reset. Se riprovando il problema persiste, contattaci.";
             $alert(titolo,contenuto);
         }
-    });    
+    });
 }
+
 function stampaCorsi() {
     $("button#btnPrint").click(function() {
         if($("div#no_iscrizione").length) {
             let titolo="Operazione non completata",contenuto="Non ti sei ancora iscritto ad alcun corso!";
             $alert(titolo,contenuto);
         } else {
-            window.print();  
+            window.print();
         }
     });
 }
+
 $(document).ready(function() {
+    //gestore per la funzionalità per mandare in stampa la lista dei corsi a cui si è iscritto lo studente
     stampaCorsi();
+
     $("button#btnReset").click(function() {
         if($("div#no_iscrizione").length) {
             let titolo="Operazione non completata",contenuto="Non ti sei ancora iscritto ad alcun corso!";
@@ -40,7 +44,7 @@ $(document).ready(function() {
                         btnClass: "btn-success",
                         keys: ['enter'],
                         action: function() {
-                            resetPersona();   
+                            resetPersona();
                         }
                     },
                     cancel: {

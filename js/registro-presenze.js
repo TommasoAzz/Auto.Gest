@@ -2,7 +2,7 @@
 function richiestaCorsi() {
     const $scelta_corso=$("select#scelta_corso");
     $scelta_corso.html('');
-    $.post("/registro-presenze/getCorsi.php",function(result) {
+    $.post("/registro-presenze/script/getCorsi.php",function(result) {
         const datiDaServer=result.trim(); //ottengo i dati dal server
         if(datiDaServer !== "false") {
             var vCorsi=$.parseJSON(datiDaServer);
@@ -27,7 +27,7 @@ function checked(val_radio, presenza) {
 function richiestaStudenti(id) {
     const $table=$("tbody#tbody_gestCorso");
     $table.html('');
-    $.post("/registro-presenze/getStudenti.php",{id: id},function(result) {
+    $.post("/registro-presenze/script/getStudenti.php",{id: id},function(result) {
         const datiDaServer=result.trim(); //ottengo i dati dal server
         if(datiDaServer !== "false") {
             const vStudenti=$.parseJSON(datiDaServer);
@@ -47,7 +47,7 @@ function richiestaStudenti(id) {
                 rigaTab+="<td id='presenza_"+(i+1)+"'>"+radioPresenza+"</td>";
                 rigaTab+="<td id='id_iscr_"+(i+1)+"' style='width: 1px; display:none;'>"+vStudenti[i].ID_Iscrizione+"</td>";
                 rigaTab+="</tr>";
-                
+
                 $table.append(rigaTab);
             }
             $("input[checked='checked']").parent().addClass('active');;
@@ -87,15 +87,15 @@ $(document).ready(function() {
             richiestaStudenti(id_sessionecorso);
             $('div#divisorio, div#listaPersone').css('display','block');
         } else {
-            $('div#divisorio, div#listaPersone').css('display','none');  
+            $('div#divisorio, div#listaPersone').css('display','none');
         }
-    });  
+    });
 
     $("button#btnConferma").click(function() {
         //console.log("Premuto il pulsante di conferma.");
         const aggiornamenti = JSON.stringify(aggiornaDB());
-        
-        $.post("/registro-presenze/updateReg.php",{aggiornamenti: aggiornamenti},function(result){
+
+        $.post("/registro-presenze/script/aggiornaRegistro.php",{aggiornamenti: aggiornamenti},function(result){
             const statoUpdate=result.trim();
             if(statoUpdate === "registro-aggiornato") {
                 let titolo="Operazione completata",contenuto="Il registro è stato aggiornato con successo.";

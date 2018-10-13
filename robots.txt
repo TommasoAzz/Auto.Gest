@@ -3,7 +3,9 @@ Disallow: /css/
 Disallow: /js/
 Disallow: /amministrazione/
 Disallow: /registro-presenze/
-Disallow: /class/
+Disallow: /classi/
 Disallow: /fonts/
 Disallow: /iscrizione/
-Sitemap: https://autogestionekennedy.altervista.org/sitemap.xml
+Disallow: /modal/
+Disallow: /accesso/
+Sitemap: https://autoges.razzbe.it/sitemap.xml

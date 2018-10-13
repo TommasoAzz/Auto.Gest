@@ -1,16 +1,4 @@
 //___ FUNZIONI VARIE ___//
-
-function controlloPwd(psw) { //gestisce i messaggi di errore per validita' o meno della password
-    const pswLength=psw.trim().length;
-    if(pswLength > 0 && pswLength < 8) {
-		$("div#campo_psw, div#extCampo_psw").removeClass("has-success").addClass("has-error");
-        $("input#login_password").append("<label class='error' for='login_password' id='logerr'>La password deve essere lunga almeno 8 caratteri.</label>");
-	} else if(pswLength > 7) {
-		$("div#campo_psw, div#extCampo_psw").removeClass("has-error").addClass("has-success");
-        $("label#logerr").remove();
-	}
-}
-
 function controlloUtente(password,datiLogin) { //manda query per controllo password e dati utente
     const datiDaInviare={ //creo un oggetto con i dati da inviare tramite $.post()
         classe: datiLogin.classe,
@@ -19,20 +7,28 @@ function controlloUtente(password,datiLogin) { //manda query per controllo passw
         psw: password.trim()
     };
 
-    $.post("/login.php",datiDaInviare,function(result) { 
+    $.post("/accesso/login.php",datiDaInviare,function(result) {
         const risposta=result.trim();
         const $cPsw=$("div#campo_psw, div#extCampo_psw");
+        
+        //stringhe errore:
+        /*
+            - DATI INPUT: errore_db_dati_input (dati input potrebbero essere errati)
+            - ID PERSONA: errore_db_idpersona (errore nella connessione col db possibilmente)
+            - UTENTE ESISTENTE: utente_esistente (login effettuato)
+        */
 
         $('label#logerr').remove(); //reset dei messaggi di errore
-        if(risposta === "utente-esistente") {
-            let page_url=location.href;
+
+        if(risposta === "utente_esistente") {
+            const page_url=location.href;
             window.location = page_url; //equivalente a F5 (ricarica la pagina)
-        } else if(risposta === "password-errata") {
+        } else if(risposta === "errore_db_dati_input") {
             $cPsw.removeClass("has-success").addClass("has-error");
-            $cPsw.append("<label class='error' for='login_password' id='logerr'>La password che hai inserito non corrisponde ad alcun account.</label>");
-        } else {
+            $cPsw.append("<label class='error' for='login_password' id='logerr'>I dati che hai inserito sono errati (controlla soprattutto di aver digitato correttamente la password).</label>"); 
+        } else if(risposta === "errore_db_idpersona") {
             $cPsw.removeClass("has-success").addClass("has-error");
-            $cPsw.append("<label class='error' for='login_password' id='logerr'>C'è stato un errore nel tentativo di accesso. Riprova più tardi.</label>");
+            $cPsw.append("<label class='error' for='login_password' id='logerr'>Ci sono dei problemi nella comunicazione con il database.</label>"); 
         }
     });
 }
@@ -52,13 +48,16 @@ function recuperaDati(datiLogin) { //metodo che prende i dati dalle select per o
 function richiestaIndirizzi() { //richiesta degli indirizzi della scuola
 	const $indirizzo=$("select#indirizzo");
 	$indirizzo.html('');
-	$.post("/getIndirizzi.php",function(result) {
+	$.post("/accesso/getIndirizzi.php",function(result) {
 		$indirizzo.append("<option value=''></option>");
-        if(result !== "false") {
+        if(result === "errore_db_indirizzi") {
+            let titolo="Operazione non effettuata",contenuto="Ci sono stato dei problemi nel reperimento della lista degli indirizzi dell'Istituto. Riprovare più tardi.";
+            $alert(titolo,contenuto);
+        } else {
             const vInd=$.parseJSON(result); //vettore contenente gli indirizzi dell'Istituto
             for(let i=0,l=vInd.length;i<l;i++) {
                 //option: contiene gli elementi che verranno aggiunti alla select#indirizzo
-                let option=`<option value='${vInd[i].Indirizzo}'>${vInd[i].Indirizzo}</option>`;
+                let option=`<option value='${vInd[i]}'>${vInd[i]}</option>`;
                 $indirizzo.append(option);
             }
         }
@@ -68,7 +67,7 @@ function richiestaIndirizzi() { //richiesta degli indirizzi della scuola
 function richiestaClassi(datiLogin) { // richiesta delle classi dato l'indirizzo
     const $classe=$("select#classe");
     $classe.html('');
-    $.post("/getClassi.php",{indirizzo: datiLogin.indirizzo},function(result) {
+    $.post("/accesso/getClassi.php",{indirizzo: datiLogin.indirizzo},function(result) {
         $classe.append("<option value=''></option>");
         if(result !== "false") {
             const vCla=$.parseJSON(result); //vettore contenente le classi presenti per l'indirizzo selezionato
@@ -78,7 +77,7 @@ function richiestaClassi(datiLogin) { // richiesta delle classi dato l'indirizzo
                 $classe.append(option);
             }
         }
-    });   
+    });
 }
 
 //___ FUNZIONI PER LOGIN ESTERNI ___//
@@ -96,7 +95,7 @@ function extRecuperaDati(datiLogin) { //metodo che prende i dati dalle select pe
 function extRichiestaIndirizzi() { //richiesta delle provenienze (non per studenti)
 	const $extIndirizzo=$("select#extIndirizzo");
 	$extIndirizzo.html('');
-	$.post("/getEsterni.php",function(result) {
+	$.post("/accesso/getEsterni.php",function(result) {
 		$extIndirizzo.append("<option value=''></option>");
         if(result!="false") {
             const vPro=$.parseJSON(result); //vettore contenente gli indirizzi dell'Istituto
@@ -111,16 +110,16 @@ function extRichiestaIndirizzi() { //richiesta delle provenienze (non per studen
 
 $(document).ready(function() {
     //___ DATI DEL MODULO DI LOGIN ___//
-    
+
     var datiLogin = {
         "indirizzo": "",
         "classe": "",
         "sezione": ""
     } //oggetto
-    
+
     //___ GESTIONE LOGIN STUDENTI ___//
 
-    $("div#login").on("shown.bs.modal",function() { //metodi eseguiti all'apertura e chiusura del modal per l'accesso
+    $("div#login_interni").on("shown.bs.modal",function() { //metodi eseguiti all'apertura e chiusura del modal per l'accesso
         $("select#indirizzo,select#classe,input#login_password").prop('disabled',true);
         $("div#spiegazione,div#campo_indirizzo,div#campo_classe,div#campo_psw").fadeIn(); //animazione in ingresso dei menu
         $("div#spiegazione").css('display','block');
@@ -147,7 +146,7 @@ $(document).ready(function() {
 
     $("select#indirizzo").change(function() { //richiesta classi dato l'indirizzo e animazioni
         datiLogin=recuperaDati(datiLogin);
-        $("select#classe,input#login_password").html('').prop('disabled',true);  
+        $("select#classe,input#login_password").html('').prop('disabled',true);
         if(datiLogin.indirizzo !== "") {
             richiestaClassi(datiLogin); //popolamento select#classe e ottenimento lista classi dell'indirizzo scelto
             $("select#classe").prop('disabled',false); //riabilito il menu-tendina delle classi in quanto è caricato
@@ -162,15 +161,12 @@ $(document).ready(function() {
         } else $("input#login_password").prop('disabled',true);
     });
 
-    $("input#login_password").focusout(function() {
-        const psw=$(this).val();
-        controlloPwd(psw);//controllo validità password inserita
-    }).change(function() { //tolgo has-success / has-error se le ha
-        $("div#campo_psw").removeClass("has-success").removeClass("has-error");        
+    $("input#login_password").change(function() { //tolgo has-success / has-error se le ha
+        $("div#campo_psw").removeClass("has-success").removeClass("has-error");
     }).keypress(function(e) {
         if(e.which == 13) {
             const password=$(this).val();
-            controlloUtente(password,datiLogin);    
+            controlloUtente(password,datiLogin);
         }
     });
 
@@ -185,7 +181,7 @@ $(document).ready(function() {
 
     //___ GESTIONE LOGIN NON STUDENTI ___//
 
-    $("div#extLogin").on("shown.bs.modal",function() {
+    $("div#login_esterni").on("shown.bs.modal",function() {
         $("select#extIndirizzo,input#extLogin_password").prop('disabled',true);
         $("div#extSpiegazione,div#extCampo_indirizzo,div#extCampo_psw").fadeIn(); //animazione in ingresso dei menubar
         $("div#extSpiegazione").css('display','block');
@@ -214,7 +210,7 @@ $(document).ready(function() {
     $("select#extIndirizzo").change(function() { //richiesta cognomi e nomi data la provenienza e animazioni
         datiLogin=extRecuperaDati(datiLogin);
         $("input#extLogin_password").html('').prop('disabled',true);
-        if(datiLogin.indirizzo !== "") { 
+        if(datiLogin.indirizzo !== "") {
 			$("input#extLogin_password").prop('disabled',false); //riabilito il menu-tendina delle classi in quanto è caricato
 		} else $("input#extLogin_password").prop('disabled',true);
     });
@@ -222,12 +218,13 @@ $(document).ready(function() {
     $("input#extLogin_password").focusout(function() { //controllo validità password inserita
         const psw=$(this).val();
         controlloPwd(psw);//invio password al metodo per controllo
-    }).change(function() { //tolgo has-success / has-error se le ha
-        $("div#extCampo_psw").removeClass("has-success").removeClass("has-error");        
+    }).change(function() { 
+        $("div#extCampo_psw").removeClass("has-success").removeClass("has-error"); //tolgo has-success / has-error se le ha
+        $('label#logerr').remove(); //reset dei messaggi di errore
     }).keypress(function(e) {
         if(e.which == 13) {
             const password=$(this).val();
-            controlloUtente(password,datiLogin);    
+            controlloUtente(password,datiLogin);
         }
     });
 

@@ -1,9 +1,9 @@
 <?php
-    require_once "connectToDB.php";
-    require_once "classes.php";
+    require_once "connettiAlDB.php";
+    require_once "caricaClassi.php";
     Session::open();
-?>	
-<?  
+?>
+<?
     $selID_SessioneCorso = "SELECT I.ID_SessioneCorso AS SessioneCorso,I.ID_Iscrizione AS Iscrizione FROM Iscrizioni I INNER JOIN SessioniCorsi S ON S.ID_SessioneCorso=I.ID_SessioneCorso WHERE Ora=5";
 	$vSessioniCorsi=$db->queryDB($selID_SessioneCorso);
 	for($i=0,$l=sizeof($vSessioniCorsi);$i<$l;$i++) {
@@ -20,7 +20,7 @@
                 $updRegPresenze = "INSERT INTO RegPresenze (ID_Iscrizione,Presenza) VALUES (".$vSessioniCorsi[$i]['Iscrizione'].",1)";
 		        $query_fatta2=$db->queryDB($updRegPresenze);
             } else {
-                
+
             }
         }
 	}

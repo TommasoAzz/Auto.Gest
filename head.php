@@ -3,11 +3,11 @@
 <meta name='author' content='Tommaso Azzalin, azzalintommaso@gmail.com' />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 <?php
-	$info=Session::get("info");
+	$info = Session::get("info");
 
-	$pageName=substr($_SERVER["SCRIPT_NAME"],1);
-	$pageName=substr($pageName,0,strrpos($pageName,"/"));
-	$pageName=($pageName == "") ? "home" : $pageName;
+	$linkIntero = substr(GlobalVar::SERVER("SCRIPT_NAME"),1);
+	$pageName = substr($linkIntero,0,strrpos($linkIntero,"/"));
+	$pageName = ($pageName == "") ? "home" : $pageName;
 	switch($pageName) {
 		case "home":
 			$pageName = "Home";
@@ -37,7 +37,8 @@
 			$pageName = "Auto.Gest";
 			break;
 	}
-	echo "<title>".$pageName." - ".$info["titolo"]."</title>";
+
+	echo "<title>" . $pageName . " - " . $info["titolo"] . "</title>";
 ?>
 <link rel="shortcut icon" type="image/ico" href="/favicon.ico" />
 <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />

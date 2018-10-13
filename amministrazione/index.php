@@ -1,10 +1,11 @@
 <?php
-    require_once "../connectToDB.php";
-    require_once "../classes.php";
-    include_once "../getInfo.php";
-    Session::open();
-    $info=Session::get("info");
-    require_once "funzioni-amministrazione.php";
+require_once "../connettiAlDB.php";
+require_once "../caricaClassi.php";
+include_once "../getInfo.php";
+require_once "../funzioni.php";
+Session::open();
+$info = Session::get("info");
+$utente = Session::get("utente");
 ?>
 <html>
     <head>
@@ -14,20 +15,20 @@
     </head>
     <body>
     <div id="wrapper" class="clearfix"><!-- inizio wrapper -->
-    <!-- NAVBAR -->
-    <?php require_once "../switch_header.php"; ?>
     <!-- CONTROLLO ACCESSO -->
     <?php
         // PAGINA ACCESSIBILE SOLO DA UTENTI DI LIVELLO: 3
-        /*if(!isset($utente)) { 
-            header("Location: /");
-        } elseif($utente->getLivello() == 2) {
-            die("<script>location.href='/';</script>");
-        }*/
-        if(!isset($utente) || !($utente->getLivello() == 3)) {
-            header("Location: /");
-        }
+        
+        $livelliAmmessi = array(
+            1 => false, //livello studente
+            2 => false, //livello responsabile corso
+            3 => true //livello amministratore
+        );
+
+        controlloAccesso($db,$utente,$livelliAmmessi);
     ?>
+    <!-- NAVBAR -->
+    <?php require "../caricaHeader.php"; ?>
     <!-- BODY -->
     <div id="content" class="container">
         <!-- INTESTAZIONE PAGINA -->
@@ -38,53 +39,69 @@
                 <hr>
             </div>
         </div>
-        <!-- CORPO PAGINA --> 
+        <!-- CORPO PAGINA -->
+        <?php
+            /* ottengo lista altre attività */
+            $altreAttivita=getAltreAttivita($db);
+            /* righe di separazione fra un pannello e un altro */
+            const riga_soloMobile="<div class='col-xs-12 col-sm-12 hidden-md hidden-lg'><hr></div>";
+            const riga_noMobile="<div class='hidden-xs hidden-sm col-md-12 col-lg-12'><hr></div>";
+            const riga_tutti="<div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'><hr></div>"
+        ?>
         <div class="row" id="noPrint">
-            <?php include "pannelli/ricercaID_Persona.html"; ?>
+        <?php include "pannelli/ricercaID_Persona.html"; ?>     <!-- PANNELLO A -->
         </div>
         <div class="row" id="noPrint">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><hr></div>
+        <?php echo riga_tutti; ?>
         </div>
         <div class="row" id="noPrint">
-            <?php include "pannelli/resetIscrizioniByID.html"; ?>
-            <div class="col-xs-12 col-sm-12 hidden-md hidden-lg"><hr></div>
-            <?php include "pannelli/changePasswordByID.html"; ?>
+        <?php
+            include "pannelli/resetCorsiStudente.html"; //      <!-- PANNELLO B -->
+            echo riga_soloMobile;
+            include "pannelli/cambioPasswordUtente.html"; //    <!-- PANNELLO C -->
+        ?>
         </div>
         <div class="row" id="noPrint">
-            <div class="hidden-xs hidden-sm col-md-12 col-lg-12"><hr></div>
+        <?php echo riga_noMobile; ?>
         </div>
         <div class="row" id="noPrint">
-            <?php include "pannelli/corsiPersona.html"; ?>
-            <div class="col-xs-12 col-sm-12 hidden-md hidden-lg"><hr></div>
-            <?php include "pannelli/sessioniCorso.html"; ?>
+        <?php
+            include "pannelli/visualizzaCorsiStudente.html"; // <!-- PANNELLO D -->
+            echo riga_soloMobile;
+            include "pannelli/visualizzaSessioniCorso.html"; // <!-- PANNELLO E -->
+        ?>
         </div>
         <div class="row" id="noPrint">
-            <div class="hidden-xs hidden-sm col-md-12 col-lg-12"><hr></div>
+        <?php echo riga_noMobile; ?>
         </div>
         <div class="row" id="noPrint">
-            <?php include "pannelli/presenzeSessioneCorso.html"; ?>
-            <div class="col-xs-12 col-sm-12 hidden-md hidden-lg"><hr></div>
-            <?php include "pannelli/stampaLiberatoria.html"; ?>
+        <?php
+            include "pannelli/registroSessioneCorso.html"; //   <!-- PANNELLO F -->
+            echo riga_soloMobile;
+            include "pannelli/stampaLiberatoria.html"; //       <!-- PANNELLO G -->
+        ?>
         </div>
         <div class="row" id="noPrint">
-            <div class="hidden-xs hidden-sm col-md-12 col-lg-12"><hr></div>
+        <?php echo riga_noMobile; ?>
         </div>
         <div class="row" id="noPrint">
-            <?php include "pannelli/altreAttivita.php"; ?>
-            <div class="col-xs-12 col-sm-12 hidden-md hidden-lg"><hr></div>
-            <?php include "pannelli/modificaAltreAttivita.html"; ?>
+        <?php
+            include "pannelli/altreAttivita.html"; //           <!-- PANNELLO H -->
+            echo riga_soloMobile;
+            include "pannelli/modificaAltreAttivita.html"; //   <!-- PANNELLO I -->
+        ?>
         </div>
     </div>
     <!-- FOOTER -->
     <?php require_once "../footer.php"; ?>
     <!-- SESSIONI CORSO MODAL -->
-    <?php 
-        require_once "modal_sessioniCorso.php";
-        require_once "modal_corsi.php";
-        require_once "modal_presenzeSessione.php";
-        require_once "modal_listaAltreAttivita.php";
-        require_once "../modal_altreAttivita.php";
-        require_once "modal_stampaLiberatoria.php";
+    <?php
+        require_once "modal/sessioniCorso.php";
+        require_once "modal/corsiPersona.php";
+        require_once "modal/presenzeSession.php";
+        require_once "modal/listaAltreAttivita.php";
+        require_once "../modal/altreAttivita.php";
+        require_once "modal/stampaLiberatoria.php";
     ?>
     </div><!-- fine wrapper -->
     </body>
