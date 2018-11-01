@@ -33,16 +33,16 @@ if(isset($utente)) {
             if(isset($utente)) {
                 //seleziono la barra di navigazione in base al livello dell'utente
                 switch($utente->getLivello()) {
-                    case 1: require_once "header_studente.php"; //studente
+                    case 1: require_once "navbar_studente.php"; //studente
                         break;
-                    case 2: require_once "header_respcorso.php"; //responsabile corso
+                    case 2: require_once "navbar_respcorso.php"; //responsabile corso
                         break;
-                    case 3: require_once "header_admin.php"; //amministratore
+                    case 3: require_once "navbar_admin.php"; //amministratore
                         break;
                 }
             } else {
                 //seleziono la barra di navigazione base
-                require_once "header.php";
+                require_once "navbar.php";
             }    
         ?>
         </div>

@@ -8,7 +8,7 @@
                     $nome_oggetto->metodo()
 */
 
-class SessioneCorso {
+class SessioneCorso extends AutoGestDB {
     //attributi
     private $id; //identificativo della sessione del corso
     private $giorno; //giorno in cui si svolge il corso (numero della giornata)

@@ -4,7 +4,6 @@ require_once "../connettiAlDB.php";
 Session::open();
 
 if(GlobalVar::SERVER("REQUEST_METHOD")==="POST") {
-    header("Content-Type: text/html;charset=utf-8");
     $ind = GlobalVar::POST("indirizzo");
 
     $classi = getClassi($ind);

@@ -4,8 +4,8 @@
     include_once "getInfo.php";
     require_once "funzioni.php";
     Session::open();
-    $info=Session::get("info");
-    $utente=Session::get("utente");
+    $info = Session::get("info");
+    $utente = Session::get("utente");
 ?>
 <html>
     <head>
@@ -17,17 +17,17 @@
     <div id="wrapper" class="clearfix"><!-- inizio wrapper -->
     <!-- NAVBAR -->
     <?php
-        require_once "caricaHeader.php";
+        require_once "caricaNavbar.php";
         //scelta pulsante per Jumbotron -> viene inserito nel div.jumbotron
         if(!isset($utente)) {
-            $button="<p class='text-center'><a class='btn btn-primary btn-lg' href='#login_interni' data-toggle='modal' role='button'>Accedi al sito</a></p>";
+            $button = "<p class='text-center'><a class='btn btn-primary btn-lg' href='#login_interni' data-toggle='modal' role='button'>Accedi al sito</a></p>";
         } else {
             switch($utente->getLivello()) {
-                case 1: $button="<p class='text-center'><a class='btn btn-primary btn-lg' href='".getURL("/iscrizione/")."'>Iscriviti qui</a></p>";
+                case 1: $button = "<p class='text-center'><a class='btn btn-primary btn-lg' href='" . getURL("/iscrizione/") . "'>Iscriviti qui</a></p>";
                     break; //studente
-                case 2: $button="<p class='text-center'><a class='btn btn-primary btn-lg' href='".getURL("/registro-presenze/")."'>Gestisci il tuo corso</a></p>";
+                case 2: $button = "<p class='text-center'><a class='btn btn-primary btn-lg' href='" . getURL("/registro-presenze/") . "'>Gestisci il tuo corso</a></p>";
                     break;
-                case 3: $button="<p class='text-center'><a class='btn btn-primary btn-lg' href='".getURL("/amministrazione/")."'>Amministra l'evento</a></p>";
+                case 3: $button = "<p class='text-center'><a class='btn btn-primary btn-lg' href='" . getURL("/amministrazione/") . "'>Amministra l'evento</a></p>";
                     break;
             }
         }
