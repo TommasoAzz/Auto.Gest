@@ -5,10 +5,10 @@
 */
 
 //___ FUNZIONI VARIE ___//
-function setCookie(cName,cVal,durata/* in giorni */) {
-    var d = new Date();
+function setCookie(cName, cVal, durata/* in giorni */) {
+    let d = new Date();
     d.setTime(d.getTime() + (durata*24*60*60*1000));
-    const scadenza = "expires="+ d.toUTCString();
+    const scadenza = "expires=" + d.toUTCString();
     document.cookie = cName + "=" + cVal + ";" + scadenza + ";path=/";
 }
 
@@ -16,23 +16,27 @@ function getCookie(nomeCookie) { //restituisce contenuto cookie passato come par
     const nome = nomeCookie + "=";
     const decodedCookie = decodeURIComponent(document.cookie); //recupero dei cookie dal browser
     const vCookie = decodedCookie.split(";"); //vettore dei cookie
+
     for(let i=0,l=vCookie.length;i<l;i++) {
-        var biscotto = vCookie[i];
-        while(biscotto.charAt(0) == ' ') biscotto=biscotto.substring(1);
-        if(biscotto.indexOf(nome) === 0) return biscotto.substring(nome.length,biscotto.length);
+        let biscotto = vCookie[i];
+        while(biscotto.charAt(0) == ' ') biscotto = biscotto.substring(1);
+        if(biscotto.indexOf(nome) === 0) return biscotto.substring(nome.length, biscotto.length);
     }
+
     return "";
 }
 
 function reverseString(str) { //rovescia e restituisce stringa passata come parametro
-    var rev=""; //variabile contenente la stringa rovesciata
-    for(let i=(str.length-1);i>=0;i--) rev+=str.charAt(i);
+    let rev = ""; //variabile contenente la stringa rovesciata
+
+    for(let i = (str.length-1); i >= 0; i--) rev += str.charAt(i);
+
     return rev;
 } //rimovibile
 
 function gestioneNavbar() { //controlla la pagina e attiva menu diversamente
     // Riconoscimento pagina
-    var pagina = window.location;
+    const pagina = window.location;
     $('.nav > li > a[href="'+pagina+'"]').parent().addClass('active');
     $('.nav > li > a').mouseenter(function() {
         $(this).parent().addClass('active');
