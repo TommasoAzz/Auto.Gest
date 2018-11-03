@@ -26,7 +26,7 @@
         controlloAccesso($db,$utente,$livelliAmmessi);
     ?>
     <!-- NAVBAR -->
-    <?php require "../caricaHeader.php"; ?>
+    <?php require "../caricaNavbar.php"; ?>
     <?php
         //pagina si deve aprire solo quando c'è stato un errore
         if(!Session::is_set("errIscrizione")) die("<script>location.href='/';</script>");

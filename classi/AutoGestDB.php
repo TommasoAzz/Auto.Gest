@@ -9,19 +9,19 @@
                     NomeClasse::metodo()
 */
 class AutoGestDB {
-    public const AltreAttivita = array(
-        "ID" => 9, //int
+    const AltreAttivita = array(
+        "ID" => 1, //int
         "Lista" => 65535 //string
     );
 
-    public const Classi = array(
+    const Classi = array(
         "ID_Classe" => 999, //int
         "Classe" => 1, //string
         "Sezione" => 1, //string
         "Indirizzo" => 30 //string
     );
 
-    public const Corsi = array(
+    const Corsi = array(
         "ID_Corso" => 999, //int
         "Nome" => 60, //string
         "Aula" => 30, //string
@@ -29,15 +29,15 @@ class AutoGestDB {
         "MaxPosti" => 9999 //int
     );
 
-    public const DateEvento = array(
+    const DateEvento = array(
         "ID_DataEvento" => 9, //int
         "Giorno" => 2, //string
         "Mese" => 10, //string
         "Anno" => 4 //string
     );
 
-    public const InfoEvento = array(
-       "ID" => 9, //int
+    const InfoEvento = array(
+       "ID" => 1, //int
        "Titolo" => 30, //string
        "Durata" => 9, //int
        "PeriodoSvolgimento" => 255, //string
@@ -50,13 +50,13 @@ class AutoGestDB {
        "Istituto" => 100 //string
     );
 
-    public const Iscrizioni = array(
+    const Iscrizioni = array(
         "ID_Iscrizione" => 999999, //int
         "ID_Studente" => 99999, //int
         "ID_SessioneCorso" => 999999 //int
     );
 
-    public const Persone = array(
+    const Persone = array(
         "ID_Persona" => 99999, //int
         "Nome" => 30, //string
         "Cognome" => 30, //string
@@ -67,13 +67,13 @@ class AutoGestDB {
         "Livello" => 3 //int (1 studente - 2 responsabile corso - 3 amministratore)
     );
 
-    public const RegPresenze = array(
+    const RegPresenze = array(
         "ID_RegPresenze" => 9999999999, //int
         "ID_Iscrizione" => 999999, //int
         "Presenza" => 2 //int (0 assente - 1 presente - 2 ritardo)
     );
 
-    public const SessioniCorsi = array(
+    const SessioniCorsi = array(
         "ID_SessioneCorso" => 999999, //int
         "Giorno" => 9, //int
         "Ora" => 9, //int
@@ -82,7 +82,7 @@ class AutoGestDB {
         "ID_Responsabile" => 99999 //int
     );
 
-    public const TentativiLogin = array(
+    const TentativiLogin = array(
         "ID" => 99999999999, //int
         "ID_Persona" => 99999, //int
         "Tempo" => 30 //string

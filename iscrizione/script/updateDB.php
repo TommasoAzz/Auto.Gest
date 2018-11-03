@@ -43,9 +43,9 @@ if(GlobalVar::SERVER("REQUEST_METHOD")==="POST") {
         }
 
         //-- RICHIESTA della DURATA del CORSO >>>> $durata
-        $datiCorso = getDatiCorso($db, $sc->corso->getNome());
+        $datiCorso = getDatiCorsi($db, "nome", $sc->corso->getNome());
         //se qualcosa va male
-        if($datiCorso === "errore_db_dati_corso") throw new Exception("errore_db_durata_corso"); //cambio la stringa di errore per una maggiore comprensione in caso di errore
+        if($datiCorso === "errore_db_nome_corso") throw new Exception("errore_db_durata_corso"); //cambio la stringa di errore per una maggiore comprensione in caso di errore
         else {
             $sc->corso->setDurata($datiCorso["Durata"]);
             unset($datiCorso);

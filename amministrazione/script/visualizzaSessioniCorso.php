@@ -6,12 +6,12 @@ require_once "../../funzioni.php";
 if(GlobalVar::SERVER("REQUEST_METHOD")==="POST") {
     $nomeC = GlobalVar::POST("nomeCorso");
 
-    $datiCorso = getDatiCorso($db,$db->escape($nomeC));
+    $datiCorso = getDatiCorsi($db,"nome",$db->escape($nomeC));
 
-    if($datiCorso === "errore_db_dati_corso") echo $datiCorso;
+    if($datiCorso === "errore_db_nome_corso") echo $datiCorso;
     else {
-        $id = $datiCorso[0]["ID_Corso"];
-        $sessioniCorso = getSessioniCorso($db,$id);
+        $id = intval($datiCorso["ID_Corso"]);
+        $sessioniCorso = getSessioniCorso($db, $id);
 
         if($sessioniCorso === "errore_db_sessioni_corso") echo $sessioniCorso;
         else {

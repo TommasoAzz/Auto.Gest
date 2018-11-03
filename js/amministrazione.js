@@ -112,7 +112,7 @@ function getListaCorsi() {
     $select.html("");
     $.post("/amministrazione/script/getListaCorsi.php", function(result) {
         const datiDaServer = result.trim(); //ottengo i dati dal server
-        if(datiDaServer === "errore_db_corsi") {
+        if(datiDaServer === "errore_db_lista_corsi") {
             let titolo = "Attenzione", contenuto = "C'è stato un problema nel caricamento della lista dei corsi per il <strong>Pannello E</strong>";
             $alert(titolo, contenuto);
         } else {
@@ -127,7 +127,7 @@ function visualizzaSessioniCorso(nomeC) {
     const $tbody = $("tbody#tSessioniCorso");
     $tbody.html("");
     $.post("/amministrazione/script/visualizzaSessioniCorso.php", {nomeCorso: nomeC}, function(result) {
-        if(result.trim() === "errore_db_dati_corso" || result.trim() === "errore_db_sessioni_corso") {
+        if(result.trim() === "errore_db_nome_corso" || result.trim() === "errore_db_sessioni_corso") {
             let titolo = "Errore", contenuto = "C'è stato un errore nell'elaborazione dei dati.";
             $alert(titolo, contenuto);
         } else {

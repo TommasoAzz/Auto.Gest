@@ -2,13 +2,16 @@
 require_once "../../caricaClassi.php";
 require_once "../../connettiAlDB.php";
 require_once "../../funzioni.php";
+Session::open();
 
 if(GlobalVar::SERVER("REQUEST_METHOD")==="POST") {
-    $dateEvento = getDateEvento($db);
+    $giorno = GlobalVar::POST("giorno");
 
-    if($dateEvento === "errore_db_date_evento") echo $dateEvento;
+    $elencoOre = getElencoOre($db, ($giorno == "") ? 0 : intval($giorno));
+    
+    if($elencoOre === "errore_db_elenco_ore") echo $elencoOre;
     else {
-        $jsonData = json_encode($dateEvento);
+        $jsonData = json_encode($elencoOre);
         echo $jsonData;
     }
 } else {

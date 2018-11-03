@@ -4,11 +4,11 @@ require_once "../../connettiAlDB.php";
 require_once "../../funzioni.php";
 
 if(GlobalVar::SERVER("REQUEST_METHOD")==="POST") {
-    $corsi=getListaCorsi($db);
+    $corsi = getDatiCorsi($db);
 
-    if($corsi === "errore_db_corsi") echo $corsi;
+    if($corsi === "errore_db_lista_corsi") echo $corsi;
     else {
-        $jsonData=json_encode($corsi);
+        $jsonData = json_encode($corsi);
         echo $jsonData;
     } 
 } else {

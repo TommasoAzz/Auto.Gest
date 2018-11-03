@@ -10,18 +10,16 @@ function richiestaGiorni() {
     const $scelta_giorno = $("select#scelta_giorno");
     $scelta_giorno.html("");
     $.post("/tutti-i-corsi/script/getGiorni.php", function(result) {
-        const datiDaServer = result.trim(); //ottengo i dati dal server
+        result = result.trim(); //ottengo i dati dal server
 
-        if(datiDaServer === "errore_db_date_evento") {
+        if(result === "errore_db_date_evento") {
             let titolo = "Operazione non effettuata", contenuto = "Non è stato possibile reperire le date dell'evento dal database.";
             $alert(titolo, contenuto);
         } else {
-            const dati = JSON.parse(datiDaServer);
-            for(let i = 0, l = dati.length; i < l; i++) {
-                //option: contiene la option della select generata - variabile contenente il valore della giornata (formato gg)
-                let option = `<option value='${(i+1)}' id='giorno_opt${(i+1)}'>${dati[i].Giorno}`+" "+`${dati[i].Mese}</option>`; //lasciare la concatenazione di stringhe perché il minify toglie lo spazio
-                $scelta_giorno.append(option);
-            }
+            const dati = JSON.parse(result);
+
+            for(let i = 0, l = dati.length; i < l; i++) 
+                $scelta_giorno.append(`<option value='${(i+1)}' id='giorno_opt${(i+1)}'>${dati[i].Giorno}&nbsp;${dati[i].Mese}</option>`);
         }
     });
 }
@@ -31,18 +29,16 @@ function richiestaOre(giorno_ora) {
     const $scelta_ora = $("select#scelta_ora");
     $scelta_ora.html("");
     $.post("/tutti-i-corsi/script/getElencoOre.php", {giorno: giorno_ora.giorno}, function(result) {
-        const datiDaServer = result.trim(); //ottengo i dati dal server
+        result = result.trim(); //ottengo i dati dal server
 
-        if(datiDaServer === "errore_db_elenco_ore") {
-            let titolo = "Operazione non effettuata", contenuto="Non è stato possibile l'elenco delle ore della giornata.";
+        if(result === "errore_db_elenco_ore") {
+            let titolo = "Operazione non effettuata", contenuto = "Non è stato possibile reperire l'elenco delle ore della giornata selezionata.";
             $alert(titolo, contenuto);
         } else {
-            const vOre = JSON.parse(datiDaServer);
-            for(let i = 0, l = vOre.length; i < l; i++) {
-                //option: contiene la option della select generata
-                let option=`<option value='${vOre[i].Ora}'>${vOre[i].Ora}°</option>`;
-                $scelta_ora.append(option);
-            }
+            const vOre = JSON.parse(result);
+
+            for(let i = 0, l = vOre.length; i < l; i++)
+                $scelta_ora.append(`<option value='${vOre[i].Ora}'>${vOre[i].Ora}°</option>`);
         }
     });
 }
@@ -52,35 +48,36 @@ function aggiornaLista(gg_hh) {
     const $tbody = $("tbody#tbody");
     $tbody.html('');
     $.post("/tutti-i-corsi/script/getListaCorsi.php", {giorno: gg_hh.giorno,ora: gg_hh.ora}, function(result) {
-        const datiDaServer = result.trim(); //ottengo i dati dal server
-        if(datiDaServer === "errore_db_lista_corsi") {
-            let riga="<tr><td>Non sono rimasti corsi disponibili.</td><td></td><td></td><td></td><td></td></tr>";
-            $tbody.append(riga);
+        result = result.trim(); //ottengo i dati dal server
+        if(result === "errore_db_lista_corsi") {
+            $tbody.append("<tr><td>Non sono rimasti corsi disponibili.</td><td></td><td></td><td></td><td></td></tr>");
         } else {
             //non è valore booleano perchè non viene effettuato parsing
-            const vCorsi = JSON.parse(datiDaServer);
+            const vCorsi = JSON.parse(result);
 
             for(let i = 0, l = vCorsi.length; i < l; i++) {
                 //creazione e aggiunta riga alla tabella
                 if(vCorsi[i].PostiRimasti > 0) { //aggiungo alla lista solo i corsi che hanno da 1 posto in su
-                    let riga = "<tr>"; //inizializzo la riga
-                    riga += `<td id='corso_${i}'>${vCorsi[i].Nome}</td>`;
-                    riga += `<td id='aula_${i}'>${vCorsi[i].Aula}</td>`;
-                    riga += `<td id='durata_${i}'>${vCorsi[i].Durata}</td>`;
-                    riga += `<td id='pTotali_${i}'>${vCorsi[i].PostiTotali}</td>`;
-                    riga += `<td id='pRimasti_${i}'>${vCorsi[i].PostiRimasti}</td>`;
-                    riga += "</tr>";
-                    $tbody.append(riga); //aggiunta riga alla tabella
+                    $tbody.append(
+                        "<tr>" +
+                        `<td id='corso_${i}'>${vCorsi[i].Nome}</td>` +
+                        `<td id='aula_${i}'>${vCorsi[i].Aula}</td>` +
+                        `<td id='durata_${i}'>${vCorsi[i].Durata}</td>` +
+                        `<td id='pTotali_${i}'>${vCorsi[i].PostiTotali}</td>` +
+                        `<td id='pRimasti_${i}'>${vCorsi[i].PostiRimasti}</td>` +
+                        "</tr>"
+                    );
 
                     //controllo contenuto tabella
-                    const pTotali = parseInt($("td#pTotali_"+i).html()); //ottengo posti totali corso
-                    const pRimasti = parseInt($("td#pRimasti_"+i).html()); //ottengo posti rimasti corso
+                    const pTotali = parseInt(vCorsi[i].PostiTotali);
+                    const pRimasti = parseInt(vCorsi[i].PostiRimasti);
 
-                    $("td#corso_"+i).parent().removeClass("warning danger"); //rimuovo classi
+                    $("td#corso_"+i).parent().removeClass("warning danger"); //rimuovo classi "decorative"
                     if(pRimasti < pTotali) { //controllo posti
-                        //se posti rimasti inferiori alla metà: riga colore giallo
+                        //se posti rimasti inferiori ad 1/3: riga colore rosso
                         if(pRimasti <= (pTotali/3)) $("td#corso_"+i).parent().addClass("danger");
-                        //se posti rimasti inferiori a un terzo: riga colore rosso
+
+                        //se posti rimasti inferiori alla metà ma superiori di 1/3: riga colore giallo
                         else if(pRimasti <= (pTotali/2)) $("td#corso_"+i).parent().addClass("warning");
                     }
                 }
