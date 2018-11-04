@@ -37,7 +37,9 @@ function reverseString(str) { //rovescia e restituisce stringa passata come para
 function gestioneNavbar() { //controlla la pagina e attiva menu diversamente
     // Riconoscimento pagina
     const pagina = window.location;
+
     $('.nav > li > a[href="'+pagina+'"]').parent().addClass('active');
+    
     $('.nav > li > a').mouseenter(function() {
         $(this).parent().addClass('active');
     }).mouseleave(function() {

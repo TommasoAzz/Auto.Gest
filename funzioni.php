@@ -32,7 +32,7 @@ function getURL($pagina) {
 
     $url .= GlobalVar::SERVER("SERVER_NAME");
 
-    if(GlobalVar::SERVER("SERVER_PORT") != "80") {
+    if(GlobalVar::SERVER("SERVER_PORT") != "80" && GlobalVar::SERVER("SERVER_PORT") != "443") {
         $url .= ":" . GlobalVar::SERVER("SERVER_PORT");
     }
 
