@@ -1,7 +1,7 @@
 //funzione di aggiornamento variabili globali (giorno e ora)
 function aggiornaDati(gg_hh) {
-    gg_hh.giorno = $("select#scelta_giorno").val();
-    gg_hh.ora = $("select#scelta_ora").val();
+    gg_hh.giorno = parseInt($("select#scelta_giorno").val());
+    gg_hh.ora = parseInt($("select#scelta_ora").val());
     return gg_hh;
 }
 
@@ -25,10 +25,10 @@ function richiestaGiorni() {
 }
 
 //richiesta delle ore di lezione in cui puoi iniziare un corso
-function richiestaOre(giorno_ora) {
+function richiestaOre(gg_hh) {
     const $scelta_ora = $("select#scelta_ora");
     $scelta_ora.html("");
-    $.post("/tutti-i-corsi/script/getElencoOre.php", {giorno: giorno_ora.giorno}, function(result) {
+    $.post("/tutti-i-corsi/script/getElencoOre.php", {giorno: gg_hh.giorno}, function(result) {
         result = result.trim(); //ottengo i dati dal server
 
         if(result === "errore_db_elenco_ore") {
@@ -47,14 +47,14 @@ function richiestaOre(giorno_ora) {
 function aggiornaLista(gg_hh) {
     const $tbody = $("tbody#tbody");
     $tbody.html('');
-    $.post("/tutti-i-corsi/script/getListaCorsi.php", {giorno: gg_hh.giorno,ora: gg_hh.ora}, function(result) {
+    $.post("/tutti-i-corsi/script/getListaCorsi.php", {giorno: gg_hh.giorno, ora: gg_hh.ora}, function(result) {
         result = result.trim(); //ottengo i dati dal server
-        if(result === "errore_db_lista_corsi") {
+        if(result === "errore_db_lista_corsi" || result === "errore_db_sessione_corso") {
             $tbody.append("<tr><td>Non sono rimasti corsi disponibili.</td><td></td><td></td><td></td><td></td></tr>");
         } else {
             //non è valore booleano perchè non viene effettuato parsing
             const vCorsi = JSON.parse(result);
-
+            console.log(vCorsi);
             for(let i = 0, l = vCorsi.length; i < l; i++) {
                 //creazione e aggiunta riga alla tabella
                 if(vCorsi[i].PostiRimasti > 0) { //aggiungo alla lista solo i corsi che hanno da 1 posto in su
@@ -68,17 +68,14 @@ function aggiornaLista(gg_hh) {
                         "</tr>"
                     );
 
-                    //controllo contenuto tabella
-                    const pTotali = parseInt(vCorsi[i].PostiTotali);
-                    const pRimasti = parseInt(vCorsi[i].PostiRimasti);
-
                     $("td#corso_"+i).parent().removeClass("warning danger"); //rimuovo classi "decorative"
-                    if(pRimasti < pTotali) { //controllo posti
+
+                    if(vCorsi[i].PostiRimasti < vCorsi[i].PostiTotali) { //controllo posti
                         //se posti rimasti inferiori ad 1/3: riga colore rosso
-                        if(pRimasti <= (pTotali/3)) $("td#corso_"+i).parent().addClass("danger");
+                        if(vCorsi[i].PostiRimasti <= (vCorsi[i].PostiTotali/3)) $("td#corso_"+i).parent().addClass("danger");
 
                         //se posti rimasti inferiori alla metà ma superiori di 1/3: riga colore giallo
-                        else if(pRimasti <= (pTotali/2)) $("td#corso_"+i).parent().addClass("warning");
+                        else if(vCorsi[i].PostiRimasti <= (vCorsi[i].PostiTotali/2)) $("td#corso_"+i).parent().addClass("warning");
                     }
                 }
             }

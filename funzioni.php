@@ -229,6 +229,7 @@ function getDatiCorsi($db, $condizione = null/* id/nome */, $dato = null/*dato i
         $corsi = $db->queryDB("SELECT * FROM Corsi ORDER BY Nome ASC");
         
         if(!$corsi) $corsi = "errore_db_lista_corsi";
+        
     } elseif($condizione === "id" && $dato !== null && gettype($dato) === "integer") {
         $corsi = $db->queryDB("SELECT * FROM Corsi WHERE ID_Corso=$dato");
 
@@ -244,9 +245,18 @@ function getDatiCorsi($db, $condizione = null/* id/nome */, $dato = null/*dato i
     return $corsi;
 } //RESTITUITO: array con lista completa corsi ($condizione e $dato sono null), array con dati corso ($condizione e $dato non sono null e sono rispettivamente "nome" e un valore string oppure "id" e un valore integer) oppure un messaggio di errore. Viene interrogato il database.
 
-function getSessioniCorso($db, $idCorso) { 
-    $sc = $db->queryDB("SELECT Giorno, Ora, PostiRimasti, ID_SessioneCorso FROM SessioniCorsi WHERE ID_Corso=$idCorso ORDER BY Giorno, Ora");
+function getSessioniCorso($db, $idCorso, $giorno = 0, $ora = 0) {
+    $query = "";
 
+    if($giorno === 0 && $ora === 0)
+        $query = "SELECT Giorno, Ora, PostiRimasti, ID_SessioneCorso FROM SessioniCorsi WHERE ID_Corso=$idCorso ORDER BY Giorno, Ora";
+    elseif($giorno > 0 && $ora === 0)
+        $query = "SELECT Giorno, Ora, PostiRimasti, ID_SessioneCorso FROM SessioniCorsi WHERE ID_Corso=$idCorso AND Giorno=$giorno ORDER BY Ora";
+    elseif($giorno > 0 && $ora > 0)
+        $query = "SELECT Giorno, Ora, PostiRimasti, ID_SessioneCorso FROM SessioniCorsi WHERE ID_Corso=$idCorso AND Giorno=$giorno AND Ora=$ora";
+
+    $sc = $db->queryDB($query);
+        
     if(!$sc) return "errore_db_sessione_corso";
 
     return $sc;

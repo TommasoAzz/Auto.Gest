@@ -16,7 +16,7 @@
     <body>
     <div id="wrapper" class="clearfix"><!-- inizio wrapper -->
     <!-- NAVBAR -->
-    <?php require_once "../caricaHeader.php"; ?>
+    <?php require_once "../caricaNavbar.php"; ?>
     <!-- BODY -->
     <div id="content" class="container">
         <!-- INTESTAZIONE PAGINA -->
