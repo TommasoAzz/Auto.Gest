@@ -174,8 +174,15 @@ function inizializzaUtente($db, $ID_Persona) {
     return $utente;
 } //RESTITUITO: oggetto di classe Utente se l'interrogazione è andata a buon fine, false altrimenti. Viene interrogato il database.
 
+function cifraPassword($stringa) { // !!!
+    $s_cifrata = md5($stringa); //ASSOLUTAMENTE da cambiare (temporaneo)
+
+    return $s_cifrata;
+}
+
 function login($db, $cl, $s, $ind, $postPass) {
-    $id_persona = $db->queryDB("SELECT ID_Persona FROM Persone P INNER JOIN Classi C ON P.ID_Classe=C.ID_Classe WHERE Classe='".$cl."' AND Sezione='".$s."' AND Indirizzo='".$ind."' AND Pwd='".$postPass."'");
+    $password = cifraPassword($postPass);
+    $id_persona = $db->queryDB("SELECT ID_Persona FROM Persone P INNER JOIN Classi C ON P.ID_Classe=C.ID_Classe WHERE Classe='".$cl."' AND Sezione='".$s."' AND Indirizzo='".$ind."' AND Pwd='".$password."'");
     if(!$id_persona) return "errore_db_dati_input";
 
     $id = intval($id_persona[0]["ID_Persona"]);
@@ -186,7 +193,7 @@ function login($db, $cl, $s, $ind, $postPass) {
 
     //controllo del login
     $browser = GlobalVar::SERVER("HTTP_USER_AGENT"); //browser in uso
-    Session::set("login", hash('sha512', $postPass.$browser));
+    Session::set("login", hash('sha512', $password.$browser));
 
     return "utente_esistente";
 } //RESTITUITO: "utente_esistente" se il login è stato effettuato, "errore_db_idpersona" se l'id è non trovato, "errore_db_dati_input" se i dati input non corrispondono. Viene interrogato il database.

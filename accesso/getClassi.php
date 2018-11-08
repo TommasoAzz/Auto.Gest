@@ -1,19 +1,13 @@
 <?php
 require_once "../caricaClassi.php";
 require_once "../connettiAlDB.php";
-Session::open();
+require_once "../funzioni.php";
 
-if(GlobalVar::SERVER("REQUEST_METHOD")==="POST") {
-    $ind = GlobalVar::POST("indirizzo");
+if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST") header("Location: ../");
 
-    $classi = getClassi($ind);
+$ind = $db->escape(GlobalVar::POST("indirizzo"));
 
-    if($classi === "errore_db_classi_istituto") echo $classi;
-    else {
-        $jsonData = json_encode($classi);
-        echo $jsonData;
-    }
-} else {
-    header("Location: ../");
-}
-?>
+$classi = getClassi($db, $ind);
+
+if($classi === "errore_db_classi_istituto") echo $classi;
+else echo json_encode($classi);

@@ -3,15 +3,9 @@ require_once "../caricaClassi.php";
 require_once "../connettiAlDB.php";
 require_once "../funzioni.php";
 
-if(GlobalVar::SERVER("REQUEST_METHOD")==="POST") {
-    $esterni = getEsterni($db);
+if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST") header("Location: ../");
 
-    if($esterni === "errore_db_esterni") echo $esterni;
-    else {
-        $jsonData = json_encode($esterni);
-        echo $jsonData;
-    }
-} else {
-    header("Location: ../");
-}
-?>
+$esterni = getEsterni($db);
+
+if($esterni === "errore_db_esterni") echo $esterni;
+else echo json_encode($esterni);

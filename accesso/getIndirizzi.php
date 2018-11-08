@@ -3,15 +3,9 @@ require_once "../caricaClassi.php";
 require_once "../connettiAlDB.php";
 require_once "../funzioni.php";
 
-if(GlobalVar::SERVER("REQUEST_METHOD")==="POST") {
-    $indirizzi = getIndirizzi($db);
+if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST") header("Location: ../");
 
-    if($indirizzi === "errore_db_indirizzi") echo $indirizzi;
-    else {
-        $jsonData = json_encode($indirizzi);
-        echo $jsonData;
-    }
-} else {
-    header("Location: ../");
-}
-?>
+$indirizzi = getIndirizzi($db);
+
+if($indirizzi === "errore_db_indirizzi") echo $indirizzi;
+else echo json_encode($indirizzi);
