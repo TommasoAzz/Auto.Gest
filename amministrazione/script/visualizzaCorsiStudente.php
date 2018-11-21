@@ -10,13 +10,13 @@ if(GlobalVar::SERVER("REQUEST_METHOD")==="POST") {
     try {
         $numGiorni=getNumGiorni($db);
         
-        if($numGiorni === "errore_db_giorni") throw new Exception($numGiorni); //restituisco il messaggio di errore
+        if($numGiorni === "errore_db_numero_giorni") throw new Exception($numGiorni); //restituisco il messaggio di errore
         
         $corsi_giorno=array();
         
         for($i=0;$i<$numGiorni;$i++) {
-            $corsi_giorno[$i]=getCorsiGiorno($db,$ID_Persona,$i+1);
-            if($corsi_giorno[$i] === "errore_db_corsi_iscritti_giorno") throw new Exception($corsi_giorno[$i]);
+            $corsi_giorno[$i]=getCorsiStudente($db,$ID_Persona,$i+1);
+            if($corsi_giorno[$i] === "errore_db_corsi_iscritti_studente") throw new Exception($corsi_giorno[$i]);
         }
 
         //formato array restituito: $corsi_giorno[giorno-1][ora-1]["campo_tabella_db"]

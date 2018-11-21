@@ -45,4 +45,3 @@ class GlobalVar {
         return filter_input(INPUT_COOKIE,$key);
     }
 }
-?>

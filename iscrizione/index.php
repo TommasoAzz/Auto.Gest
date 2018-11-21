@@ -4,8 +4,8 @@
     include_once "../getInfo.php";
     require_once "../funzioni.php";
     Session::open();
-    $info=Session::get("info");
-    $utente=Session::get("utente");
+    $info = Session::get("info");
+    $utente = Session::get("utente");
 ?>
 <html>
     <head>
@@ -24,43 +24,38 @@
             3 => true //livello amministratore
         );
 
-        controlloAccesso($db,$utente,$livelliAmmessi);
+        controlloAccesso($db, $utente, $livelliAmmessi);
     ?>
     <!-- NAVBAR -->
-    <?php require "../caricaHeader.php"; ?>
+    <?php require "../caricaNavbar.php"; ?>
     
     <!-- REPERIMENTO DATI -->
     <?php
         // recupero giorno di iscrizione da cui partire
-        $nGiorno=getGiornoDaIscriversi($db,$utente);
+        $nGiorno = getGiornoDaIscriversi($db, $utente);
 
         if(/* 1 */ $nGiorno === "errore_db_giorno_iscrizione" || /* 2 */$nGiorno === "fine_iscrizione") {
             //eseguito nel caso (1) se c'è stato un errore con la comunicazione al db
             //eseguito nel caso (2) se l'utente ha terminato il processo di iscrizione per intero
-            /* processo di comunicazione errore */
-            Session::set("errIscrizione",$nGiorno);
-            die("<script>location.href='iscrizione.php';</script>"); //provare a usare header()
-        } else { //se non assume quei valori lì allora è un numero intero e posso convertirlo
-            $nGiorno=intval($nGiorno);
+            Session::set("errIscrizione", $nGiorno);
+            die("<script>location.href = 'iscrizione.php';</script>"); //provare a usare header() !!!
         }
 
         // recupero ora di iscrizione da cui partire nel giorno $nGiorno
-        $nOra=getOraDaIscriversi($db,$utente,$nGiorno);
+        $nOra = getOraDaIscriversi($db, $utente, $nGiorno);
 
         if($nOra === "errore_db_ora_iscrizione") { //eseguito in caso di errore
-            Session::set("errIscrizione",$nOra);
-            die("<script>location.href='iscrizione.php';</script>");
-        } else { //se non assume quel valori lì allora è un numero intero e posso convertirlo
-            $nOra=intval($nOra);
+            Session::set("errIscrizione", $nOra);
+            die("<script>location.href = 'iscrizione.php';</script>");
         }
 
         // recupero delle altre attività, se ce ne sono
-        $altreAttivita=getAltreAttivita($db);
+        $altreAttivita = getAltreAttivita($db);
 
         // recupero del sottotitolo da inserire nella pagina
-        $sottotitolo=getSottotitolo($db,$nGiorno);
+        $sottotitolo = getSottotitolo($db, $nGiorno);
 
-        if($sottotitolo == "errore_db_sottotitolo") $sottotitolo = "Err. sottotitolo";
+        if($sottotitolo === "errore_db_sottotitolo") $sottotitolo = "Err. sottotitolo";
         /* fine reperimento dati per pagina iscrizione */
     ?>
     <div id="content" class="container">
@@ -77,10 +72,10 @@
             <div class="hidden-xs hidden-sm col-md-3 col-lg-3"></div>
             <div id="modulo" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <form id='iscrizione' action="script/updateDB.php" method="post">
-                    <?php creazioneBloccoIscrizione($db,$utente,$nGiorno,$nOra); ?>
+                    <?php creazioneBloccoIscrizione($db, $nGiorno, $nOra); ?>
                 </form>
                 <?php if($altreAttivita !== "errore_altre_attivita" && $altreAttivita !== "no_altre_attivita"): ?>
-                    <p class='text-center'><span class='fa fa-info'></span>  Che corso è <a href='#altreAttivita' data-toggle='modal' role='button'>Altre attività</a>?</p>";
+                    <p class='text-center'><span class='fa fa-info'></span>  Che corso è <a href='#altreAttivita' data-toggle='modal' role='button'>Altre attività</a>?</p>
                 <?php endif; ?>
             </div>
             <div class="hidden-xs hidden-sm col-md-3 col-lg-3"></div>

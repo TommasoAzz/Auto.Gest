@@ -1,6 +1,6 @@
 <?php
 /**
-    Classe per la gestione del Database, per gestire la connessione ad esso,
+    Classe per la gestione del Database.class, per gestire la connessione ad esso,
     l'invio di query e la gestione dei risultati
     N.B: Necessita allocazione, di conseguenza,
     nella classe: $this->attributo
@@ -71,8 +71,8 @@ class Database {
     
     //--per gestire le query (inviarle e visualizzare risultati)
     public function escape($string) {
-        $string = $this->conn->real_escape_string($string);
-        return $string;
+        $escaped_string = $this->conn->real_escape_string($string);
+        return $escaped_string;
     }
 
     public function freeResult() {
@@ -97,4 +97,3 @@ class Database {
         return false;
     }
 }
-?>

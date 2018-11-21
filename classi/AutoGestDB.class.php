@@ -25,7 +25,7 @@ class AutoGestDB {
         "ID_Corso" => 999, //int
         "Nome" => 60, //string
         "Aula" => 30, //string
-        "Durata" => 1, //int
+        "Durata" => 9, //int
         "MaxPosti" => 9999 //int
     );
 
@@ -68,7 +68,7 @@ class AutoGestDB {
     );
 
     const RegPresenze = array(
-        "ID_RegPresenze" => 9999999999, //int
+        "ID_RegPresenze" => 999999, //int
         "ID_Iscrizione" => 999999, //int
         "Presenza" => 2 //int (0 assente - 1 presente - 2 ritardo)
     );
@@ -88,4 +88,3 @@ class AutoGestDB {
         "Tempo" => 30 //string
     );
 }
-?>
