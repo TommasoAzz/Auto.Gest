@@ -81,11 +81,10 @@ class SessioneCorso extends AutoGestDB {
     }
 
     public function getPostiRimasti() {
-        return $this->durata;
+        return $this->postiRimasti;
     }
 
     public function getIdResponsabile() {
-        return $this->maxPosti;
+        return $this->idResponsabile;
     }
 }
-?>

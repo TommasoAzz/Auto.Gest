@@ -17,9 +17,8 @@ function getCookie(nomeCookie) { //restituisce contenuto cookie passato come par
     const decodedCookie = decodeURIComponent(document.cookie); //recupero dei cookie dal browser
     const vCookie = decodedCookie.split(";"); //vettore dei cookie
 
-    for(let i=0,l=vCookie.length;i<l;i++) {
-        let biscotto = vCookie[i];
-        while(biscotto.charAt(0) == ' ') biscotto = biscotto.substring(1);
+    for(let i = 0, l = vCookie.length; i < l; i++) {
+        let biscotto = vCookie[i].trim();
         if(biscotto.indexOf(nome) === 0) return biscotto.substring(nome.length, biscotto.length);
     }
 

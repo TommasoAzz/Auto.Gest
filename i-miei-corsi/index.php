@@ -28,7 +28,7 @@ $utente=Session::get("utente");
         controlloAccesso($db,$utente,$livelliAmmessi);
     ?>
     <!-- NAVBAR -->
-    <?php require "../caricaHeader.php"; ?>
+    <?php require "../caricaNavbar.php"; ?>
 	<div id="content" class="container">
         <!-- INTESTAZIONE PAGINA -->
         <div id="intestazione" class="row">

@@ -100,4 +100,3 @@ class Utente extends AutoGestDB {
         return $this->livello;
     }
 }
-?>

@@ -9,6 +9,7 @@ function aggiornaDati(gg_hh) {
 function richiestaGiorni() {
     const $scelta_giorno = $("select#scelta_giorno");
     $scelta_giorno.html("");
+
     $.post("/tutti-i-corsi/script/getGiorni.php", function(result) {
         result = result.trim(); //ottengo i dati dal server
 
@@ -16,10 +17,10 @@ function richiestaGiorni() {
             let titolo = "Operazione non effettuata", contenuto = "Non è stato possibile reperire le date dell'evento dal database.";
             $alert(titolo, contenuto);
         } else {
-            const dati = JSON.parse(result);
+            const date = JSON.parse(result);
 
-            for(let i = 0, l = dati.length; i < l; i++) 
-                $scelta_giorno.append(`<option value='${(i+1)}' id='giorno_opt${(i+1)}'>${dati[i].Giorno}&nbsp;${dati[i].Mese}</option>`);
+            for(let i = 0, l = date.length; i < l; i++)
+                $scelta_giorno.append(`<option value='${(i+1)}' id='giorno_opt${(i+1)}'>${date[i].Giorno}&nbsp;${date[i].Mese}</option>`);
         }
     });
 }
@@ -28,6 +29,7 @@ function richiestaGiorni() {
 function richiestaOre(gg_hh) {
     const $scelta_ora = $("select#scelta_ora");
     $scelta_ora.html("");
+
     $.post("/tutti-i-corsi/script/getElencoOre.php", {giorno: gg_hh.giorno}, function(result) {
         result = result.trim(); //ottengo i dati dal server
 
@@ -35,10 +37,10 @@ function richiestaOre(gg_hh) {
             let titolo = "Operazione non effettuata", contenuto = "Non è stato possibile reperire l'elenco delle ore della giornata selezionata.";
             $alert(titolo, contenuto);
         } else {
-            const vOre = JSON.parse(result);
+            const ore = JSON.parse(result);
 
-            for(let i = 0, l = vOre.length; i < l; i++)
-                $scelta_ora.append(`<option value='${vOre[i].Ora}'>${vOre[i].Ora}°</option>`);
+            for(let i = 0, l = ore.length; i < l; i++)
+                $scelta_ora.append(`<option value='${ore[i].Ora}'>${ore[i].Ora}°</option>`);
         }
     });
 }
@@ -46,37 +48,36 @@ function richiestaOre(gg_hh) {
 //metodo che scarica i dati dei corsi data una determinata ora e un determinato giorno
 function aggiornaLista(gg_hh) {
     const $tbody = $("tbody#tbody");
-    $tbody.html('');
+    $tbody.html("");
+
     $.post("/tutti-i-corsi/script/getListaCorsi.php", {giorno: gg_hh.giorno, ora: gg_hh.ora}, function(result) {
         result = result.trim(); //ottengo i dati dal server
+
         if(result === "errore_db_lista_corsi" || result === "errore_db_sessione_corso") {
             $tbody.append("<tr><td>Non sono rimasti corsi disponibili.</td><td></td><td></td><td></td><td></td></tr>");
         } else {
-            //non è valore booleano perchè non viene effettuato parsing
-            const vCorsi = JSON.parse(result);
-            console.log(vCorsi);
-            for(let i = 0, l = vCorsi.length; i < l; i++) {
-                //creazione e aggiunta riga alla tabella
-                if(vCorsi[i].PostiRimasti > 0) { //aggiungo alla lista solo i corsi che hanno da 1 posto in su
-                    $tbody.append(
-                        "<tr>" +
-                        `<td id='corso_${i}'>${vCorsi[i].Nome}</td>` +
-                        `<td id='aula_${i}'>${vCorsi[i].Aula}</td>` +
-                        `<td id='durata_${i}'>${vCorsi[i].Durata}</td>` +
-                        `<td id='pTotali_${i}'>${vCorsi[i].PostiTotali}</td>` +
-                        `<td id='pRimasti_${i}'>${vCorsi[i].PostiRimasti}</td>` +
-                        "</tr>"
-                    );
+            const corsi = JSON.parse(result);
 
-                    $("td#corso_"+i).parent().removeClass("warning danger"); //rimuovo classi "decorative"
+            for(let i = 0, l = corsi.length; i < l; i++) {
+                $tbody.append(
+                    "<tr>" +
+                    `<td id='corso_${i}'>${corsi[i].Nome}</td>` +
+                    `<td id='aula_${i}'>${corsi[i].Aula}</td>` +
+                    `<td id='durata_${i}'>${corsi[i].Durata}</td>` +
+                    `<td id='pTotali_${i}'>${corsi[i].PostiTotali}</td>` +
+                    `<td id='pRimasti_${i}'>${corsi[i].PostiRimasti}</td>` +
+                    "</tr>"
+                );
 
-                    if(vCorsi[i].PostiRimasti < vCorsi[i].PostiTotali) { //controllo posti
-                        //se posti rimasti inferiori ad 1/3: riga colore rosso
-                        if(vCorsi[i].PostiRimasti <= (vCorsi[i].PostiTotali/3)) $("td#corso_"+i).parent().addClass("danger");
+                const $tdCorso = $("td#corso_" + i); // !!!
+                $tdCorso.parent().removeClass("warning danger"); //rimuovo classi "decorative"
 
-                        //se posti rimasti inferiori alla metà ma superiori di 1/3: riga colore giallo
-                        else if(vCorsi[i].PostiRimasti <= (vCorsi[i].PostiTotali/2)) $("td#corso_"+i).parent().addClass("warning");
-                    }
+                if (corsi[i].PostiRimasti < corsi[i].PostiTotali) { //controllo posti
+                    //se posti rimasti inferiori ad 1/3: riga colore rosso
+                    if (corsi[i].PostiRimasti <= (corsi[i].PostiTotali / 3)) $tdCorso.parent().addClass("danger");
+
+                    //se posti rimasti inferiori alla metà ma superiori di 1/3: riga colore giallo
+                    else if (corsi[i].PostiRimasti <= (corsi[i].PostiTotali / 2)) $tdCorso.parent().addClass("warning");
                 }
             }
         }

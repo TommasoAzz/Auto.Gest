@@ -86,4 +86,3 @@ class Corso extends AutoGestDB {
         return $this->maxPosti;
     }
 }
-?>

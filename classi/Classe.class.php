@@ -76,4 +76,3 @@ class Classe extends AutoGestDB {
         return $this->indirizzo;
     }
 }
-?>
