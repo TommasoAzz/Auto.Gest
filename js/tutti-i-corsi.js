@@ -14,8 +14,10 @@ function richiestaGiorni() {
         result = result.trim(); //ottengo i dati dal server
 
         if(result === "errore_db_date_evento") {
-            let titolo = "Operazione non effettuata", contenuto = "Non è stato possibile reperire le date dell'evento dal database.";
-            $alert(titolo, contenuto);
+            $alert(
+                "Operazione non effettuata",
+                "Non è stato possibile reperire le date dell'evento dal database."
+            );
         } else {
             const date = JSON.parse(result);
 
@@ -34,8 +36,10 @@ function richiestaOre(gg_hh) {
         result = result.trim(); //ottengo i dati dal server
 
         if(result === "errore_db_elenco_ore") {
-            let titolo = "Operazione non effettuata", contenuto = "Non è stato possibile reperire l'elenco delle ore della giornata selezionata.";
-            $alert(titolo, contenuto);
+            $alert(
+                "Operazione non effettuata",
+                "Non è stato possibile reperire l'elenco delle ore della giornata selezionata."
+            );
         } else {
             const ore = JSON.parse(result);
 

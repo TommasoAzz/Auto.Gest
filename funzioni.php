@@ -143,7 +143,6 @@ function aggiornaSessioniCorsi($db, $id_sc) {
 } //RESTITUITO: true se SessioniCorsi è stato aggiornato correttamente, false altrimenti. Viene interrogato il database.
 
 function getDateEvento($db) {
-    //query al db
     $dateEvento = $db->queryDB("SELECT Giorno, Mese, Anno FROM DateEvento");
 
     if(!$dateEvento) return "errore_db_date_evento";
@@ -160,6 +159,14 @@ function getCorsiDisponibili($db, $nGiorno, $nOra) {
     //operazione da eseguire se il db ha restituito la lista delle sessioni dei corsi disponibili in quella ora e giorno
     return $lista_corsi;
 } //RESTITUITO: corsi disponibili per l'iscrizione all'ora=$nOra e giorno=$nGiorno o messaggio di errore. Viene interrogato il database.
+
+function getRegistroPresenzeSessioneCorso($db, $id) {
+    $regPresenze = $db->queryDB("SELECT P.Cognome, P.Nome, R.Presenza, R.ID_Iscrizione FROM Persone AS P, Iscrizioni AS I, SessioniCorsi AS S, RegPresenze AS R WHERE I.ID_Studente=P.ID_Persona AND S.ID_SessioneCorso=I.ID_SessioneCorso AND R.ID_Iscrizione=I.ID_Iscrizione AND S.ID_SessioneCorso=$id ORDER BY Cognome, Nome");
+    
+    if(!$regPresenze) return "errore_db_registro_presenze";
+
+    return $regPresenze;
+} //RESTITUITO: registro presenze della sessione corso con ID_SessioneCorso=$id o messaggio di errore. Viene interrogato il database.
 
 
 /*************************************************************************************************/
@@ -287,33 +294,25 @@ function getSessioniCorso($db, $idCorso, $giorno = 0, $ora = 0) {
     return $sc;
 } //RESTITUITO: array con lista sessioni corsi del corso di id=$idCorso o messaggio di errore. Viene interrogato il database
 
-function getRegistroPresenzeSessioneCorso($db, $id) {
-    $regPresenze = $db->queryDB("SELECT P.Cognome, P.Nome, R.Presenza FROM Persone AS P, Iscrizioni AS I, SessioniCorsi AS S, RegPresenze AS R WHERE I.ID_Studente=P.ID_Persona AND S.ID_SessioneCorso=I.ID_SessioneCorso AND R.ID_Iscrizione=I.ID_Iscrizione AND S.ID_SessioneCorso=$id");
-
-    if(!$regPresenze) return "errore_db_registro_presenze";
-
-    return $regPresenze;
-} //RESTITUITO: registro presenze della sessione corso con ID_SessioneCorso=$id o messaggio di errore. Viene interrogato il database.
-
 
 /*************************************************************************************************/
 /*                                      SEZIONE: I miei corsi                                    */
 /*************************************************************************************************/
 
 function getMese($db, $i) {
-    $mesi = $db->queryDB("SELECT Mese FROM DateEvento");
+    $date_evento = getDateEvento($db);
 
-    if(!$mesi) return "errore_db_mese";
+    if($date_evento === "errore_db_date_evento") return "errore_db_mese";
     
-    return $mesi[$i]["Mese"];
+    return $date_evento[$i]["Mese"];
 } //RESTITUITO: mese del $i+1-esimo giornata dell'evento o messaggio di errore. Viene interrogato il database.
 
 function getGiorno($db, $i) {
-    $giorni = $db->queryDB("SELECT Giorno FROM DateEvento");
+    $date_evento = getDateEvento($db);
 
-    if(!$giorni) return "errore_db_giorno";
+    if($date_evento === "errore_db_date_evento") return "errore_db_giorno";
     
-    return $giorni[$i]["Giorno"];
+    return $date_evento[$i]["Giorno"];
 } //RESTITUITO: giorno del calendario della $i+1-esima giornata di evento o messaggio di errore. Viene interrogato il database.
 
 function getRigheCorsi($db, $utente, $giorno) {
@@ -575,7 +574,19 @@ function aggiornaInfoUtente($db, $utente, $giorno, $durata) {
 /*************************************************************************************************/
 /*                                  SEZIONE: Registro Presenze                                   */
 /*************************************************************************************************/
+function getCorsiGestiti($db, $id_respcorso) {
+    $c_gestiti = $db->queryDB("SELECT Nome, Giorno, Ora, ID_SessioneCorso FROM Corsi C INNER JOIN SessioniCorsi S ON C.ID_Corso=S.ID_Corso WHERE ID_Responsabile=$id_respcorso ORDER BY Giorno, Ora");
 
+    if($c_gestiti && (($date = getDateEvento($db)) !== "errore_db_date_evento")) {
+        for($i = 0, $l = sizeof($c_gestiti); $i < $l; $i++) {
+            $j = intval($c_gestiti[$i]["Giorno"]) - 1; //se il giorno della sessione del corso è 1 (primo), per ottenere la data del calendario devo avere $j = 1 - 1 (ovvero 0);
+            $c_gestiti[$i]["Giorno"] = $date[$j]["Giorno"] . " " . $date[$j]["Mese"]; //sostituisco il numero del giorno con l'effettiva data per una maggior comprensione nella lettura
+        }
+        return $c_gestiti;
+    }
+
+    return "errore_db_corsi_gestiti";
+} //RESTITUITO: lista delle sessioni dei corsi che gestisce l'utente di id=$id_respcorso o messaggio di errore. Vengono interrogati il database e svolte operazioni sui dati.
 
 /*************************************************************************************************/
 /*                                    SEZIONE: Tutti i corsi                                     */

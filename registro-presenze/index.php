@@ -27,7 +27,7 @@
         controlloAccesso($db,$utente,$livelliAmmessi);
     ?>
     <!-- NAVBAR -->
-    <?php require "../caricaHeader.php"; ?>
+    <?php require "../caricaNavbar.php"; ?>
     <!-- BODY -->
     <div id="content" class="container">
         <!-- INTESTAZIONE PAGINA -->

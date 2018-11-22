@@ -3,31 +3,13 @@ require_once "../../caricaClassi.php";
 require_once "../../connettiAlDB.php";
 Session::open();
 
-if(GlobalVar::SERVER("REQUEST_METHOD")==="POST") {
-    $status=GlobalVar::POST("aggiornamenti");
-    $status=json_decode($status);
+if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST") header("Location: ../../");
+$status = json_decode(GlobalVar::POST("aggiornamenti"));
 
-    for($i=0,$l=sizeof($status);$i<$l;$i++){
-        $q="UPDATE RegPresenze SET Presenza = ".$status[$i][1]." WHERE ID_Iscrizione = ".$status[$i][0]."";
-        $control[$i]=$db->queryDB($q);
-    }
+for($i = 0, $l = sizeof($status); $i < $l; $i++)
+    $control[$i] = $db->queryDB("UPDATE RegPresenze SET Presenza = " . $status[$i][1] . " WHERE ID_Iscrizione=".$status[$i][0]);
 
-    $problemi_zero=true;
-    $l=sizeof($control);
-    $i=0;
-    while($problemi_zero && $i<$l) {
-        if(!$control[$i]) {
-            $problemi_zero=false;
-        }
-        $i++;
-    }
+$problemi_zero = true;
+for($i = 0, $l = sizeof($control); $i < $l && $problemi_zero; $i++) if(!$control[$i]) $problemi_zero = false;
 
-    if($problemi_zero) {
-        echo "registro-aggiornato";
-    } else {
-        echo "registro-non-aggiornato";
-    }
-} else {
-    header("Location: ../../");
-}
-?>
+echo ($problemi_zero) ? "registro-aggiornato" : "registro-non-aggiornato";

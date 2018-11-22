@@ -1,14 +1,18 @@
 function resetPersona() {
     $.post("/i-miei-corsi/script/resetCorsiStudente.php", function(result) {
         if(result.trim() === "reset-effettuato") {
-            let titolo = "Operazione completata", contenuto = "Reset effettuato! Verrai reindirizzato alla pagina per effettuare nuovamente l'iscrizione.";
-            $alert(titolo, contenuto);
+            $alert(
+                "Operazione completata",
+                "Reset effettuato! Verrai reindirizzato alla pagina per effettuare nuovamente l'iscrizione."
+            );
 
             const url = location.protocol + "//" + location.hostname + "/iscrizione/";
             window.location = url; //reindirizzamento a Iscrizione
         } else {
-            let titolo = "Operazione non completata", contenuto = "Non è stato possibile effettuare il reset. Se riprovando il problema persiste, contattaci.";
-            $alert(titolo, contenuto);
+            $alert(
+                "Operazione non completata",
+                "Non è stato possibile effettuare il reset. Se riprovando il problema persiste, contattaci."
+            );
         }
     });
 }
@@ -16,8 +20,10 @@ function resetPersona() {
 function stampaCorsi() {
     $("button#btnPrint").click(function() {
         if($("div#no_iscrizione").length) {
-            let titolo = "Operazione non completata", contenuto = "Non ti sei ancora iscritto ad alcun corso!";
-            $alert(titolo, contenuto);
+            $alert(
+                "Operazione non completata",
+                "Non ti sei ancora iscritto ad alcun corso!"
+            );
         } else window.print();
     });
 }
@@ -28,8 +34,10 @@ $(document).ready(function() {
 
     $("button#btnReset").click(function() {
         if($("div#no_iscrizione").length) {
-            let titolo = "Operazione non completata", contenuto = "Non ti sei ancora iscritto ad alcun corso!";
-            $alert(titolo, contenuto);
+            $alert(
+                "Operazione non completata",
+                "Non ti sei ancora iscritto ad alcun corso!"
+            );
         } else {
             $.confirm({
                 escapeKey: true,
