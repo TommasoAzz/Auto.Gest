@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
                     <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                        <h2 class="text-center">Corsi di persona con ID: <span id="idPersona">id</span></h2>
+                        <h2 class="text-center">Corsi dello studente con ID: <span id="idPersona">id</span></h2>
                     </div>
                     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
                 </div>
@@ -26,7 +26,7 @@
                             </thead>
                             <tbody id="tCorsiPersona">
                                 <tr>
-                                    <td>La persona con ID: <span id="idPersona"></span> non è iscritta ad alcun corso.</td><td></td><td></td><td></td><td></td><td></td>
+                                    <td>Lo studente con ID: <span id="idPersona"></span> non è iscritto ad alcun corso.</td><td></td><td></td><td></td><td></td><td></td>
                                 </tr>
                             </tbody>
                         </table>

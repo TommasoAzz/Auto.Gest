@@ -86,9 +86,9 @@ function getCorsiStudente($db, $idStudente, $giorno = 0) {
     $q_corsiStudente = "";
     
     if($giorno === 0) { //nessun giorno specificato, reperisco tutte
-        $q_corsiStudente .= "SELECT Nome, Aula, Ora, Durata, I.ID_SessioneCorso AS ID_SessioneCorso FROM SessioniCorsi S INNER JOIN Corsi C ON C.ID_Corso=S.ID_Corso INNER JOIN Iscrizioni I ON S.ID_SessioneCorso=I.ID_SessioneCorso WHERE ID_Studente=$idStudente ORDER BY Giorno, Ora";
+        $q_corsiStudente .= "SELECT Nome, Aula, Ora, Durata, I.ID_SessioneCorso, Giorno FROM SessioniCorsi S INNER JOIN Corsi C ON C.ID_Corso=S.ID_Corso INNER JOIN Iscrizioni I ON S.ID_SessioneCorso=I.ID_SessioneCorso WHERE ID_Studente=$idStudente ORDER BY Giorno, Ora";
     } else { //giorno specificato, reperisco quelle del giorno richiesto
-        $q_corsiStudente .= "SELECT Nome, Aula, Ora, Durata, I.ID_SessioneCorso AS ID_SessioneCorso FROM SessioniCorsi S INNER JOIN Corsi C ON C.ID_Corso=S.ID_Corso INNER JOIN Iscrizioni I ON S.ID_SessioneCorso=I.ID_SessioneCorso WHERE ID_Studente=$idStudente AND Giorno=$giorno ORDER BY Ora";
+        $q_corsiStudente .= "SELECT Nome, Aula, Ora, Durata, I.ID_SessioneCorso FROM SessioniCorsi S INNER JOIN Corsi C ON C.ID_Corso=S.ID_Corso INNER JOIN Iscrizioni I ON S.ID_SessioneCorso=I.ID_SessioneCorso WHERE ID_Studente=$idStudente AND Giorno=$giorno ORDER BY Ora";
     }
 
     $r_corsiStudente = $db->queryDB($q_corsiStudente);
@@ -294,6 +294,18 @@ function getSessioniCorso($db, $idCorso, $giorno = 0, $ora = 0) {
     return $sc;
 } //RESTITUITO: array con lista sessioni corsi del corso di id=$idCorso o messaggio di errore. Viene interrogato il database
 
+function cambioPassword($db, $id_persona, $nuovapwd) { //!!! (da cambiare)
+    $cambioEff = $db->queryDB("UPDATE `Persone` SET `Pwd`='" . $nuovapwd . "' WHERE `ID_Persona`=$id_persona");
+    
+    return $cambioEff;
+}
+
+function iscrittiAltreAttivita($db, $nome_corso = "Altre attività") {
+    $iscritti = $db->queryDB("SELECT Cognome, P.Nome AS Nome, Cl.Classe AS Cl, Cl.Sezione AS Sez, Cl.Indirizzo AS Ind, Sc.Giorno AS Gg, Sc.Ora AS Hh FROM Persone AS P, Classi AS Cl, Corsi AS Co, SessioniCorsi AS Sc, Iscrizioni AS I WHERE P.ID_Classe=Cl.ID_Classe AND Sc.ID_Corso=Co.ID_Corso AND I.ID_SessioneCorso=Sc.ID_SessioneCorso AND I.ID_Studente=P.ID_Persona AND Co.Nome='".$nome_corso."' ORDER BY Cognome, Nome, Indirizzo, Classe, Sezione, Ora, Giorno");
+    if(!$iscritti) return "errore_db_iscritti_altre_attivita";
+
+    return $iscritti;
+}
 
 /*************************************************************************************************/
 /*                                      SEZIONE: I miei corsi                                    */

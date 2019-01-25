@@ -3,15 +3,9 @@ require_once "../../caricaClassi.php";
 require_once "../../connettiAlDB.php";
 require_once "../../funzioni.php";
 
-if(GlobalVar::SERVER("REQUEST_METHOD")==="POST") {
-    $corsi = getDatiCorsi($db);
+if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST") header("Location: ../../");
 
-    if($corsi === "errore_db_lista_corsi") echo $corsi;
-    else {
-        $jsonData = json_encode($corsi);
-        echo $jsonData;
-    } 
-} else {
-    header("Location: ../");
-}
-?>
+$corsi = getDatiCorsi($db);
+
+if($corsi === "errore_db_lista_corsi") echo $corsi;
+else echo json_encode($corsi);

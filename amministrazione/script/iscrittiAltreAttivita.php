@@ -5,7 +5,7 @@ require_once "../../funzioni.php";
 
 if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST") header("Location: ../../");
 
-$ID = intval(GlobalVar::POST("ID"));
-$nuovapwd = cifraPassword(GlobalVar::POST("Pwd"));
+$iscrittiAltreAttivita = iscrittiAltreAttivita($db);
 
-echo (cambioPassword($db, $ID, $nuovapwd)) ? "cambio-effettuato" : "cambio-non-effettuato";
+if($iscrittiAltreAttivita === "errore_db_iscritti_altre_attivita") echo $iscrittiAltreAttivita;
+else echo json_encode($iscrittiAltreAttivita);

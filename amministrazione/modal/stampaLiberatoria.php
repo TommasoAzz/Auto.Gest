@@ -6,7 +6,7 @@
                     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
                     <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
                         <h2 class="text-center">Liberatoria</h2>
-                        <h5 class="text-center">Anteprima del testo che verr&agrave; stampato</h5>
+                        <h5 class="text-center">Anteprima del testo che verrà stampato</h5>
                     </div>
                     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
                 </div>
