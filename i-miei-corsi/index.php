@@ -25,17 +25,22 @@ $utente=Session::get("utente");
             3 => true //livello amministratore
         );
 
-        controlloAccesso($db,$utente,$livelliAmmessi);
+        controlloAccesso($db, $utente, $livelliAmmessi);
     ?>
     <!-- NAVBAR -->
     <?php require "../caricaNavbar.php"; ?>
 	<div id="content" class="container">
         <!-- INTESTAZIONE PAGINA -->
-        <div id="intestazione" class="row">
+        <div id="intestazione-pagina" class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <h1 class="text-center">I miei corsi</h1>
                 <h4 class="text-center sottotitolo">Rivedi i corsi a cui ti sei iscritto</h4>
                 <hr>
+            </div>
+         </div>
+         <div id="intestazione-stampa" class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h1 class="text-center">Promemoria iscrizione</h1>
             </div>
          </div>
          <div id="info" class="row">
@@ -64,10 +69,9 @@ $utente=Session::get("utente");
             <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
             <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
             <?php
-                if($utente->getGiornoIscritto() > 0 || $utente->getOraIscritta() > 0) {
-                    echo creazioneTabella($db,$utente);
-                } else { //inizio ELSE
-                //chiudo la sezione PHP perché quello che farebbe è stampare HTML, quindi lo inserisco dentro l'else non racchiudendolo fra PHP
+                if($utente->getGiornoIscritto() > 0 || $utente->getOraIscritta() > 0):
+                    echo creazioneTabella($db, $utente);
+                else: //inizio ELSE
             ?>
                 <div id='no_iscrizione' class='panel panel-danger'>
                     <div class='panel-heading'>
@@ -77,9 +81,7 @@ $utente=Session::get("utente");
                         <p>Quando ti sarai iscritto ad almeno un corso visualizzerai qui le tue scelte. Per iscriverti, clicca <a href="<?php echo getURL('/iscrizione/'); ?>" title='Iscrizione'>qui</a>.</p>
                     </div>
                 </div>
-            <?php
-                } //fine ELSE
-            ?>
+            <?php endif; ?>
             </div>
             <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
         </div>

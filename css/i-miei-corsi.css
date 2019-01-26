@@ -1,10 +1,20 @@
 /* FILE CSS PER LA STAMPA DELLA PAGINA I miei corsi */
+@media screen {
+    div#intestazione-pagina {
+        visibility: visible;
+    }
+    div#intestazione-stampa {
+        visibility: hidden;
+        display: none;
+    }
+}
 @media print {
-    div#intestazione,
+    div#intestazione-stampa,
     div#info,
     div#listaCorsi {
         visibility: visible;
     }
+    div#intestazione-pagina,
     button#btnPrint,
     button#btnReset,
     div#separatore {
