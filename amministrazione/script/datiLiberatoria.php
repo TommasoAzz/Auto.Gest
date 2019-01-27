@@ -16,7 +16,7 @@ $studente = inizializzaUtente($db, $id_persona);
 
 $date_evento = getDateEvento($db);
 
-if(!$infoSC || !$datiUtente || $date_evento === "errore_db_date_evento") echo "errore_db_dati_liberatoria";
+if(!$infoSC || !$studente || $date_evento === "errore_db_date_evento") echo "errore_db_dati_liberatoria";
 else {
     $sc = $infoSC[0];
     $id_dataevento = intval($sc["Giorno"]) - 1;

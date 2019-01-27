@@ -383,7 +383,7 @@ function iscrittiAltreAttivita() {
     });
 }
 
-function stampaLiberatoria() {
+function avvioStampaLiberatoria() {
     $("a#avvioStampaLiberatoria").click(function() {
             window.print();
     });
@@ -414,7 +414,7 @@ $(document).ready(function() {
     getAltreAttivita($txtArea_AltreAttivita);
 
     //CARICO FUNZIONALITA' per PANNELLO G
-    stampaLiberatoria();
+    avvioStampaLiberatoria();
 
     //LINK A PARTI PAGINA
     $("a#goToPanel_A").click(function() {
