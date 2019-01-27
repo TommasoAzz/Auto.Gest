@@ -5,7 +5,7 @@ require_once "../../funzioni.php";
 
 if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST") header("Location: ../../");
 
-$id = intval(GlobalVar::POST("id"));
+$id = intval(GlobalVar::POST("ID"));
 
 $regPresenze = getRegistroPresenzeSessioneCorso($db, $id);
 

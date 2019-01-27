@@ -98,7 +98,7 @@ $utente = Session::get("utente");
     <?php
         require_once "modal/sessioniCorso.php";
         require_once "modal/corsiPersona.php";
-        require_once "modal/presenzeSession.php";
+        require_once "modal/presenzeSessione.php";
         require_once "modal/listaAltreAttivita.php";
         require_once "modal/stampaLiberatoria.php";
         require_once "../modal/altreAttivita.php";

@@ -270,10 +270,10 @@ function visualizzaSessioniCorso(corso) {
             }
 
             $("span#nomeCorso").text(corso);
-            $("span#idCorso").text(datiCorso[0].ID_Corso);
-            $("span#durataCorso").text(datiCorso[0].Durata);
-            $("span#aulaCorso").text(datiCorso[0].Aula);
-            $("span#postiCorso").text(datiCorso[0].MaxPosti);
+            $("span#idCorso").text(datiCorso.ID_Corso);
+            $("span#durataCorso").text(datiCorso.Durata);
+            $("span#aulaCorso").text(datiCorso.Aula);
+            $("span#postiCorso").text(datiCorso.MaxPosti);
 
             $("div#sessioniCorso").modal("show");
         }
