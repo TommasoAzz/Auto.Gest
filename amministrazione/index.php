@@ -100,8 +100,8 @@ $utente = Session::get("utente");
         require_once "modal/corsiPersona.php";
         require_once "modal/presenzeSession.php";
         require_once "modal/listaAltreAttivita.php";
-        require_once "../modal/altreAttivita.php";
         require_once "modal/stampaLiberatoria.php";
+        require_once "../modal/altreAttivita.php";
     ?>
     </div><!-- fine wrapper -->
     </body>

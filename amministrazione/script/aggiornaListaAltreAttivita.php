@@ -2,7 +2,7 @@
 require_once "../../caricaClassi.php";
 require_once "../../connettiAlDB.php";
 
-if(GlobalVar::SERVER("REQUEST_METHOD")==="POST") header("Location: ../../");
+if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST") header("Location: ../../");
 
 $aA = $db->escape(GlobalVar::POST("aA"));
 

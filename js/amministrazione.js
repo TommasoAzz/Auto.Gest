@@ -1,8 +1,8 @@
 //PANNELLO A - RICERCA ID PERSONA
 function ricercaID_Persona() {
     const nc = {
-        nome: $("input#nome_ricerca").trim().val(),
-        cognome: $("input#cognome_ricerca").trim().val()
+        nome: $("input#nome_ricerca").val().trim(),
+        cognome: $("input#cognome_ricerca").val().trim()
     };
 
     if(nc.nome === "" || nc.cognome === "") {
@@ -197,7 +197,7 @@ function visualizzaCorsiStudente() {
                 );
             } else {
                 const corsi_stud = JSON.parse(result);
-                for(let i = 0, num_corsi = corsi_stud[i].length; i < num_corsi; i++) {
+                for(let i = 0, num_sessioni = corsi_stud.length; i < num_sessioni; i++) {
                     $tbody.append(
                         "<tr>" +
                         `<td>${corsi_stud[i].Giorno}</td>` +
