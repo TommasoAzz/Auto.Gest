@@ -339,9 +339,9 @@ function stampaLiberatoria(idPersona, idSessioneCorso){
                 "<h3 class='text-center'>PERMESSO ECCEZIONALE</h3>" +
                 "<hr>" +
                 "<p class='text-justify'>Lo/a studente/ssa " +
-                `<strong>${dati.CognomeStud}&nbsp;${dati.NomeStud}</strong> (classe ${dati.ClasseStud}) è autorizzato/a a partecipare al corso <strong>${res.NomeCorso}</strong> alla <strong>${res.Ora}° ora</strong> del giorno <strong>${res.Giorno}&nbsp;${res.Mese}</strong>, ` +
+                `<strong>${dati.CognomeStud}&nbsp;${dati.NomeStud}</strong> (classe ${dati.ClasseStud}) è autorizzato/a a partecipare al corso <strong>${dati.NomeCorso}</strong> alla <strong>${dati.Ora}° ora</strong> del giorno <strong>${dati.Giorno}&nbsp;${dati.Mese}</strong>, ` +
                 "solo se il Responsabile del suddetto corso acconsente.</p>" +
-                `<p class='text-right'><br />${res.NomeAdmin}&nbsp;${res.CognomeAdmin},<br />Rappresentante degli Studenti</p>` +
+                `<p class='text-right'><br />${dati.NomeAdmin}&nbsp;${dati.CognomeAdmin},<br />Rappresentante degli Studenti</p>` +
                 "<p style='text-justify'><br /><strong>NOTA PER IL RESPONSABILE DEL CORSO</strong>: In caso lo studente venga accettatto all'interno del corso non deve essere svolta nessuna operazione all'interno del registro presenze.</p>"
             );
 
