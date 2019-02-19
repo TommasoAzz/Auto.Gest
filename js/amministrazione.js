@@ -518,7 +518,7 @@ $(document).ready(function() {
         $.post("/amministrazione/script/aggiornaListaAltreAttivita.php", {aA: newData}, function(result) {
             result = result.trim();
 
-            if(out == "modifica-effettuata") {
+            if(result == "modifica-effettuata") {
                 let titolo = "Modifica effettuata", contenuto = "La lista \"Altre attività\" è stata aggiornata con successo!";
                 $alert(titolo, contenuto);
             } else {
