@@ -513,7 +513,7 @@ $(document).ready(function() {
 
     //PANNELLO I - MODIFICA LISTA ALTRE ATTIVITA'
     $("button#confermaAltreAttivita").click(function() {
-        const newData = $("input#txtAltreAttivita").val().trim();
+        const newData = $("textarea#txtAltreAttivita").val().trim();
 
         $.post("/amministrazione/script/aggiornaListaAltreAttivita.php", {aA: newData}, function(result) {
             result = result.trim();
