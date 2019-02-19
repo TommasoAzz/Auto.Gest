@@ -14,7 +14,7 @@
         <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'><?php echo $nome; ?><span class='caret'></span></a>
         <ul class="dropdown-menu">
             <li><a href="#" data-toggle="modal" data-target="#datiUtente"><span class="fa fa-info"></span>&nbsp;&nbsp;&nbsp;&nbsp;I miei dati</a></li>
-            <li><a href="<?php echo getURL('/accesso/logout.php'); ?>"><span class="fa fa-sign-out"></span>&nbsp;&nbsp;Esci</a></li>
+            <li><a href="<?php echo getURL('/accesso/script/logout.php'); ?>"><span class="fa fa-sign-out"></span>&nbsp;&nbsp;Esci</a></li>
         </ul>
     </li>
 </ul>

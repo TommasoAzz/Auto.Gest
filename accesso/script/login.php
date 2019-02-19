@@ -1,10 +1,10 @@
 <?php
-require_once "../caricaClassi.php";
-require_once "../connettiAlDB.php";
-require_once "../funzioni.php";
+require_once "../../caricaClassi.php";
+require_once "../../connettiAlDB.php";
+require_once "../../funzioni.php";
 Session::open();
 
-if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST") header("Location: ../");
+if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST") header("Location: ../../");
 
 //reperisco i dati
 $cla = $db->escape(GlobalVar::POST("classe"));

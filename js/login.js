@@ -6,7 +6,7 @@ function controlloUtente(password, datiLogin) { //manda query per controllo pass
         psw: password.trim()
     };
 
-    $.post("/accesso/login.php", datiDaInviare, function(result) {
+    $.post("/accesso/script/login.php", datiDaInviare, function(result) {
         result = result.trim();
         const $cPsw = $("div#campo_psw, div#extCampo_psw");
         /*
@@ -42,7 +42,7 @@ function recuperaDati(datiLogin) { //metodo che prende i dati dalle select per o
 function richiestaIndirizzi($indirizzo) { //richiesta degli indirizzi dell'istituto
 	$indirizzo.html("").append("<option value=''></option>");
 
-	$.post("/accesso/getIndirizzi.php", function(result) {
+	$.post("/accesso/script/getIndirizzi.php", function(result) {
 	    result = result.trim();
 
         if(result === "errore_db_indirizzi") {
@@ -63,7 +63,7 @@ function richiestaIndirizzi($indirizzo) { //richiesta degli indirizzi dell'istit
 function richiestaClassi($classe, datiLogin) { // richiesta delle classi dato l'indirizzo
     $classe.html("").append("<option value=''></option>");
 
-    $.post("/accesso/getClassi.php", {indirizzo: datiLogin.indirizzo}, function(result) {
+    $.post("/accesso/script/getClassi.php", {indirizzo: datiLogin.indirizzo}, function(result) {
         result = result.trim();
 
         if(result === "errore_db_classi_istituto") {
@@ -98,7 +98,7 @@ function extRecuperaDati(datiLogin) { //metodo che prende i dati dalle select pe
 function extRichiestaIndirizzi($extIndirizzo) { //richiesta delle provenienze (non per studenti)
 	$extIndirizzo.html("").append("<option value=''></option>");
 
-	$.post("/accesso/getEsterni.php", function(result) {
+	$.post("/accesso/script/getEsterni.php", function(result) {
 	    result = result.trim();
 
         if(result === "errore_db_esterni") {
