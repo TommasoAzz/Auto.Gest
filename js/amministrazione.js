@@ -114,7 +114,7 @@ function cambioPasswordUtente() {
                     "<label>Inserisci la nuova password per l'utente di codice <strong>" + id + "</strong>:</label>" +
                     "<input type='password' class='form-control' id='txtNuovaPsw' placeholder='Nuova password' required />" +
                     "<label>Inserisci nuovamente la nuova password:</label>" +
-                    "<input type='password' class='form-control' id='txtConfermaNuovaPsw' required />" +
+                    "<input type='password' class='form-control' id='txtConfermaNuovaPsw' placeholder='Ripeti la nuova password' required />" +
                     "</div></form>",
             buttons: {
                 formSubmit: {
