@@ -6,5 +6,5 @@
             <li><a href="<?php echo getURL('/licenza/'); ?>">Licenza</a></li>
         </ul>
     </li>
-    <li><a href="#login_interni" data-toggle="modal"><span class="fa fa-sign-in"></span> Accedi</a></li>
+    <li><a href="<?php echo getURL('/accesso/'); ?>"><span class="fa fa-sign-in"></span> Accedi</a></li>
 </ul>
