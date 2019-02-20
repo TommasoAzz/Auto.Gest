@@ -151,7 +151,7 @@ function getDateEvento($db) {
 } //RESTITUITO: giorno, mese, anno delle date dell'evento o messaggio di errore. Viene interrogato il database.
 
 function getCorsiDisponibili($db, $nGiorno, $nOra) {
-    $lista_corsi = $db->queryDB("SELECT Nome, Aula, Durata, MaxPosti AS PostiTotali, PostiRimasti FROM Corsi C INNER JOIN SessioniCorsi S ON C.ID_Corso=S.ID_Corso WHERE Giorno=$nGiorno AND Ora=$nOra AND PostiRimasti>0");
+    $lista_corsi = $db->queryDB("SELECT Nome, Aula, Durata, MaxPosti AS PostiTotali, PostiRimasti FROM Corsi C INNER JOIN SessioniCorsi S ON C.ID_Corso=S.ID_Corso WHERE Giorno=$nGiorno AND Ora=$nOra AND PostiRimasti>0 ORDER BY Nome ASC");
 
     //operazione da eseguire se il db non ha restituito valori
     if(!$lista_corsi) return "errore_db_lista_corsi";
