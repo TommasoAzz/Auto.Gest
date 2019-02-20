@@ -71,6 +71,10 @@ input#login_password.form-control.error {
   border-color: #ccc !important;
 }
 
+div.panel-heading h3 {
+  margin-top: 10px;
+}
+
 /* TITOLI */
 .sottotitolo {
   color: #808080;
