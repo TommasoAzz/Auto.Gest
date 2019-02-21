@@ -24,6 +24,7 @@ class AutoGestDB {
     const Corsi = array(
         "ID_Corso" => 999, //int
         "Nome" => 60, //string
+        "Informazioni" => 300, //string
         "Aula" => 30, //string
         "Durata" => 9, //int
         "MaxPosti" => 9999 //int

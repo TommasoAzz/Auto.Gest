@@ -401,6 +401,55 @@ function getAltreAttivita($textarea) {
     });
 }
 
+//PANNELLO J - RESET DEI TENTATIVI DI LOGIN
+function resetTentativiLogin() {
+    let id = $("input#id_reset_tLogin").val();
+    try {
+        id = parseInt(id);
+        //controllo se il parsing non è andato a buon fine
+        if(isNaN(id)) throw("id_non_numerico");
+
+        $.confirm({
+            escapeKey: true,
+            theme: "modern",
+            title: "Conferma richiesta",
+            content: "Sei sicuro di voler resettare i tentativi di login dal codice identificativo: <strong>" + id + "</strong>?",
+            buttons: {
+                confirm: {
+                    text: "Sì, prosegui",
+                    btnClass: "btn-success",
+                    keys: ['enter'],
+                    action: function() {
+                        $.post("/amministrazione/script/resetTentativiLogin.php", {ID: id}, function(result) {
+                            result = result.trim();
+                            if(result === "reset-effettuato") {
+                                $alert(
+                                    "Operazione completata",
+                                    "Il reset dei tentativi di login dell'utente di codice <strong>" + id + "</strong> è stato completato con successo."
+                                );
+                            } else {
+                                $alert(
+                                    "Operazione non effettuata",
+                                    "Il reset dei tentativi di login dell'utente di codice <strong>" + id + "</strong> non è andato a buon fine (codice errore: <strong>" + result + "</strong>). Riprovare più tardi."
+                                );
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: "No, annulla",
+                    btnClass: "btn-danger"
+                }
+            }
+        });
+    } catch(parsing_error) {
+        $alert(
+            "Attenzione",
+            "Devi compilare la casella di testo dell'ID con un codice numerico."
+        );
+    }
+}
+
 
 
 $(document).ready(function() {
@@ -549,4 +598,7 @@ $(document).ready(function() {
             }
         });
     });
+
+    //PANNELLO J - RESET DEI TENATIVI DI LOGIN
+    //$("button#reset_tLogin").click(resetTentativiLogin); // ATTUALMETE NON IN USO
 });

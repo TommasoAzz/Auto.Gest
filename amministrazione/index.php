@@ -91,6 +91,16 @@ $utente = Session::get("utente");
             include "pannelli/modificaAltreAttivita.html"; //   <!-- PANNELLO I -->
         ?>
         </div>
+        <div class="row" id="noPrint">
+        <?php echo riga_noMobile; ?>
+        </div>
+        <div class="row" id="noPrint">
+        <?php
+            include "pannelli/resetTentativiLogin.html"; //           <!-- PANNELLO J -->
+            //echo riga_soloMobile;
+            //include "pannelli/<nome_pannello>.html"; //   <!-- PANNELLO K -->
+        ?>
+        </div>
     </div>
     <!-- FOOTER -->
     <?php require_once "../footer.php"; ?>
