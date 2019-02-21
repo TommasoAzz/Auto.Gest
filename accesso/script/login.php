@@ -14,5 +14,16 @@ $psw = $db->escape(GlobalVar::POST("psw"));
 
 //eseguo la funzione login()
 $risultatoLogin = login($db, $cla, $sez, $ind, $psw); //stringa
-echo $risultatoLogin;
+
+if($risultatoLogin !== "utente_esistente") echo $risultatoLogin;
+else {
+    $utente = Session::get("utente");
+    $datiDaRestituire = array(
+        "nome" => $utente->getNome(),
+        "cognome" => $utente->getCognome(),
+        "classe" => $utente->classe->getClasse() . "°" . $utente->classe->getSezione() . " " . $utente->classe->getIndirizzo(),
+        "ruolo" => $utente->getLivello() == 1 ? "Studente" : ($utente->getLivello() == 2 ? "Responsabile di corso" : "Amministratore dell'evento")
+    );
+    echo json_encode($datiDaRestituire);
+}
 

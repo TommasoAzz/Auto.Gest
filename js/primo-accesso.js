@@ -8,7 +8,8 @@ function controlloUtente(password, datiLogin) { //manda query per controllo pass
 
     $.post("/accesso/script/login.php", datiDaInviare, function(result) {
         result = result.trim();
-        const $cPsw = $("div#campo_first_access_psw, div#extCampo_first_access_psw");
+        const $cPsw = (datiDaInviare.indirizzo === "ESTERNO" || datiDaInviare.indirizzo === "PERSONALE") ? $("div#extCampo_first_access_psw") : $("div#campo_first_access_psw");
+        
         /*
             Stringhe errore:
             - DATI INPUT: errore_db_dati_input (dati input potrebbero essere errati)
@@ -16,12 +17,27 @@ function controlloUtente(password, datiLogin) { //manda query per controllo pass
             - UTENTE ESISTENTE: utente_esistente (login effettuato)
         */
 
-        if(result === "utente_esistente") {
-            const page_url = location.href; window.location = page_url; //equivalente a F5 (ricarica la pagina)
-        } else if(result === "errore_db_dati_input")
+        if(result === "errore_db_dati_input")
             $cPsw.removeClass("has-success").addClass("has-error").append("<label class='error' id='logerr'>I dati che hai inserito sono errati (controlla soprattutto di aver digitato correttamente la password).</label>");
         else if(result === "errore_db_idpersona")
             $cPsw.removeClass("has-success").addClass("has-error").append("<label class='error' id='logerr'>Ci sono dei problemi nella comunicazione con il database.</label>");
+        else {
+            try {
+                const datiUtente = JSON.parse(result);
+
+                $("p#registrazione_nome").text(datiUtente.nome);
+                $("p#registrazione_cognome").text(datiUtente.cognome);
+                $("p#registrazione_classe").text(datiUtente.classe);
+                $("p#registrazione_ruolo").text(datiUtente.ruolo);
+                $("div#registrazioneUtente").modal("show");
+            } catch(json_syntax_error) {
+                $cPsw.removeClass("has-success").addClass("has-error");
+            }
+            
+        }
+            //const page_url = location.href; window.location = page_url; //equivalente a F5 (ricarica la pagina)
+            
+        
     });
 }
 

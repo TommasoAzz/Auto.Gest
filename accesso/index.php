@@ -1,10 +1,11 @@
 <?php
-require_once "../caricaClassi.php";
-require_once "../connettiAlDB.php";
-include_once "../getInfo.php";
-require_once "../funzioni.php";
-Session::open();
-$info=Session::get("info");
+    require_once "../caricaClassi.php";
+    require_once "../connettiAlDB.php";
+    include_once "../getInfo.php";
+    require_once "../funzioni.php";
+    Session::open();
+    $info = Session::get("info");
+    $utente = Session::get("utente");
 ?>
 <html>
     <head>
@@ -14,7 +15,11 @@ $info=Session::get("info");
     <body>
     <div id="wrapper" class="clearfix"><!-- inizio wrapper -->
     <!-- NAVBAR -->
-    <?php require_once "../caricaNavbar.php"; ?>
+    <?php
+        if(isset($utente)) header("Location: ../");
+        require_once "../caricaNavbar.php";
+    ?>
+    <!-- BODY -->
     <div id="content" class="container">
         <!-- INTESTAZIONE PAGINA -->
         <div class="row">
@@ -138,6 +143,8 @@ $info=Session::get("info");
     </div>
     <!-- FOOTER -->
     <?php require_once "../footer.php"; ?>
+    <!-- REGISTRAZIONE MODAL -->
+    <?php require_once "modal/registrazione.php"; ?>
     </div><!-- fine wrapper -->
     </body>
 </html>
