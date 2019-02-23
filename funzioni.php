@@ -191,6 +191,9 @@ function inizializzaUtente($db, $ID_Persona) {
             $dati["Sezione"],
             $dati["Indirizzo"]
         ),
+        $dati["Username"],
+        $dati["Mail"],
+        $dati["PrimoAccessoEffettuato"],
         $dati["GiornoIscritto"],
         $dati["OraIscritta"],
         $dati["Livello"]
@@ -205,23 +208,26 @@ function cifraPassword($stringa) { // !!!
     return $s_cifrata;
 } //RESTITUITO: $stringa cifrata
 
-function login($db, $cl, $s, $ind, $postPass) {
+function primoAccesso($db, $cl, $s, $ind, $postPass) {
     $password = cifraPassword($postPass);
-    $id_persona = $db->queryDB("SELECT ID_Persona FROM Persone P INNER JOIN Classi C ON P.ID_Classe=C.ID_Classe WHERE Classe='".$cl."' AND Sezione='".$s."' AND Indirizzo='".$ind."' AND Pwd='".$password."'");
-    if(!$id_persona) return "errore_db_dati_input";
+    $id_paf = $db->queryDB("SELECT ID_Persona, PrimoAccessoEffettuato FROM Persone P INNER JOIN Classi C ON P.ID_Classe=C.ID_Classe WHERE Classe='".$cl."' AND Sezione='".$s."' AND Indirizzo='".$ind."' AND Pwd='".$password."'");
+    if(!$id_paf) return "errore_db_dati_input";
 
-    $id = intval($id_persona[0]["ID_Persona"]);
+    $id = intval($id_paf[0]["ID_Persona"]);
+    $paf = intval($id_paf[0]["PrimoAccessoEffettuato"]);
+    
+    if($paf > 0) return "primo_accesso_effettuato";
+
     $utente = inizializzaUtente($db, $id);
     if(!$utente) return "errore_db_idpersona";
 
-    Session::set("utente", $utente);
-
-    //controllo del login
-    $browser = GlobalVar::SERVER("HTTP_USER_AGENT"); //browser in uso
-    Session::set("login", hash('sha512', $password.$browser));
-
-    return "utente_esistente";
-} //RESTITUITO: "utente_esistente" se il login è stato effettuato, "errore_db_idpersona" se l'id è non trovato, "errore_db_dati_input" se i dati input non corrispondono. Viene interrogato il database.
+    return array(
+        "nome" => $utente->getNome(),
+        "cognome" => $utente->getCognome(),
+        "classe" => $utente->classe->getClasse() . "°" . $utente->classe->getSezione() . " " . $utente->classe->getIndirizzo(),
+        "ruolo" => $utente->getLivello() == 1 ? "Studente" : ($utente->getLivello() == 2 ? "Responsabile di corso" : "Amministratore dell'evento")
+    );
+} //RESTITUITO: array contenente i dati da mostrare nel form di registrazione se il login è stato effettuato, "errore_db_idpersona" se l'id è non trovato, "errore_db_dati_input" se i dati input non corrispondono. Viene interrogato il database.
 
 function getIndirizzi($db) {
     $indirizzi = $db->queryDB("SELECT DISTINCT Indirizzo FROM Classi WHERE NOT (Classe='E' OR Classe='P') ORDER BY Indirizzo");
@@ -249,6 +255,17 @@ function getClassi($db, $indirizzo) {
     return $classi;
 } //RESTITUITO: array con 'classi, sezioni' dell'indirizzo = $indirizzo o messaggio di errore. Viene interrogato il database.
 
+function mailEsistente($db, $mail_utente) {
+    $result = $db->queryDB("SELECT * FROM Persone WHERE Mail = '" . $mail_utente . "'");
+    
+    return $result ? true : false;
+} //RESTITUITO: true se mail presente nel database, false altrimenti. Viene interrogato il database.
+
+function usernameEsistente($db, $username_utente) {
+    $result = $db->queryDB("SELECT * FROM Persone WHERE Username = '" . $username_utente . "'");
+
+    return $result ? true : false;
+} //RESTITUITO: true se mail presente nel database, false altrimenti. Viene interrogato il database.
 
 /*************************************************************************************************/
 /*                                      SEZIONE: Amministrazione                                 */

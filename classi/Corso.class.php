@@ -12,15 +12,17 @@ class Corso extends AutoGestDB {
     //attributi
     private $id; //identificativo del corso
     private $nome; //nome del corso
+    private $informazioni; //info sul corso se presenti
     private $aula; //luogo dove si tiene il corso
     private $durata; //durata in numero ore del corso
     private $maxPosti; //numero di posti massimo
 
     //metodi
     //--costruttore
-    public function __construct($id=0, $n="", $a="", $d=0, $mp=0) {
+    public function __construct($id=0, $n="", $i="", $a="", $d=0, $mp=0) {
         $this->setID($id); //identificativo del corso
         $this->setNome($n); //nome del corso 
+        $this->setInformazioni($i); //informazioni sul corso
         $this->setAula($a); //luogo dove si tiene il corso 
         $this->setDurata($d); //durata in numero ore del corso
         $this->setMaxPosti($mp); //numero di posti massimo 
@@ -54,6 +56,10 @@ class Corso extends AutoGestDB {
         $this->nome = $this->preparaDato($n, "Nome");
     }
 
+    public function setInformazioni($i) {
+        $this->informazioni = $this->preparaDato($i, "Informazioni");
+    }
+
     public function setAula($a) {
         $this->aula = $this->preparaDato($a, "Aula");
     }
@@ -72,6 +78,10 @@ class Corso extends AutoGestDB {
 
     public function getNome() {
         return $this->nome;
+    }
+
+    public function getInformazioni() {
+        return $this->informazioni;
     }
 
     public function getAula() {

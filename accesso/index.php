@@ -18,6 +18,7 @@
     <?php
         if(isset($utente)) header("Location: ../");
         require_once "../caricaNavbar.php";
+        require_once "modal/registrazione.php";
     ?>
     <!-- BODY -->
     <div id="content" class="container">
@@ -43,9 +44,6 @@
                                     <div class="form-group" id="primo_accesso_spiegazione">
                                         <p class="text-justify">Per poter procedere con la registrazione del tuo profilo per <?php echo $info["titolo"]; ?>, seleziona il tuo indirizzo, la tua classe ed infine inserisci la password che ti è stata consegnata dai Rappresentanti degli Studenti. Nel caso l'avessi smarrita, non esitare a contattarci (usando i link che trovi nel piè di pagina), provvederemo a dartene una copia.</p>
                                         <p class="text-justify">Non sei uno studente? Clicca <a id="visualizza_extPrimo_accesso">qui</a>.</p>
-                                    </div>
-                                    <div class="form-group" id="campo_show_hide_primo_accesso_spiegazione">
-                                        <p class="text-justify"><a id="show_hide_primo_accesso_spiegazione">Nascondi il paragrafo</a> qui sopra.</p>
                                     </div>
                                     <div class="form-group" id="campo_indirizzo">
                                         <label for="indirizzo" id="lblIndirizzo">Indirizzo</label>
@@ -80,16 +78,13 @@
                                         <p class="text-justify">Per poter gestire il tuo corso, seleziona dal menu a tendina <code>PERSONALE</code> se fai parte del personale dell'Istituto o <code>ESTERNO</code> se sei una persona esterna all'Istituto, poi inserisci la password che ti è stata consegnata dai Rappresentanti degli Studenti. Nel caso l'avessi smarrita, non esitare a contattarci, provvederemo a dartene una copia.</p>
                                         <p class="text-justify">Non fai parte del personale oppure non sei una persona esterno alla scuola? Clicca <a id="visualizza_primo_accesso">qui</a>.</p>
                                     </div>
-                                    <div class="form-group" id="extCampo_show_hide_primo_accesso_spiegazione">
-                                        <p class="text-justify"><a id="extShow_hide_primo_accesso_spiegazione">Nascondi il paragrafo</a> qui sopra.</p>
-                                    </div>
                                     <div class="form-group" id="extCampo_indirizzo">
                                         <label for="extIndirizzo" id="extLblIndirizzo">Personale/Esterno</label>
                                         <select class="form-control" name="extIndirizzo" id="extIndirizzo">
                                             <option value=""></option>
                                         </select>
                                     </div>
-                                    <div class="form-group" id="extFirst_access_psw">
+                                    <div class="form-group" id="extCampo_first_access_psw">
                                         <label for="extFirst_access_login_password" class="control-label">Password</label>
                                         <input type="password" class="form-control" name="extFirst_access_login_password" id="extFirst_access_login_password" placeholder="********">
                                     </div>
@@ -144,7 +139,7 @@
     <!-- FOOTER -->
     <?php require_once "../footer.php"; ?>
     <!-- REGISTRAZIONE MODAL -->
-    <?php require_once "modal/registrazione.php"; ?>
+    <?php //require_once "modal/registrazione.php"; ?>
     </div><!-- fine wrapper -->
     </body>
 </html>

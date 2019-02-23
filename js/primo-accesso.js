@@ -6,7 +6,7 @@ function controlloUtente(password, datiLogin) { //manda query per controllo pass
         psw: password.trim()
     };
 
-    $.post("/accesso/script/login.php", datiDaInviare, function(result) {
+    $.post("/accesso/script/primoAccesso.php", datiDaInviare, function(result) {
         result = result.trim();
         const $cPsw = (datiDaInviare.indirizzo === "ESTERNO" || datiDaInviare.indirizzo === "PERSONALE") ? $("div#extCampo_first_access_psw") : $("div#campo_first_access_psw");
         
@@ -14,14 +14,21 @@ function controlloUtente(password, datiLogin) { //manda query per controllo pass
             Stringhe errore:
             - DATI INPUT: errore_db_dati_input (dati input potrebbero essere errati)
             - ID PERSONA: errore_db_idpersona (errore nella connessione col db possibilmente)
-            - UTENTE ESISTENTE: utente_esistente (login effettuato)
         */
 
-        if(result === "errore_db_dati_input")
-            $cPsw.removeClass("has-success").addClass("has-error").append("<label class='error' id='logerr'>I dati che hai inserito sono errati (controlla soprattutto di aver digitato correttamente la password).</label>");
-        else if(result === "errore_db_idpersona")
-            $cPsw.removeClass("has-success").addClass("has-error").append("<label class='error' id='logerr'>Ci sono dei problemi nella comunicazione con il database.</label>");
-        else {
+        $cPsw.removeClass("has-success has-error");
+        $("label#logerr").remove();
+
+        if(result === "errore_db_dati_input") {
+            $cPsw.addClass("has-error");
+            $cPsw.append("<label class='error' id='logerr'>La password inserita non corrisponde a nessun profilo. Controlla di averla digitata correttamente.</label>");
+        } else if(result === "errore_db_idpersona") {
+            $cPsw.addClass("has-error");
+            $cPsw.append("<label class='error' id='logerr'>Ci sono dei problemi nella comunicazione con il database.</label>");
+        } else if(result === "primo_accesso_effettuato") {
+            $cPsw.addClass("has-error");
+            $cPsw.append("<label class='error' id='logerr'>Hai già effettuato il primo accesso! Accedi con username e password tramite il pannello <strong>Accedi</strong>.</label>");
+        } else {
             try {
                 const datiUtente = JSON.parse(result);
 
@@ -31,13 +38,10 @@ function controlloUtente(password, datiLogin) { //manda query per controllo pass
                 $("p#registrazione_ruolo").text(datiUtente.ruolo);
                 $("div#registrazioneUtente").modal("show");
             } catch(json_syntax_error) {
-                $cPsw.removeClass("has-success").addClass("has-error");
+                $cPsw.addClass("has-error");
+                $cPsw.append("<label class='error' id='logerr'>Ci sono dei problemi nella comunicazione con il database.</label>");
             }
-            
         }
-            //const page_url = location.href; window.location = page_url; //equivalente a F5 (ricarica la pagina)
-            
-        
     });
 }
 
@@ -153,9 +157,20 @@ $(document).ready(function() {
     }; // dati per il modulo di login
 
     // -- GESTIONE 1° ACCESSO PER STUDENTI -- //
-    $("form#first_access_login").submit(function(e) {
+    $("form#first_access_login").submit(function(e) { // rimossa funzionalità input[type='submit']
         e.preventDefault();
-    }); // rimossa funzionalità input[type='submit']
+    }).validate({
+        rules: {
+            first_access_login_password: {
+                require: true
+            }
+        },
+        messages: {
+            first_access_login_password: {
+                required: "Questo campo deve essere compilato.",
+            }
+        }
+    });
 
     $("a#visualizza_extPrimo_accesso").click(function() {
         $("div.panel-body#primo_accesso").fadeOut();
@@ -166,18 +181,6 @@ $(document).ready(function() {
     $("select#indirizzo, select#classe, input#first_access_login_password").prop('disabled', true); //disabilito le select e input della psw (non devono funzionare fino a che non contengono dati)
 
     richiestaIndirizzi($("select#indirizzo")); //popolamento select#indirizzo e ottenimento lista indirizzi
-
-    $("a#show_hide_primo_accesso_spiegazione").click(function() { //nasconde la spiegazione su come utilizzare il modulo di login
-        const $spiegazione = $("div#primo_accesso_spiegazione");
-
-        if($spiegazione.css("display") === "block") {
-            $spiegazione.fadeOut();
-            $(this).html("Rimostra il paragrafo");
-        } else if($spiegazione.css("display") === "none") {
-            $spiegazione.fadeIn();
-            $(this).html("Nascondi il paragrafo");
-        }
-    });
 
     $("select#indirizzo").change(function() { //richiesta classi dato l'indirizzo e animazioni
         datiLogin = recuperaDati($(this));
@@ -217,6 +220,17 @@ $(document).ready(function() {
     // -- GESTIONE 1° ACCESSO PER STUDENTI -- //
     $("form#extFirst_access_login").submit(function(e) {
         e.preventDefault();
+    }).validate({
+        rules: {
+            extFirst_access_login_password: {
+                required: true
+            }
+        },
+        messages: {
+            extFirst_access_login_password: {
+                required: "Questo campo deve essere compilato.",
+            }
+        }
     });
 
     $("a#visualizza_primo_accesso").click(function() {
@@ -229,18 +243,6 @@ $(document).ready(function() {
     
     extRichiestaIndirizzi($("select#extIndirizzo")); //popolamento select#extIndirizzo e ottenimento lista provenienze
     
-    $("a#extShow_hide_primo_accesso_spiegazione").click(function() { //nasconde la spiegazione su come utilizzare il modulo di login esterni
-        const $extSpiegazione = $("div#extPrimo_accesso_spiegazione");
-
-        if($extSpiegazione.css("display") === "block") {
-            $extSpiegazione.fadeOut();
-            $(this).html("Rimostra il paragrafo");
-        } else if($extSpiegazione.css("display") === "none") {
-            $extSpiegazione.fadeIn();
-            $(this).html("Nascondi il paragrafo");
-        }
-    });
-
     $("select#extIndirizzo").change(function() { //richiesta cognomi e nomi data la provenienza e animazioni
         datiLogin = extRecuperaDati($(this));
         const $inputPsw = $("input#extFirst_access_login_password");
@@ -255,7 +257,7 @@ $(document).ready(function() {
     
     
     $("input#extFirst_access_login_password").change(function() {
-        $("div#extFirst_access_psw").removeClass("has-success has-error"); //tolgo has-success / has-error se le ha
+        $("div#extCampo_first_access_psw").removeClass("has-success has-error"); //tolgo has-success / has-error se le ha
         $('label#logerr').remove(); //reset dei messaggi di errore
     }).keypress(function(e) {
         if(e.which == 13) controlloUtente($(this).val(), datiLogin);
@@ -264,4 +266,108 @@ $(document).ready(function() {
     $("button#extBtnProcedi").click(function() {
         controlloUtente($("input#extFirst_access_login_password").val(), datiLogin);
     });
+
+    // -- VALIDAZIONE FORM #registrazione_nuovo_utente -- //
+    $("form#registrazione_nuovo_utente").submit(function(e) { // rimossa funzionalità input[type='submit']
+        e.preventDefault();
+    }).validate({
+        rules: {
+            mail_utente: {
+                required: true,
+                email: true,
+                remote: {
+                    url: "/accesso/script/verificaEsistenzaDati.php",
+                    type: "POST"
+                }
+            },
+            username_utente: {
+                required: true,
+                remote: {
+                    url: "/accesso/script/verificaEsistenzaDati.php",
+                    type: "POST"
+                }
+            },
+            password_vecchia_utente: {
+                required: true
+            },
+            password_nuova_utente: {
+                required: true,
+                strongPassword: true
+            },
+            password_nuova2_utente: {
+                required: true,
+                equalTo: "#password_nuova_utente"
+            }
+        },
+        messages: {
+            mail_utente: {
+                required: "Questo campo deve essere compilato.",
+                email: "Inserisci un valido indirizzo mail.",
+                remote: $.validator.format("Con l'indirizzo mail {0} c'è già un profilo collegato. Se è il tuo, accedi tramite il pannello Accedi. Se invece non lo è, contattaci (usando i link che trovi nel piè di pagina).")
+            },
+            username_utente: {
+                required: "Questo campo deve essere compilato.",
+                remote: $.validator.format("Ci dispiace, ma {0} è già stato usato come nome utente. Creane un altro.")
+            },
+            password_vecchia_utente: {
+                required: "Questo campo deve essere compilato.",
+            },
+            password_nuova_utente: {
+                required: "Questo campo deve essere compilato."
+            },
+            password_nuova2_utente: {
+                required: "Questo campo deve essere compilato.",
+                equalTo: "Devi inserire la stessa password inserita nel campo precedente."
+            }
+        }
+    });
+
+    $("a#btnProsegui").click(function() {
+        const datiRegistrazione = {
+            registrazione_nome: $("p#registrazione_nome").html(),
+            registrazione_cognome: $("p#registrazione_cognome").html(),
+            mail_utente: $("input#mail_utente").val().trim(),
+            username_utente: $("input#username_utente").val().trim(),
+            password_vecchia_utente: $("input#password_vecchia_utente").val().trim(),
+            password_nuova_utente: $("input#password_nuova_utente").val().trim(),
+            password_nuova2_utente: $("input#password_nuova2_utente").val().trim()
+        };
+
+        $.post("/accesso/script/convalidaRegistrazione.php", datiRegistrazione, function(result) {
+            result = result.trim();
+            switch(result) {
+                case "errore_db_corrispondenza_nome_cognome_password":
+                    $alert(
+                        "Operazione non effettuata",
+                        "Non c'è nessuna corrispondenza fra nome, cognome e password consegnata dai Rappresentanti degli Studenti nel database. Controlla i dati inseriti. Se il problema persiste, contattaci (usando i link che trovi nel piè di pagina)."
+                    );
+                    break;
+                case "errore_db_mail_username_esistenti":
+                    $alert(
+                        "Operazione non effettuata",
+                        "Mail o password inseriti sono già presenti nel database. Controlla i dati inseriti."
+                    );
+                    break;
+                case "errore_db_corrispondenza_password":
+                    $alert(
+                        "Operazione non effettuata",
+                        "La password nuova e quella ripetuta non corrispondono. Controlla i dati inseriti."
+                    );
+                    break;
+                case "errore_db_profilo_non_creato":
+                    $alert(
+                        "Operazione non effettuata",
+                        "Ci sono stato dei problemi nella creazione del tuo profilo. Riprova più tardi."
+                    );
+                    break;
+                case "profilo_creato":
+                    $alert(
+                        "Operazione effettuata",
+                        "Profilo creato con successo. Puoi ora accedere al sistema tramite il pannello <strong>Accedi</strong>"
+                    );
+                    $("div#registrazioneUtente").modal("hide");
+                    break;
+            }
+        });
+    })
 });
