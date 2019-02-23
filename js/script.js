@@ -73,3 +73,7 @@ $(document).ready(function() {
     });
 
 });
+
+$.validator.addMethod('strongPassword', function(value, element) {
+    return this.optional(element) || value.length >= 8 && /\d/.test(value) && /[a-z]/.test(value) && /[A-Z]/.test(value);
+}, "La password deve essere lunga almeno 8 caratteri e deve contenere almeno un carattere minuscolo, uno maiuscolo e una cifra numerica.");
