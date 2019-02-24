@@ -19,6 +19,8 @@ if(!$ID_Persona) {
    echo "errore_db_corrispondenza_nome_cognome_password"; 
 } else if(usernameEsistente($db, $username_utente) || mailEsistente($db, $mail_utente)) {
     echo "errore_db_mail_username_esistenti";
+} else if($mail_utente === filter_var($mail_utente, FILTER_VALIDATE_EMAIL)) {
+    echo "errore_db_formato_mail_errato";
 } else if($password_nuova_utente !== $password_nuova2_utente) {
     echo "errore_db_corrispondenza_password";
 } else {

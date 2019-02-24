@@ -1,4 +1,4 @@
-function controlloUtente(password, datiLogin) { //manda query per controllo password e dati utente
+function controlloPrimoAccesso(password, datiLogin) { //manda query per controllo password e dati utente
     const datiDaInviare = { //creo un oggetto con i dati da inviare tramite $.post()
         classe: datiLogin.classe,
         sezione: datiLogin.sezione,
@@ -41,6 +41,61 @@ function controlloUtente(password, datiLogin) { //manda query per controllo pass
                 $cPsw.addClass("has-error");
                 $cPsw.append("<label class='error' id='logerr'>Ci sono dei problemi nella comunicazione con il database.</label>");
             }
+        }
+    });
+}
+
+function controlloDatiRegistrazione() {
+    const datiRegistrazione = {
+        registrazione_nome: $("p#registrazione_nome").html(),
+        registrazione_cognome: $("p#registrazione_cognome").html(),
+        mail_utente: $("input#mail_utente").val().trim(),
+        username_utente: $("input#username_utente").val().trim(),
+        password_vecchia_utente: $("input#password_vecchia_utente").val().trim(),
+        password_nuova_utente: $("input#password_nuova_utente").val().trim(),
+        password_nuova2_utente: $("input#password_nuova2_utente").val().trim()
+    };
+
+    $.post("/accesso/script/convalidaRegistrazione.php", datiRegistrazione, function(result) {
+        result = result.trim();
+        switch(result) {
+            case "errore_db_corrispondenza_nome_cognome_password":
+                $alert(
+                    "Operazione non effettuata",
+                    "Non c'è nessuna corrispondenza fra nome, cognome e password consegnata dai Rappresentanti degli Studenti nel database. Controlla i dati inseriti. Se il problema persiste, contattaci (usando i link che trovi nel piè di pagina)."
+                );
+                break;
+            case "errore_db_mail_username_esistenti":
+                $alert(
+                    "Operazione non effettuata",
+                    "La mail o l'username inseriti sono già presenti nel database. Controlla i dati inseriti."
+                );
+                break;
+            case "errore_db_formato_mail_errato":
+                $alert(
+                    "Operazione non effettuata",
+                    "Il fomato della mail inserita non è corretto. Controlla i dati inseriti."
+                );
+                break;    
+            case "errore_db_corrispondenza_password":
+                $alert(
+                    "Operazione non effettuata",
+                    "La password nuova e quella ripetuta non corrispondono. Controlla i dati inseriti."
+                );
+                break;
+            case "errore_db_profilo_non_creato":
+                $alert(
+                    "Operazione non effettuata",
+                    "Ci sono stato dei problemi nella creazione del tuo profilo. Riprova più tardi."
+                );
+                break;
+            case "profilo_creato":
+                $alert(
+                    "Operazione effettuata",
+                    "Profilo creato con successo. Puoi ora accedere al sistema tramite il pannello <strong>Accedi</strong>"
+                );
+                $("div#registrazioneUtente").modal("hide");
+                break;
         }
     });
 }
@@ -162,7 +217,7 @@ $(document).ready(function() {
     }).validate({
         rules: {
             first_access_login_password: {
-                require: true
+                required: true
             }
         },
         messages: {
@@ -210,11 +265,11 @@ $(document).ready(function() {
         $("div#campo_first_access_psw").removeClass("has-success has-error");
         $('label#logerr').remove(); //reset dei messaggi di errore
     }).keypress(function(e) {
-        if(e.which == 13) controlloUtente($(this).val(), datiLogin);
+        if(e.which == 13) controlloPrimoAccesso($(this).val(), datiLogin);
     });
 
     $("button#btnProcedi").click(function() { //click del pulsante Accedi tramite mouse
-        controlloUtente($("input#first_access_login_password").val(), datiLogin);
+        controlloPrimoAccesso($("input#first_access_login_password").val(), datiLogin);
     });
 
     // -- GESTIONE 1° ACCESSO PER STUDENTI -- //
@@ -260,11 +315,11 @@ $(document).ready(function() {
         $("div#extCampo_first_access_psw").removeClass("has-success has-error"); //tolgo has-success / has-error se le ha
         $('label#logerr').remove(); //reset dei messaggi di errore
     }).keypress(function(e) {
-        if(e.which == 13) controlloUtente($(this).val(), datiLogin);
+        if(e.which == 13) controlloPrimoAccesso($(this).val(), datiLogin);
     });
 
     $("button#extBtnProcedi").click(function() {
-        controlloUtente($("input#extFirst_access_login_password").val(), datiLogin);
+        controlloPrimoAccesso($("input#extFirst_access_login_password").val(), datiLogin);
     });
 
     // -- VALIDAZIONE FORM #registrazione_nuovo_utente -- //
@@ -322,52 +377,5 @@ $(document).ready(function() {
         }
     });
 
-    $("a#btnProsegui").click(function() {
-        const datiRegistrazione = {
-            registrazione_nome: $("p#registrazione_nome").html(),
-            registrazione_cognome: $("p#registrazione_cognome").html(),
-            mail_utente: $("input#mail_utente").val().trim(),
-            username_utente: $("input#username_utente").val().trim(),
-            password_vecchia_utente: $("input#password_vecchia_utente").val().trim(),
-            password_nuova_utente: $("input#password_nuova_utente").val().trim(),
-            password_nuova2_utente: $("input#password_nuova2_utente").val().trim()
-        };
-
-        $.post("/accesso/script/convalidaRegistrazione.php", datiRegistrazione, function(result) {
-            result = result.trim();
-            switch(result) {
-                case "errore_db_corrispondenza_nome_cognome_password":
-                    $alert(
-                        "Operazione non effettuata",
-                        "Non c'è nessuna corrispondenza fra nome, cognome e password consegnata dai Rappresentanti degli Studenti nel database. Controlla i dati inseriti. Se il problema persiste, contattaci (usando i link che trovi nel piè di pagina)."
-                    );
-                    break;
-                case "errore_db_mail_username_esistenti":
-                    $alert(
-                        "Operazione non effettuata",
-                        "Mail o password inseriti sono già presenti nel database. Controlla i dati inseriti."
-                    );
-                    break;
-                case "errore_db_corrispondenza_password":
-                    $alert(
-                        "Operazione non effettuata",
-                        "La password nuova e quella ripetuta non corrispondono. Controlla i dati inseriti."
-                    );
-                    break;
-                case "errore_db_profilo_non_creato":
-                    $alert(
-                        "Operazione non effettuata",
-                        "Ci sono stato dei problemi nella creazione del tuo profilo. Riprova più tardi."
-                    );
-                    break;
-                case "profilo_creato":
-                    $alert(
-                        "Operazione effettuata",
-                        "Profilo creato con successo. Puoi ora accedere al sistema tramite il pannello <strong>Accedi</strong>"
-                    );
-                    $("div#registrazioneUtente").modal("hide");
-                    break;
-            }
-        });
-    })
+    $("a#btnProsegui").click(controlloDatiRegistrazione);
 });
