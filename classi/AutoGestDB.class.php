@@ -62,7 +62,10 @@ class AutoGestDB {
         "Nome" => 30, //string
         "Cognome" => 30, //string
         "ID_Classe" => 999, //int
-        "Pwd" => 32, //string
+        "Username" => 32, //string
+        "Mail" => 254, //string
+        "PrimoAccessoEffettuato" => 1, //int
+        "Pwd" => 64, //string
         "GiornoIscritto" => 9, //int
         "OraIscritta" => 9, //int
         "Livello" => 3 //int (1 studente - 2 responsabile corso - 3 amministratore)

@@ -11,7 +11,6 @@
     <head>
         <?php require_once "head.php"; ?>
         <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-        <script type='text/javascript' src="/js/login.js"></script>
     </head>
     <body>
     <div id="wrapper" class="clearfix"><!-- inizio wrapper -->
@@ -20,7 +19,7 @@
         require_once "caricaNavbar.php";
         //scelta pulsante per Jumbotron -> viene inserito nel div.jumbotron
         if(!isset($utente)) {
-            $button = "<p class='text-center'><a class='btn btn-primary btn-lg' href='#login_interni' data-toggle='modal' role='button'>Accedi al sito</a></p>";
+            $button = "<p class='text-center'><a class='btn btn-primary btn-lg' href='" . getURL("/accesso/") . "' data-toggle='modal' role='button'>Accedi al sito</a></p>";
         } else {
             switch($utente->getLivello()) {
                 case 1: $button = "<p class='text-center'><a class='btn btn-primary btn-lg' href='" . getURL("/iscrizione/") . "'>Iscriviti qui</a></p>";
@@ -50,8 +49,6 @@
     </div>
     <!-- FOOTER -->
     <?php require_once "footer.php"; ?>
-    <!-- LOGIN MODAL -->
-    <?php require_once "caricaModalLogin.php"; ?>
     </div><!-- fine wrapper -->
     </body>
 </html>

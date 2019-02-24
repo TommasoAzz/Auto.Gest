@@ -67,8 +67,22 @@ label.error {
   color: #a94442;
 }
 
+input#first_access_login_password.form-control.error,
+input#extFirst_access_login_password.form-control.error,
 input#login_password.form-control.error {
   border-color: #ccc !important;
+}
+
+div.panel-heading h3 {
+  margin-top: 10px;
+}
+
+div#primo_accesso.panel-body {
+  display: block;
+}
+
+div#extPrimo_accesso.panel-body {
+  display: none;
 }
 
 /* TITOLI */

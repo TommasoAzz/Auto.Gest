@@ -66,18 +66,14 @@ $(document).ready(function() {
 
     gestioneNavbar(); //metodi che gestiscono la barra di navigazione e il footer
 
-    $('a#linkModalEsterni').click(function() { //evento che gestisce l'apertura del modal per i non studenti
-        $("div#login_interni").modal('hide');
-    });
-
-    $('a#linkModalInterni').click(function() {
-        $("div#login_esterni").modal('hide');
-    })
-
     $("body").keyup(function(e) { //evento per la gestione della chiusura dei modal con tasto ESC -- aggiungere tasto invio per l'invio dei dati
         if(e.which == 27) {
-            $("div#login_interni, div#login_esterni").modal("hide");
+            $("div.modal").modal("hide");
         }
     });
 
 });
+
+$.validator.addMethod('strongPassword', function(value, element) {
+    return this.optional(element) || value.length >= 8 && /\d/.test(value) && /[a-z]/.test(value) && /[A-Z]/.test(value);
+}, "La password deve essere lunga almeno 8 caratteri e deve contenere almeno un carattere minuscolo, uno maiuscolo e una cifra numerica.");

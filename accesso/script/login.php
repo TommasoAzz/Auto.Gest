@@ -6,13 +6,9 @@ Session::open();
 
 if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST") header("Location: ../../");
 
-//reperisco i dati
-$cla = $db->escape(GlobalVar::POST("classe"));
-$sez = $db->escape(GlobalVar::POST("sezione"));
-$ind = $db->escape(GlobalVar::POST("indirizzo"));
+$user_identification = $db->escape(GlobalVar::POST("user_identification"));
 $psw = $db->escape(GlobalVar::POST("psw"));
 
-//eseguo la funzione login()
-$risultatoLogin = login($db, $cla, $sez, $ind, $psw); //stringa
-echo $risultatoLogin;
+$risultatoLogin = login($db, $user_identification, $psw);
 
+echo $risultatoLogin;

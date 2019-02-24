@@ -10,7 +10,6 @@ $utente=Session::get("utente");
 <html>
     <head>
         <?php require_once "../head.php"; ?>
-        <script type='text/javascript' src="../js/login.js"></script>
     </head>
     <body>
     <div id="wrapper" class="clearfix"><!-- inizio wrapper -->
@@ -45,8 +44,6 @@ $utente=Session::get("utente");
     </div>
     <!-- FOOTER -->
     <?php require_once "../footer.php"; ?>
-    <!-- LOGIN MODAL -->
-    <?php require_once "../caricaModalLogin.php"; ?>
     </div><!-- fine wrapper -->
     </body>
 </html>
