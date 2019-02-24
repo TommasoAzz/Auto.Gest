@@ -44,4 +44,24 @@ class GlobalVar {
         self::init();
         return filter_input(INPUT_COOKIE,$key);
     }
+
+    public static function issetPOST($key) {
+        self::init();
+        return isset($_POST[$key]);
+    }
+
+    public static function issetGET($key) {
+        self::init();
+        return isset($_GET[$key]);
+    }
+
+    public static function issetSERVER($key) {
+        self::init();
+        return isset($_SERVER[$key]);
+    }
+
+    public static function issetCOOKIE($key) {
+        self::init();
+        return isset($_COOKIE[$key]);
+    }
 }

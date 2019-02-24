@@ -23,14 +23,14 @@ class Utente extends AutoGestDB {
 
     //metodi
     //--costruttore
-    public function __construct($id=0, $n="", $c="", $classe=null, $un="", $m="", $paf = 0, $gi=0, $oi=0, $l=1) {
+    public function __construct($id=0, $n="", $c="", $classe=null, $un="", $m="", $pae = 0, $gi=0, $oi=0, $l=1) {
         $this->setID($id);
         $this->setNome($n);
         $this->setCognome($c);
         $this->classe = $classe;
         $this->setUsername($un);
         $this->setMail($m);
-        $this->setPrimoAccessoEffettuato($paf);
+        $this->setPrimoAccessoEffettuato($pae);
         $this->setGiornoIscritto($gi);
         $this->setOraIscritta($oi);
         $this->setLivello($l);
@@ -77,8 +77,8 @@ class Utente extends AutoGestDB {
         $this->mail = $this->preparaDato($m, "Mail");
     }
 
-    public function setPrimoAccessoEffettuato($paf) {
-        $this->primoAccessoEffettuato = $this->preparaDato($paf, "PrimoAccessoEffettuato");
+    public function setPrimoAccessoEffettuato($pae) {
+        $this->primoAccessoEffettuato = $this->preparaDato($pae, "PrimoAccessoEffettuato");
     }
 
     public function setGiornoIscritto($g) {

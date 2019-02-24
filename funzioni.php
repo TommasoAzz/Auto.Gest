@@ -202,21 +202,15 @@ function inizializzaUtente($db, $ID_Persona) {
     return $utente;
 } //RESTITUITO: oggetto di classe Utente se l'interrogazione è andata a buon fine, false altrimenti. Viene interrogato il database.
 
-function cifraPassword($stringa) { // !!!
-    $s_cifrata = md5($stringa); //ASSOLUTAMENTE da cambiare (temporaneo)
-
-    return $s_cifrata;
-} //RESTITUITO: $stringa cifrata
-
 function primoAccesso($db, $cl, $s, $ind, $postPass) {
-    $password = cifraPassword($postPass);
+    $password = md5($postPass); // DA CAMBIARE
     $id_paf = $db->queryDB("SELECT ID_Persona, PrimoAccessoEffettuato FROM Persone P INNER JOIN Classi C ON P.ID_Classe=C.ID_Classe WHERE Classe='".$cl."' AND Sezione='".$s."' AND Indirizzo='".$ind."' AND Pwd='".$password."'");
     if(!$id_paf) return "errore_db_dati_input";
 
     $id = intval($id_paf[0]["ID_Persona"]);
-    $paf = intval($id_paf[0]["PrimoAccessoEffettuato"]);
+    $pae = intval($id_paf[0]["PrimoAccessoEffettuato"]);
     
-    if($paf > 0) return "primo_accesso_effettuato";
+    if($pae > 0) return "primo_accesso_effettuato";
 
     $utente = inizializzaUtente($db, $id);
     if(!$utente) return "errore_db_idpersona";
@@ -229,15 +223,17 @@ function primoAccesso($db, $cl, $s, $ind, $postPass) {
     );
 } //RESTITUITO: array contenente i dati da mostrare nel form di registrazione se il login è stato effettuato, "errore_db_idpersona" se l'id è non trovato, "errore_db_dati_input" se i dati input non corrispondono. Viene interrogato il database.
 
-function login($db, $user_identification, $psw) {
-    $password = cifraPassword($psw);
-    $id_paf = $db->queryDB("SELECT ID_Persona, Username, PrimoAccessoEffettuato FROM Persone WHERE Pwd='".$password."' AND (Mail = '" . $user_identification . "' OR Username = '" . $user_identification . "')");
-    if(!$id_paf) return "errore_db_dati_input";
+function login($db, $user_identification, $pwd_user) {
+    $data = $db->queryDB("SELECT ID_Persona, Pwd, PrimoAccessoEffettuato FROM Persone WHERE (Mail = '" . $user_identification . "' OR Username = '" . $user_identification . "')");
+    if(!$data) return "errore_db_dati_input";
+    
+    $id = intval($data[0]["ID_Persona"]);
+    $pae = intval($data[0]["PrimoAccessoEffettuato"]);
+    $pwd_db = $data[0]["Pwd"];
 
-    $id = intval($id_paf[0]["ID_Persona"]);
-    $paf = intval($id_paf[0]["PrimoAccessoEffettuato"]);
+    if($pae == 0) return "primo_accesso_non_effettuato";
 
-    if($paf == 0) return "primo_accesso_non_effettuato";
+    if(!password_verify($pwd_user, $pwd_db)) return "errore_db_password_errata";
 
     $utente = inizializzaUtente($db, $id);
     if(!$utente) return "errore_db_idpersona";
@@ -284,6 +280,21 @@ function usernameEsistente($db, $username_utente) {
 
     return $result ? true : false;
 } //RESTITUITO: true se mail presente nel database, false altrimenti. Viene interrogato il database.
+
+function invioMailConfermaAttivazione($evento, $nome, $cognome, $username, $destinatario, $activation_hash) {
+    $subject = $evento . " - Auto.Gest - Conferma iscrizione"; //oggetto della mail 
+
+    $message = "<p>Ciao " . $nome. " " . $cognome . ",<br />"; //messaggio della mail
+    $message .= "abbiamo ricevuto la tua richiesta di iscrizione al sistema di gestione di " . $evento . "in cui ti sei registrato con:</p>";
+    $message .= "<ul><li>Mail: " . $destinatario . "</li><li>Username: " . $username . "</li></ul>";
+    $message .= "<p>Per proseguire con l'attivazione del tuo account clicca sul link seguente:<br />";
+    $message .= "<a href='" . getURL("/") . "verificaAccount.php?mail=" . $destinatario ."&hashattivazione=" . $activation_hash . "'>Attiva il tuo profilo per " . $evento . "</a></p>";
+                        
+    $headers = 'From:auto.gest.ag@gmail.com' . "\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8" . "\r\n";
+
+    mail($destinatario, $subject, $message, $headers);
+}
 
 /*************************************************************************************************/
 /*                                      SEZIONE: Amministrazione                                 */
@@ -333,14 +344,14 @@ function cambioPassword($db, $id_persona, $nuovapwd) { //!!! (da cambiare)
     $cambioEff = $db->queryDB("UPDATE `Persone` SET `Pwd`='" . $nuovapwd . "' WHERE `ID_Persona`=$id_persona");
     
     return $cambioEff;
-}
+} //RESTITUITO: true se cambio password a persona di ID_Persona = $id_persona è stato fatto, false altrimenti. Viene interrogato il database.
 
 function iscrittiAltreAttivita($db, $nome_corso = "Altre attività") {
     $iscritti = $db->queryDB("SELECT Cognome, P.Nome AS Nome, Cl.Classe AS Cl, Cl.Sezione AS Sez, Cl.Indirizzo AS Ind, Sc.Giorno AS Gg, Sc.Ora AS Hh FROM Persone AS P, Classi AS Cl, Corsi AS Co, SessioniCorsi AS Sc, Iscrizioni AS I WHERE P.ID_Classe=Cl.ID_Classe AND Sc.ID_Corso=Co.ID_Corso AND I.ID_SessioneCorso=Sc.ID_SessioneCorso AND I.ID_Studente=P.ID_Persona AND Co.Nome='".$nome_corso."' ORDER BY Cognome, Nome, Indirizzo, Classe, Sezione, Ora, Giorno");
     if(!$iscritti) return "errore_db_iscritti_altre_attivita";
 
     return $iscritti;
-}
+} //RESTITUITO: lista di persone iscritte ad altre attività (corso Altre attività) o messaggio di errore. Viene interrogato il database.
 
 /*************************************************************************************************/
 /*                                      SEZIONE: I miei corsi                                    */

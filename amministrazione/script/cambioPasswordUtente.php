@@ -6,6 +6,6 @@ require_once "../../funzioni.php";
 if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST") header("Location: ../../");
 
 $ID = intval(GlobalVar::POST("ID"));
-$nuovapwd = cifraPassword(GlobalVar::POST("Pwd"));
+$nuovapwd = password_hash(GlobalVar::POST("Pwd"), PASSWORD_DEFAULT);
 
 echo (cambioPassword($db, $ID, $nuovapwd)) ? "cambio-effettuato" : "cambio-non-effettuato";

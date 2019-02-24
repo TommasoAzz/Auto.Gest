@@ -82,7 +82,7 @@ function controlloDatiRegistrazione(datiRegistrazione) {
             case "profilo_creato":
                 $alert(
                     "Operazione effettuata",
-                    "Profilo creato con successo. Puoi ora accedere al sistema tramite il pannello <strong>Accedi</strong>"
+                    "Profilo creato con successo. Ti è stata inviata una mail all'indirizzo " + datiRegistrazione.mail_utente + " con il link per poter procedere all'iscrizione."
                 );
                 $("div#registrazioneUtente").modal("hide");
                 break;

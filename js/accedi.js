@@ -19,7 +19,7 @@ function controlloLogin(password, user_identification) {
 
         if(result === "accesso_effettuato") {
             const page_url = location.href; window.location = page_url; //equivalente a F5 (ricarica la pagina)
-        } else if(result === "errore_db_dati_input") {
+        } else if(result === "errore_db_dati_input" || result === "errore_db_password_errata") {
             $cPsw.addClass("has-error");
             $cPsw.append("<label class='error' id='logerr'>I dati inseriti sono errati. Verifica di aver inserito correttamente il nome utente o l'indirizzo mail e la password.</label>");
         } else if(result === "primo_accesso_non_effettuato") {
