@@ -229,6 +229,24 @@ function primoAccesso($db, $cl, $s, $ind, $postPass) {
     );
 } //RESTITUITO: array contenente i dati da mostrare nel form di registrazione se il login è stato effettuato, "errore_db_idpersona" se l'id è non trovato, "errore_db_dati_input" se i dati input non corrispondono. Viene interrogato il database.
 
+function login($db, $user_identification, $psw) {
+    $password = cifraPassword($psw);
+    $id_paf = $db->queryDB("SELECT ID_Persona, Username, PrimoAccessoEffettuato FROM Persone WHERE Pwd='".$password."' AND (Mail = '" . $user_identification . "' OR Username = '" . $user_identification . "')");
+    if(!$id_paf) return "errore_db_dati_input";
+
+    $id = intval($id_paf[0]["ID_Persona"]);
+    $paf = intval($id_paf[0]["PrimoAccessoEffettuato"]);
+
+    if($paf == 0) return "primo_accesso_non_effettuato";
+
+    $utente = inizializzaUtente($db, $id);
+    if(!$utente) return "errore_db_idpersona";
+
+    Session::set("utente", $utente);
+
+    return "accesso_effettuato";
+} //RESTITUITO: "accesso_effettuato" se il login è stato effettuato, "primo_accesso_non_effettuato" se l'utente non ha effettuato la registrazione, "errore_db_idpersona" se l'id è non trovato, "errore_db_dati_input" se i dati input non corrispondono. Viene interrogato il database.
+
 function getIndirizzi($db) {
     $indirizzi = $db->queryDB("SELECT DISTINCT Indirizzo FROM Classi WHERE NOT (Classe='E' OR Classe='P') ORDER BY Indirizzo");
 

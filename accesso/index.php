@@ -11,6 +11,7 @@
     <head>
         <?php require_once "../head.php"; ?>
         <script type='text/javascript' src="../js/primo-accesso.js"></script>
+        <script type='text/javascript' src="../js/accedi.js"></script>
     </head>
     <body>
     <div id="wrapper" class="clearfix"><!-- inizio wrapper -->
@@ -114,8 +115,8 @@
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <div class="form-group" id="campo_username">
-                                        <label for="login_username" class="control-label">Nome utente</label>
-                                        <input type="text" class="form-control" name="login_username" id="login_username" placeholder="NomeCognome123" />
+                                        <label for="login_username" class="control-label">Nome utente o indirizzo mail</label>
+                                        <input type="text" class="form-control" name="login_username" id="login_username" placeholder="NomeCognome123 / nomecognome@mail.it" />
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
