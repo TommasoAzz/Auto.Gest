@@ -45,17 +45,7 @@ function controlloPrimoAccesso(password, datiLogin) { //manda query per controll
     });
 }
 
-function controlloDatiRegistrazione() {
-    const datiRegistrazione = {
-        registrazione_nome: $("p#registrazione_nome").html(),
-        registrazione_cognome: $("p#registrazione_cognome").html(),
-        mail_utente: $("input#mail_utente").val().trim(),
-        username_utente: $("input#username_utente").val().trim(),
-        password_vecchia_utente: $("input#password_vecchia_utente").val().trim(),
-        password_nuova_utente: $("input#password_nuova_utente").val().trim(),
-        password_nuova2_utente: $("input#password_nuova2_utente").val().trim()
-    };
-
+function controlloDatiRegistrazione(datiRegistrazione) {
     $.post("/accesso/script/convalidaRegistrazione.php", datiRegistrazione, function(result) {
         result = result.trim();
         switch(result) {
@@ -377,5 +367,17 @@ $(document).ready(function() {
         }
     });
 
-    $("a#btnProsegui").click(controlloDatiRegistrazione);
+    $("a#btnProsegui").click(function() {
+        const datiRegistrazione = {
+            registrazione_nome: $("p#registrazione_nome").html(),
+            registrazione_cognome: $("p#registrazione_cognome").html(),
+            mail_utente: $("input#mail_utente").val().trim(),
+            username_utente: $("input#username_utente").val().trim(),
+            password_vecchia_utente: $("input#password_vecchia_utente").val().trim(),
+            password_nuova_utente: $("input#password_nuova_utente").val().trim(),
+            password_nuova2_utente: $("input#password_nuova2_utente").val().trim()
+        };
+        
+        controlloDatiRegistrazione(datiRegistrazione);
+    });
 });
