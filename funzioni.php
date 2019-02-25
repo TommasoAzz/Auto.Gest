@@ -559,73 +559,20 @@ function getID_SessioneCorso($db, $nomeC, $giorno, $ora) {
     return intval($id_sc[0]["ID_SessioneCorso"]);
 } //RESTITUITO: ID_SessioneCorso del corso con nome=$nomeC, del giorno=$giorno e ora=$ora o messaggio di errore. Viene interrogato il database.
 
-function getPostiRimastiSessione($db, $id_sc) {
-    $posti = $db->queryDB("SELECT PostiRimasti FROM SessioniCorsi WHERE ID_SessioneCorso=$id_sc");
-
-    if(!$posti) return "errore_db_posti_sessione_corso";
-
-    $postiRimasti = intval($posti[0]["PostiRimasti"]);
-    if($postiRimasti <= 0) return "posti_terminati_sessione_corso";
-
-    return $postiRimasti;
-} //RESTITUITO: ((posti rimasti della sessione di corso di id=$id_sc > 0) o messaggio "posti_terminati_sessione_corso") o messaggio di errore. Viene interrogato il database.
-
 function inserisciIscrizione($db, $idStudente, $id_sc) {
     $iscrizione = $db->queryDB("INSERT INTO Iscrizioni (ID_Studente, ID_SessioneCorso) VALUES ($idStudente, $id_sc)"); //restituisce true se insert viene fatta, false altrimenti
 
     return $iscrizione;
 } //RESTITUITO: true se la riga in Iscrizioni è stata inserita, false altrimenti. Viene interrogato il database.
 
-function decrementaPostiSessione($db, $id_sc) {
-    $decremento = $db->queryDB("UPDATE SessioniCorsi SET PostiRimasti=PostiRimasti-1 WHERE ID_SessioneCorso=$id_sc");
+function aggiornaInfoUtente($db, $utente) {
+    $gg_hh_aggiornati = $db->queryDB("SELECT GiornoIscritto, OraIscritta FROM Persone WHERE ID_Persona = " . $utente->getID());
 
-    return $decremento;
-} //RESTITUITO: true se nella riga con ID_SessioneCorso=$id_sc SessioniCorsi.PostiRimasti è stato decrementato unitariamente, false altrimenti. Viene interrogato il database.
+    //se qualcosa va male
+    if(!$gg_hh_aggiornati) return "errore_db_reperimento_nuovi_gg_hh";
 
-function creazioneIstanzaRegistroPresenze($db, $idStudente, $id_sc) {
-    //-- RICERCA del CODICE della ISCRIZIONE appena creata
-    $id_iscrizione = $db->queryDB("SELECT ID_Iscrizione FROM Iscrizioni WHERE ID_SessioneCorso=$id_sc AND ID_Studente=$idStudente");
-
-    if(!$id_iscrizione) return "errore_db_id_iscrizione";
-
-    $id_iscrizione = $id_iscrizione[0]["ID_Iscrizione"];
-
-    //-- AGGIORNAMENTO del REGISTRO PRESENZE della SESSIONE DEL CORSO
-    $regPresenze = $db->queryDB("INSERT INTO RegPresenze (ID_Iscrizione) VALUES ($id_iscrizione)");
-
-    return $regPresenze;
-} //RESTITUITO: true se istanza nel registro presenze è stata registrata, false altrimenti o messaggio di errore. Viene interrogato il database.
-
-function registraIscrizione($db, $idStudente, $id_sc) {
-    //-- AGGIORNAMENTO della tabella delle ISCRIZIONI
-    if(!inserisciIscrizione($db, $idStudente, $id_sc)) return "errore_db_upd8_iscrizioni";
-
-    //-- DECREMENTO posti nella tabella delle SESSIONI CORSI
-    elseif(!decrementaPostiSessione($db, $id_sc)) return "errore_db_upd8_posti_rimasti";
-
-    //-- AGGIORNAMENTO della tabella dei REGISTRI PRESENZE
-    else {
-        $istanzaRegPresenze = creazioneIstanzaRegistroPresenze($db, $idStudente, $id_sc);
-        if($istanzaRegPresenze === "errore_db_id_iscrizione") return $istanzaRegPresenze;
-        if(!$istanzaRegPresenze) return "errore_db_upd8_registro";
-    }
-    
-    return true;
-} //RESTITUITO: true se la registrazione dell'iscrizione è andata a buon fine o messaggio di errore. Vengono interrogati il database e processati i risultati delle funzioni di supporto.
-
-function aggiornaInfoUtente($db, $utente, $giorno, $durata) {
-    $oreTotGiorno = getNumOre($db, $giorno);
-    $updateFatto = false;
-
-    if($oreTotGiorno !== "errore_db_ore") {
-        $utente->setOraIscritta(($utente->getOraIscritta() + $durata) % $oreTotGiorno); //raggiunto il max ore deve tornare a 0, ecco perche il % $oreTotGiorno
-
-        if($utente->getOraIscritta() === 0) $utente->setGiornoIscritto($giorno);
-
-        $updateFatto = $db->queryDB("UPDATE Persone SET OraIscritta=" . $utente->getOraIscritta() . ", GiornoIscritto=" . $utente->getGiornoIscritto() . " WHERE ID_Persona=". $utente->getID());
-    }
-
-    if($oreTotGiorno === "errore_db_ore" || !$updateFatto) return "errore_db_upd8_persone";
+    $utente->setGiornoIscritto($gg_hh_aggiornati[0]["GiornoIscritto"]);
+    $utente->setOraIscritta($gg_hh_aggiornati[0]["OraIscritta"]);
 
     return $utente;
 } //RESTITUITO: $utente (aggiornato) se è stata aggiornata la tabella Persone o messaggio di errore. Viene interrogato il database.

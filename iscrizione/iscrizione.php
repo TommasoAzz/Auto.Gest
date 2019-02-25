@@ -43,13 +43,8 @@
             case "errore_db_ora_iscrizione": //errore nel reperimento dell'ora dal database
             case "errore_db_lista_corsi": //errore nel reperimento della lista dei corsi
             case "errore_db_id_sessione_corso": //errore nel reperimento dell'id della sessione del corso
-            case "errore_db_posti_sessione_corso": //errore nel reperimento dei posti rimasti nella sessione di corso scelta
             case "errore_db_upd8_iscrizioni": //errore nell'update della tabella Iscrizioni
-            case "errore_db_durata_corso": //errore nel reperimento della durata del corso relativo alla sessione del corso
-            case "errore_db_upd8_persone": //errore nell'upd8 della tabella Persone
-            case "errore_db_upd8_posti_rimasti": //errore nel decremento di PostiRimasti nella tabella SessioniCorsi
-            case "errore_db_id_iscrizione": //errore nel reperimento del codice dell'iscrizione generata
-            case "errore_db_upd8_registro": //errore nell'update della tabella RegPresenze
+            case "errore_db_reperimento_nuovi_gg_hh": //errore nell'update della tabella RegPresenze
                 $h4 = "Mentre stavamo per iscriverti al corso che avevi scelto, qualcosa è andato storto.";
                 $p = "Codice errore: <strong>" . $errore . "</strong><br />" . $p;
                 break;

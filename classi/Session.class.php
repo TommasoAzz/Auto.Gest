@@ -15,7 +15,7 @@ class Session {
     private static $initialized=false;
     //--per la sicurezza della sessione
     private static $nomeSessione='autogest-session';
-    private static $secure=false; //true per HTTPS, false per HTTP
+    private static $secure=true; //true per HTTPS, false per HTTP
     private static $httponly=true;
 
     //metodi
