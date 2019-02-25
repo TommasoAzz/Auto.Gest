@@ -35,7 +35,7 @@
         $errore = Session::get("errIscrizione");
         $h2 = "C'è stato un errore nella comunicazione con il database.";
         $h4 = "";
-        $p = "Clicca <a href='/'>qui</a> per riprovare. Se il problema persiste, contatta i tuoi Rappresentanti degli Studenti.";
+        $p = "Clicca <a href='/iscrizione/'>qui</a> per riprovare. Se il problema persiste, contatta i tuoi Rappresentanti degli Studenti.";
 
         switch($errore) {
             //funzione.php e updateDB.php
@@ -52,11 +52,6 @@
                 $h2 = "Congratulazioni!";
                 $h4 = "Hai completato l'iscrizione a " . $info['titolo'];
                 $p = "Clicca <a href='" . getURL("/i-miei-corsi/") . "'>qui</a> per visualizzare un promemoria dei corsi da te scelti, oppure torna alla <a href='../'>Home page</a>.";
-                break;
-            case "posti_terminati_sessione_corso": //corso non disponibile (posti terminati)
-                $h2 = "Siamo spiacenti!";
-                $h4 = "I posti disponibili nel corso da te selezionato sono appena terminati.";
-                $p = "Clicca <a href='/'>qui</a> per provare ad iscriverti ad un altro corso.";
                 break;
         }
 

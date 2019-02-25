@@ -23,18 +23,13 @@ else {
     $ID_Iscrizione = getIscrizioniStudente($db, $utente->getId(), $ID_SessioneCorso);
     if ($ID_Iscrizione === "errore_iscrizioni_sessioni") echo $ID_Iscrizione;
 
-    // PASSAGGIO 3: rimozione delle istanze nel Registro Presenze delle iscrizioni con codice iscrizione presente nell'array $ID_Iscrizione
-    elseif (!rimuoviIstanzeRegistro($db, $ID_Iscrizione)) echo "errore_rimozione_istanze_registro";
-
-    // PASSAGGIO 4: rimozione delle iscrizioni con codice sessione corso presente nell'array $ID_SessioneCorso
+    // PASSAGGIO 3: rimozione delle iscrizioni (i vincoli di integrità rimuovono anche RegPresenze e incrementano i posti in SessioniCorsi con codice sessione corso presente nell'array $ID_SessioneCorso
     elseif (!rimuoviIscrizioni($db, $utente->getId(), $ID_SessioneCorso)) echo "errore_rimozione_iscrizioni";
 
-    // PASSAGGIO 5: aggiornamento dei posti disponibili nelle sessioni dei corsi
-    elseif (!aggiornaSessioniCorsi($db, $ID_SessioneCorso)) echo "errore_aggiornamento_sessionicorsi";
-
-    // PASSAGGIO 6: aggiornamento dei dati della persona
+    // PASSAGGIO 4: aggiornamento dei dati della persona
     elseif (!$db->queryDB("UPDATE Persone SET GiornoIscritto=0, OraIscritta=0 WHERE ID_Persona=".$utente->getId())) echo "errore_aggiornamento_persone";
 
+    // PASSAGGIO 5: aggiornamento dell'oggetto $utente
     else {
         $utente->setGiornoIscritto(0);
         $utente->setOraIscritta(0);

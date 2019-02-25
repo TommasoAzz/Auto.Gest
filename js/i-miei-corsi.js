@@ -1,13 +1,28 @@
 function resetPersona() {
     $.post("/i-miei-corsi/script/resetCorsiStudente.php", function(result) {
-        if(result.trim() === "reset-effettuato") {
-            $alert(
-                "Operazione completata",
-                "Reset effettuato! Verrai reindirizzato alla pagina per effettuare nuovamente l'iscrizione."
-            );
+        result = result.trim();
 
-            const url = location.protocol + "//" + location.hostname + "/iscrizione/";
-            window.location = url; //reindirizzamento a Iscrizione
+        if(result === "reset-effettuato") {
+            $.confirm({
+                title: "Operazione completata",
+                content: "Reset effettuato! Clicca <code>Iscriviti</code> per iscriverti di nuovo. Clicca Esci se non intendi iscriverti di nuovo.",
+                escapeKey: true,
+                backgroundDismiss: true,
+                theme: "modern",
+                buttons: {
+                    confirm: {
+                        text: 'Iscriviti',
+                        keys: ['enter'],
+                        action: function() {
+                            const url = location.protocol + "//" + location.hostname + "/iscrizione/";
+                            window.location = url; //reindirizzamento a Iscrizione
+                        }
+                    },
+                    cancel: {
+                        text: 'Esci'
+                    }
+                }
+            });
         } else {
             $alert(
                 "Operazione non completata",
