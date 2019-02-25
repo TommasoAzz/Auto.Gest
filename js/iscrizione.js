@@ -25,8 +25,22 @@ $(document).ready(function() {
     });
 
     $('select#corso').change(function() {
-        if($(this).val() === "") $btnProsegui.prop('disabled', true);
-        else $btnProsegui.prop('disabled', false);
+        if($(this).val() === ""){
+            $btnProsegui.prop('disabled', true);
+            $('#informazioni').prop('hidden', true);
+            $('#informazioni span').remove();
+        }else{
+            $btnProsegui.prop('disabled', false);
+            let info = $('select#corso option:selected').data('info')
+            if(info.length !== 0){
+                $('#informazioni span').remove();
+                $('#informazioni').append(`<span>${info}</span>`);
+                $('#informazioni').prop('hidden', false);
+            }else{
+                $('#informazioni').prop('hidden', true);
+                $('#informazioni span').remove();
+            }
+        }
     }).keypress(function(e) {
         if(e.which == 13) $formIscrizione.submit();
     });

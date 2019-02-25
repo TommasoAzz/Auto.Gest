@@ -151,7 +151,7 @@ function getDateEvento($db) {
 } //RESTITUITO: giorno, mese, anno delle date dell'evento o messaggio di errore. Viene interrogato il database.
 
 function getCorsiDisponibili($db, $nGiorno, $nOra) {
-    $lista_corsi = $db->queryDB("SELECT Nome, Aula, Durata, MaxPosti AS PostiTotali, PostiRimasti FROM Corsi C INNER JOIN SessioniCorsi S ON C.ID_Corso=S.ID_Corso WHERE Giorno=$nGiorno AND Ora=$nOra AND PostiRimasti>0 ORDER BY Nome ASC");
+    $lista_corsi = $db->queryDB("SELECT Nome, Aula, Durata, Informazioni, MaxPosti AS PostiTotali, PostiRimasti FROM Corsi C INNER JOIN SessioniCorsi S ON C.ID_Corso=S.ID_Corso WHERE Giorno=$nGiorno AND Ora=$nOra AND PostiRimasti>0 ORDER BY Nome ASC");
 
     //operazione da eseguire se il db non ha restituito valori
     if(!$lista_corsi) return "errore_db_lista_corsi";
@@ -527,12 +527,13 @@ function creazioneBloccoIscrizione($db, $nGiorno, $nOra) {
             //recupero l'istanza i-esima dell'array dei corsi
             $corso = $sessioniCorsi[$i];
             $durata = intval($corso["Durata"]);
+            $info = $corso['Informazioni'];
 
             if ($durata === 1) $stringCorso = htmlspecialchars($corso['Nome'], ENT_QUOTES) . " - " . $durata . " ora";
             else $stringCorso = htmlspecialchars($corso['Nome'], ENT_QUOTES) . " - " . $durata . " ore";
 
             $stringCorsoVal = htmlspecialchars($corso['Nome'], ENT_QUOTES) . "_" . $nOra;
-            $blocco .= "<option value='" . $stringCorsoVal . "'>$stringCorso</option>";
+            $blocco .= "<option value='" . $stringCorsoVal . "' data-info='" .$info. "'>$stringCorso</option>";
         }
     }
 
@@ -542,7 +543,8 @@ function creazioneBloccoIscrizione($db, $nGiorno, $nOra) {
                         "</div>" .
                     "</div>" .
                 "</div>" .
-            "</div>";
+            "</div>" .
+            "<div class='alert alert-warning' role='alert' id='informazioni' hidden></div>";
 
     echo $blocco;
 } //RESTITUITO: pannello di iscrizione con select popolata o vuota (in caso di errore). Viene interrogato il database e creato il pannello.
