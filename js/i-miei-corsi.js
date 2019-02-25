@@ -19,7 +19,11 @@ function resetPersona() {
                         }
                     },
                     cancel: {
-                        text: 'Esci'
+                        text: 'Esci',
+                        action: function() {
+                            const page_url = location.href;
+                            window.location = page_url; //equivalente a F5 (ricarica la pagina)
+                        }
                     }
                 }
             });

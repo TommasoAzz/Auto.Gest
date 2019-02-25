@@ -6,7 +6,7 @@ require_once "getInfo.php";
 Session::open();
 $info = Session::get("info");
 
-if(GlobalVar::SERVER("REQUEST_METHOD") !== "GET") header("Location: /");
+if(GlobalVar::SERVER("REQUEST_METHOD") !== "GET" || !(GlobalVar::issetGET("mail") && GlobalVar::issetGET("hashattivazione"))) header("Location: /");
 
 $mail = $db->escape(GlobalVar::GET("mail"));
 $activation_hash = $db->escape(GlobalVar::GET("hashattivazione"));

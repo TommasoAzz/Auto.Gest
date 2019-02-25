@@ -3,7 +3,7 @@ require_once "../../caricaClassi.php";
 require_once "../../connettiAlDB.php";
 require_once "../../funzioni.php";
 
-if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST") header("Location: ../../");
+if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST" || !GlobalVar::issetPOST("giorno")) header("Location: ../../");
 $giorno = GlobalVar::POST("giorno");
 
 $elencoOre = getElencoOre($db, ($giorno == "") ? 0 : intval($giorno));

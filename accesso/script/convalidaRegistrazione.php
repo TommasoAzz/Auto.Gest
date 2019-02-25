@@ -6,7 +6,9 @@ require_once "../../getInfo.php";
 Session::open();
 $info = Session::get("info");
 
-if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST") header("Location: ../../");
+if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST" || !(GlobalVar::issetPOST("registrazione_nome") && GlobalVar::issetPOST("registrazione_cognome")
+&& GlobalVar::issetPOST("mail_utente") && GlobalVar::issetPOST("username_utente") && GlobalVar::issetPOST("password_vecchia_utente")
+&& GlobalVar::issetPOST("password_nuova_utente") && GlobalVar::issetPOST("password_nuova2_utente"))) header("Location: ../../");
 
 $registrazione_nome = $db->escape(GlobalVar::POST("registrazione_nome"));
 $registrazione_cognome = $db->escape(GlobalVar::POST("registrazione_cognome"));
