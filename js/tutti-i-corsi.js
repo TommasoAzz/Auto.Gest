@@ -63,16 +63,21 @@ function aggiornaLista(gg_hh) {
             const corsi = JSON.parse(result);
 
             for(let i = 0, l = corsi.length; i < l; i++) {
+                //console.log(corsi[i].Informazioni);
                 $tbody.append(
                     "<tr>" +
-                    `<td id='corso_${i}'>${corsi[i].Nome}</td>` +
+                    `<td id='corso_${i}'>`+
+                    ((corsi[i].Informazioni !== null) ? 
+                        `<a class="btn btn-primary btn-xs showInfo" data-info="${corsi[i].Informazioni}"><i class="fa fa-info"></i></a>` :
+                         ``) +
+                    `&nbsp;${corsi[i].Nome}</td>` +
                     `<td id='aula_${i}'>${corsi[i].Aula}</td>` +
                     `<td id='durata_${i}'>${corsi[i].Durata}</td>` +
                     `<td id='pTotali_${i}'>${corsi[i].PostiTotali}</td>` +
                     `<td id='pRimasti_${i}'>${corsi[i].PostiRimasti}</td>` +
                     "</tr>"
                 );
-
+    
                 const $tdCorso = $("td#corso_" + i); // !!!
                 $tdCorso.parent().removeClass("warning danger"); //rimuovo classi "decorative"
 
@@ -107,4 +112,9 @@ $(document).ready(function() {
         giorno_ora = aggiornaDati(giorno_ora);
         aggiornaLista(giorno_ora);
     });
+
+    /*$("a.showInfo").click(function() {
+        console.log('ddd');
+        console.log($(this).html());
+    });*/
 });

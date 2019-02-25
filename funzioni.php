@@ -151,7 +151,7 @@ function getDateEvento($db) {
 } //RESTITUITO: giorno, mese, anno delle date dell'evento o messaggio di errore. Viene interrogato il database.
 
 function getCorsiDisponibili($db, $nGiorno, $nOra) {
-    $lista_corsi = $db->queryDB("SELECT Nome, Aula, Durata, Informazioni, MaxPosti AS PostiTotali, PostiRimasti FROM Corsi C INNER JOIN SessioniCorsi S ON C.ID_Corso=S.ID_Corso WHERE Giorno=$nGiorno AND Ora=$nOra AND PostiRimasti>0 ORDER BY Nome ASC");
+    $lista_corsi = $db->queryDB("SELECT Nome, Informazioni, Aula, Durata, Informazioni, MaxPosti AS PostiTotali, PostiRimasti FROM Corsi C INNER JOIN SessioniCorsi S ON C.ID_Corso=S.ID_Corso WHERE Giorno=$nGiorno AND Ora=$nOra AND PostiRimasti>0 ORDER BY Nome ASC");
 
     //operazione da eseguire se il db non ha restituito valori
     if(!$lista_corsi) return "errore_db_lista_corsi";
@@ -225,23 +225,72 @@ function primoAccesso($db, $cl, $s, $ind, $postPass) {
 
 function login($db, $user_identification, $pwd_user) {
     $data = $db->queryDB("SELECT ID_Persona, Pwd, PrimoAccessoEffettuato FROM Persone WHERE (Mail = '" . $user_identification . "' OR Username = '" . $user_identification . "')");
-    if(!$data) return "errore_db_dati_input";
+    if(!$data) return ["msg" => "errore_db_dati_input"];
     
     $id = intval($data[0]["ID_Persona"]);
     $pae = intval($data[0]["PrimoAccessoEffettuato"]);
     $pwd_db = $data[0]["Pwd"];
 
-    if($pae == 0) return "primo_accesso_non_effettuato";
+    if($pae == 0) return ["msg" => "primo_accesso_non_effettuato"];
 
-    if(!password_verify($pwd_user, $pwd_db)) return "errore_db_password_errata";
+    if(!password_verify($pwd_user, $pwd_db)){
+        $verificaTentativi = verificaTentativi($db, $id, false); //SE LA PASSWORD E' ERRATA
 
-    $utente = inizializzaUtente($db, $id);
-    if(!$utente) return "errore_db_idpersona";
+        if($verificaTentativi['msg'] === "aggiungi_tentativo"){
+            $time = date("Y-m-d H:i:s");
+            $insert = $db->queryDB("INSERT INTO TentativiLogin (ID_Persona, Tempo)  VALUES ('" . $id . "', '" . $time . "')");
+            if(!$insert) return "errore_db_insert_tentativilogin";
 
-    Session::set("utente", $utente);
+        }else return $verificaTentativi;
 
-    return "accesso_effettuato";
-} //RESTITUITO: "accesso_effettuato" se il login è stato effettuato, "primo_accesso_non_effettuato" se l'utente non ha effettuato la registrazione, "errore_db_idpersona" se l'id è non trovato, "errore_db_dati_input" se i dati input non corrispondono. Viene interrogato il database.
+        return ["msg" => "errore_db_password_errata"];
+    } 
+
+    $verificaTentativi = verificaTentativi($db, $id, true); //SE LA PASSWORD E' CORRETTA
+
+    if($verificaTentativi['msg'] === "accesso_ok"){
+        $utente = inizializzaUtente($db, $id);
+        if(!$utente) return ["msg" => "errore_db_idpersona"];
+        
+        Session::set("utente", $utente);
+        return ["msg" => "accesso_effettuato"];
+
+    }else return $verificaTentativi;
+} //RESTITUITO: "accesso_effettuato" se il login è stato effettuato, "primo_accesso_non_effettuato" se l'utente non ha effettuato la registrazione, 
+//"errore_db_idpersona" se l'id è non trovato, "errore_db_dati_input" se i dati input non corrispondono, 
+//"errore_db_delete_tentativi" se non si riescono ad eliminare i dati nella tabella 'TentativiLogin', "max_tentativi_raggiunto" se l'utente ha raggiunto il limite di tentativi consentito. Viene interrogato il database.
+
+function verificaTentativi($db, $id, $pwGiusta){
+    $tentativi = $db->queryDB("SELECT ID_Persona, Tempo FROM TentativiLogin WHERE (ID_Persona = $id ) ORDER BY ID DESC");
+    if($pwGiusta)
+        if(sizeof($tentativi) < 5) return ["msg" => "accesso_ok"];
+        else{
+            $data_db = date_create($tentativi[0]["Tempo"]); // Data dell'accesso più recente
+            $now = date_create(date("Y-m-d H:i:s"));
+            $minuti_da_ultimo_tentativo = date_diff($now, $data_db)->format("%i"); //minuti passasti dall'ultimo tentativo
+            
+            if($minuti_da_ultimo_tentativo > 10){
+                $delete = $db->queryDB("DELETE FROM TentativiLogin WHERE (ID_Persona = $id)");
+                if(!$delete) return ["msg" => "errore_db_delete_tentativi"];
+                return ["msg" => "accesso_ok"];
+
+            }else return ["msg" => "max_tentativi_raggiunto", "minuti" => $minuti_da_ultimo_tentativo];
+        }
+    else
+        if(sizeof($tentativi) < 5) return ["msg" => "aggiungi_tentativo"];
+        else{
+            $data_db = date_create($tentativi[0]["Tempo"]); // Data dell'accesso più recente
+            $now = date_create(date("Y-m-d H:i:s"));
+            $minuti_da_ultimo_tentativo = date_diff($now, $data_db)->format("%i"); //minuti passasti dall'ultimo tentativo
+            
+            if($minuti_da_ultimo_tentativo > 10){
+                $delete = $db->queryDB("DELETE FROM TentativiLogin WHERE (ID_Persona = $id)");
+                if(!$delete) return ["msg" => "errore_db_delete_tentativi"];
+                return ["msg" => "aggiungi_tentativo"];
+
+            }else return ["msg" => "max_tentativi_raggiunto", "minuti" => $minuti_da_ultimo_tentativo];
+        }
+}
 
 function getIndirizzi($db) {
     $indirizzi = $db->queryDB("SELECT DISTINCT Indirizzo FROM Classi WHERE NOT (Classe='E' OR Classe='P') ORDER BY Indirizzo");

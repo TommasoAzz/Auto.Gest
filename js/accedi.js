@@ -17,17 +17,23 @@ function controlloLogin(password, user_identification) {
         $cPsw.removeClass("has-success has-error");
         $("label#logerr").remove();
 
-        if(result === "accesso_effettuato") {
+        result = JSON.parse(result);
+
+        if(result.msg === "accesso_effettuato") {
             const page_url = location.href; window.location = page_url; //equivalente a F5 (ricarica la pagina)
-        } else if(result === "errore_db_dati_input" || result === "errore_db_password_errata") {
+        } else if(result.msg === "errore_db_dati_input" || result.msg === "errore_db_password_errata") {
             $cPsw.addClass("has-error");
             $cPsw.append("<label class='error' id='logerr'>I dati inseriti sono errati. Verifica di aver inserito correttamente il nome utente o l'indirizzo mail e la password.</label>");
-        } else if(result === "primo_accesso_non_effettuato") {
+        } else if(result.msg === "primo_accesso_non_effettuato") {
             $cPsw.addClass("has-error");
             $cPsw.append("<label class='error' id='logerr'>Primo di poter accedere tramite questo pannello devi effettuare la registrazione al sistema tramite il pannello <strong>Primo accesso</strong>.</label>");
-        } else if(result === "errore_db_idpersona") {
+        } else if(result.msg === "errore_db_idpersona" || result.msg === "errore_db_idpersona_tentativiL" || result.msg === "errore_db_insert_tentativilogin" || result.msg === "errore_delete_tentativi") {
             $cPsw.addClass("has-error");
             $cPsw.append("<label class='error' id='logerr'>Ci sono dei problemi nella comunicazione con il database.</label>");
+        } else if(result.msg === "max_tentativi_raggiunto"){
+            $cPsw.addClass("has-error");
+            let minutiRestanti = (10 - parseInt(result.minuti)).toString();
+            $cPsw.append("<label class='error' id='logerr'>Hai raggiunto il limite massimo di tentativi di login con credenziali errate. Riprova tra "+  minutiRestanti +" minuti.</label>");
         }
     });
 }

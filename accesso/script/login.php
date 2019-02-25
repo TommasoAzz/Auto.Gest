@@ -11,4 +11,4 @@ $psw = $db->escape(GlobalVar::POST("psw"));
 
 $risultatoLogin = login($db, $user_identification, $psw);
 
-echo $risultatoLogin;
+echo JSON_encode($risultatoLogin);
