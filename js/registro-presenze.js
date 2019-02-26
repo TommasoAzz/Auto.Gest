@@ -12,8 +12,9 @@ function richiestaCorsi($scelta_corso) {
         } else {
             const c_gest = JSON.parse(result);
 
-            for(let i = 0, l = c_gest.length; i < l; i++)
-                $scelta_corso.append("<option value='" + c_gest[i].ID_SessioneCorso + "'>" + c_gest[i].Nome + " - " + c_gest[i].Giorno + " - " + c_gest[i].Ora + "° ora</option>");
+            c_gest.forEach(function(corso) {
+                $scelta_corso.append(`<option value='${corso.ID_SessioneCorso}'>${corso.Nome}&nbsp;-&nbsp;${corso.Giorno}&nbsp;-&nbsp;${corso.Ora}° ora</option>`);
+            });
         }
     });
 }

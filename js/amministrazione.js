@@ -197,18 +197,19 @@ function visualizzaCorsiStudente() {
                 );
             } else {
                 const corsi_stud = JSON.parse(result);
-                for(let i = 0, num_sessioni = corsi_stud.length; i < num_sessioni; i++) {
+
+                corsi_stud.forEach(function(corso) {
                     $tbody.append(
                         "<tr>" +
-                        `<td>${corsi_stud[i].Giorno}</td>` +
-                        `<td>${corsi_stud[i].Ora}</td>` +
-                        `<td>${corsi_stud[i].Nome}</td>` +
-                        `<td>${corsi_stud[i].Durata}</td>` +
-                        `<td>${corsi_stud[i].Aula}</td>` +
-                        `<td>${corsi_stud[i].ID_SessioneCorso}</td>` +
+                        `<td>${corso.Giorno}</td>` +
+                        `<td>${corso.Ora}</td>` +
+                        `<td>${corso.Nome}</td>` +
+                        `<td>${corso.Durata}</td>` +
+                        `<td>${corso.Aula}</td>` +
+                        `<td>${corso.ID_SessioneCorso}</td>` +
                         `</tr>`
                     );
-                }
+                });
 
                 $("div#corsiPersona").modal("show");
             }
@@ -235,7 +236,9 @@ function getListaCorsi($select) {
             );
         } else {
             const corsi = JSON.parse(result);
-            for(let i = 0, l = corsi.length; i < l; i++) $select.append(`<option value="${corsi[i].Nome}">${corsi[i].Nome}</option>`);
+            corsi.forEach(function(corso) {
+                $select.append(`<option value="${corso.Nome}">${corso.Nome}</option>`);
+            });
         }
     });
 }
@@ -258,16 +261,16 @@ function visualizzaSessioniCorso(corso) {
             const datiCorso = JSON.parse(datiDaServer.corso); //spacchetto l'array associativo ottenuto dalla query (dati del Corso)
             const sessioniCorso = JSON.parse(datiDaServer.sessioniCorso); //spacchetto l'array associativo ottenuto dalla query (dati delle sessioni del corso)
 
-            for(let i = 0, l = sessioniCorso.length; i < l; i++) {
+            sessioniCorso.forEach(function(sc) {
                 $tbody.append(
                     "<tr>" +
-                    `<td>${sessioniCorso[i].Giorno}</td>` +
-                    `<td>${sessioniCorso[i].Ora}</td>` +
-                    `<td>${sessioniCorso[i].PostiRimasti}</td>` +
-                    `<td>${sessioniCorso[i].ID_SessioneCorso}</td>` +
+                    `<td>${sc.Giorno}</td>` +
+                    `<td>${sc.Ora}</td>` +
+                    `<td>${sc.PostiRimasti}</td>` +
+                    `<td>${sc.ID_SessioneCorso}</td>` +
                     "</tr>"
-                );
-            }
+                );  
+            });
 
             $("span#nomeCorso").text(corso);
             $("span#idCorso").text(datiCorso.ID_Corso);
@@ -341,7 +344,7 @@ function stampaLiberatoria(idPersona, idSessioneCorso){
                 "<p class='text-justify'>Lo/a studente/ssa " +
                 `<strong>${dati.CognomeStud}&nbsp;${dati.NomeStud}</strong> (classe ${dati.ClasseStud}) è autorizzato/a a partecipare al corso <strong>${dati.NomeCorso}</strong> alla <strong>${dati.Ora}° ora</strong> del giorno <strong>${dati.Giorno}&nbsp;${dati.Mese}</strong>, ` +
                 "solo se il Responsabile del suddetto corso acconsente.</p>" +
-                `<p class='text-right'><br />${dati.NomeAdmin}&nbsp;${dati.CognomeAdmin},<br />Rappresentante degli Studenti</p>` +
+                `<p class='text-right'><br />${dati.NomeAdmin}&nbsp;${dati.CognomeAdmin},<br />Amministratore dell'evento</p>` +
                 "<p style='text-justify'><br /><strong>NOTA PER IL RESPONSABILE DEL CORSO</strong>: In caso lo studente venga accettatto all'interno del corso non deve essere svolta nessuna operazione all'interno del registro presenze.</p>"
             );
 
@@ -366,17 +369,17 @@ function iscrittiAltreAttivita() {
         } else {
             const iscritti = JSON.parse(result);
 
-            for(let i = 0, l = iscritti.length; i < l; i++) {
+            iscritti.forEach(function(isc) {
                 $tbody.append(
                     "<tr>" +
-                    `<td>${iscritti[i].Cognome}</td>` +
-                    `<td>${iscritti[i].Nome}</td>` +
-                    `<td>${iscritti[i].Cl}°${iscritti[i].Sez}&nbsp;${iscritti[i].Ind}</td>` +
-                    `<td>${iscritti[i].Gg}</td>` +
-                    `<td>${iscritti[i].Hh}</td>` +
+                    `<td>${isc.Cognome}</td>` +
+                    `<td>${isc.Nome}</td>` +
+                    `<td>${isc.Cl}°${isc.Sez}&nbsp;${isc.Ind}</td>` +
+                    `<td>${isc.Gg}</td>` +
+                    `<td>${isc.Hh}</td>` +
                     "</tr>"
-                );
-            }
+                ); 
+            })
 
             $("div#listaAltreAttivita").modal("show");
         }

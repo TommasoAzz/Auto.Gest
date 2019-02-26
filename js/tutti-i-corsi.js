@@ -43,8 +43,9 @@ function richiestaOre(gg_hh) {
         } else {
             const ore = JSON.parse(result);
 
-            for(let i = 0, l = ore.length; i < l; i++)
-                $scelta_ora.append(`<option value='${ore[i].Ora}'>${ore[i].Ora}°</option>`);
+            ore.forEach(function(ora) {
+                $scelta_ora.append(`<option value='${ora.Ora}'>${ora.Ora}°</option>`);
+            });
         }
     });
 }
