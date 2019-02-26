@@ -268,7 +268,7 @@ function verificaTentativi($db, $id, $pwGiusta) {
 	$adesso = date_create(date("Y-m-d H:i:s"));
 	$minuti_da_ultimo_tentativo = date_diff($adesso, $ultimoAccesso)->format("%i"); //minuti passasti dall'ultimo tentativo
 	
-	if($minuti_da_ultimo_tentativo <= 10) return ["msg" => "max_tentativi_raggiunto", "minuti" => $minuti_da_ultimo_tentativo];
+	if($minuti_da_ultimo_tentativo < 10) return ["msg" => "max_tentativi_raggiunto", "minuti" => $minuti_da_ultimo_tentativo];
     
     $delete = $db->queryDB("DELETE FROM TentativiLogin WHERE (ID_Persona = $id)");
     if(!$delete) return ["msg" => "errore_db_delete_tentativi"];

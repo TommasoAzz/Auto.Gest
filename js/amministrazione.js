@@ -404,6 +404,7 @@ function getAltreAttivita($textarea) {
 //PANNELLO J - RESET DEI TENTATIVI DI LOGIN
 function resetTentativiLogin() {
     let id = $("input#id_reset_tLogin").val();
+    console.log(typeof id);
     try {
         id = parseInt(id);
         //controllo se il parsing non è andato a buon fine
@@ -600,5 +601,7 @@ $(document).ready(function() {
     });
 
     //PANNELLO J - RESET DEI TENATIVI DI LOGIN
-    //$("button#reset_tLogin").click(resetTentativiLogin); // ATTUALMETE NON IN USO
+    $("button#reset_tLogin").click(()=>{
+        resetTentativiLogin();
+    });
 });
