@@ -330,7 +330,7 @@ function invioMailConfermaAttivazione($evento, $nome, $cognome, $username, $dest
     $subject = $evento . " - Auto.Gest - Conferma iscrizione"; //oggetto della mail 
 
     $message = "<p>Ciao " . $nome. " " . $cognome . ",<br />"; //messaggio della mail
-    $message .= "abbiamo ricevuto la tua richiesta di iscrizione al sistema di gestione di " . $evento . "in cui ti sei registrato con:</p>";
+    $message .= "abbiamo ricevuto la tua richiesta di iscrizione al sistema di gestione di " . $evento . " in cui ti sei registrato con:</p>";
     $message .= "<ul><li>Mail: " . $destinatario . "</li><li>Username: " . $username . "</li></ul>";
     $message .= "<p>Per proseguire con l'attivazione del tuo account clicca sul link seguente:<br />";
     $message .= "<a href='" . getURL("/") . "verificaAccount.php?mail=" . $destinatario ."&hashattivazione=" . $activation_hash . "'>Attiva il tuo profilo per " . $evento . "</a></p>";
