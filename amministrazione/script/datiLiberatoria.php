@@ -5,7 +5,7 @@ require_once "../../funzioni.php";
 Session::open();
 $admin = Session::get("utente");
 
-if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST")  header("Location: ../../");
+if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST" || !(GlobalVar::issetPOST("idP") && GlobalVar::issetPOST("idS")))  header("Location: ../../");
 
 // non vengono create funzioni per questo script qui
 $id_persona = intval(GlobalVar::POST("idP"));

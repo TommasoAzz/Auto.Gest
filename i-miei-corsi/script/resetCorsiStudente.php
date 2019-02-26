@@ -2,12 +2,10 @@
 require_once "../../caricaClassi.php";
 require_once "../../connettiAlDB.php";
 require_once "../../funzioni.php";
-
-if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST") header("Location: ../../");
-
 Session::open();
 $utente = Session::get("utente");
 
+if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST") header("Location: ../../");
 //SCRIPT DI RESET TOTALE DI UNO STUDENTE
 
 // PASSAGGIO 1: recupero gli ID delle sessioni dei corsi a cui si è iscritto

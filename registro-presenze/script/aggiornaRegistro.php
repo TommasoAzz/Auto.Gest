@@ -3,7 +3,7 @@ require_once "../../caricaClassi.php";
 require_once "../../connettiAlDB.php";
 Session::open();
 
-if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST") header("Location: ../../");
+if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST" || !GlobalVar::issetPOST("aggiornamenti")) header("Location: ../../");
 $status = json_decode(GlobalVar::POST("aggiornamenti"));
 
 for($i = 0, $l = sizeof($status); $i < $l; $i++)

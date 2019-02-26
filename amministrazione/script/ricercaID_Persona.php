@@ -3,7 +3,7 @@ require_once "../../caricaClassi.php";
 require_once "../../connettiAlDB.php";
 require_once "../../funzioni.php";
 
-if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST") header("Location: ../../");
+if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST" || !(GlobalVar::issetPOST("nome") && GlobalVar::issetPOST("cognome"))) header("Location: ../../");
 
 $nome = $db->escape(GlobalVar::POST("nome"));
 $cognome = $db->escape(GlobalVar::POST("cognome"));
