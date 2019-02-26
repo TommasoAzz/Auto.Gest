@@ -568,28 +568,6 @@ $(document).ready(function() {
     $("button#confermaAltreAttivita").click(function() {
         let str = $("textarea#txtAltreAttivita").val().trim();
 
-        str_arr = str.split("");// trasforma la stringa in un array di caratteri
-
-        let banned_tags = ["script", "iframe"]; //array di tutti i tag che si vogliono rimuovere dalla stringa html
-
-        $.each(banned_tags, function (key, val) {
-
-            let pos = str.indexOf("<"); //trova il primo carattere "<" (apertura di un tag)
-
-            while(pos!=-1){// per tutti i caratteri "<" trovati
-
-                if(str.substr(pos+1,val.length)===val || str.substr(pos+2,val.length)===val){// se la stringa sopo il carattere "<" è uguale ad un tag allora:
-                    str_arr[pos] = "&lt;"; // sostituisce "<" con il carattere speciale
-                    endTag_pos = str.indexOf(">",pos); // trova il carattere ">" successivo
-                    str_arr[endTag_pos] = "&gt;";// sostituisce "<" con il carattere speciale
-                }
-                
-                pos = str.indexOf("<",pos+1);//aggiorna la posizione
-            }
-        });
-        
-        str = str_arr.join("");//trasformo l'array in una stringa
-
         $.post("/amministrazione/script/aggiornaListaAltreAttivita.php", {aA: str}, function(result) {
             result = result.trim();
 
