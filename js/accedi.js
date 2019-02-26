@@ -19,21 +19,25 @@ function controlloLogin(password, user_identification) {
 
         result = JSON.parse(result);
 
-        if(result.msg === "accesso_effettuato") {
-            const page_url = location.href; window.location = page_url; //equivalente a F5 (ricarica la pagina)
-        } else if(result.msg === "errore_db_dati_input" || result.msg === "errore_db_password_errata") {
-            $cPsw.addClass("has-error");
-            $cPsw.append("<label class='error' id='logerr'>I dati inseriti sono errati. Verifica di aver inserito correttamente il nome utente o l'indirizzo mail e la password.</label>");
-        } else if(result.msg === "primo_accesso_non_effettuato") {
-            $cPsw.addClass("has-error");
-            $cPsw.append("<label class='error' id='logerr'>Primo di poter accedere tramite questo pannello devi effettuare la registrazione al sistema tramite il pannello <strong>Primo accesso</strong>.</label>");
-        } else if(result.msg === "errore_db_idpersona" || result.msg === "errore_db_idpersona_tentativiL" || result.msg === "errore_db_insert_tentativilogin" || result.msg === "errore_delete_tentativi") {
-            $cPsw.addClass("has-error");
-            $cPsw.append("<label class='error' id='logerr'>Ci sono dei problemi nella comunicazione con il database.</label>");
-        } else if(result.msg === "max_tentativi_raggiunto"){
-            $cPsw.addClass("has-error");
-            let minutiRestanti = (10 - parseInt(result.minuti)).toString();
-            $cPsw.append("<label class='error' id='logerr'>Hai raggiunto il limite massimo di tentativi di login con credenziali errate. Riprova tra "+  minutiRestanti +" minuti.</label>");
+        switch(result.msg) {
+            case "accesso_effettuato":
+                const page_url = location.href; window.location = page_url; //equivalente a F5 (ricarica la pagina)
+                break;
+            case "errore_db_dati_input":
+            case "errore_db_password_errata":
+                $cPsw.addClass("has-error").append("<label class='error' id='logerr'>I dati inseriti sono errati. Verifica di aver inserito correttamente il nome utente o l'indirizzo mail e la password.</label>");
+                break;
+            case "primo_accesso_non_effettuato":
+                $cPsw.addClass("has-error").append("<label class='error' id='logerr'>Il tuo account non è ancora stato verificato. Per poter accedere, clicca sul link che ti è stato inviato per mail alla conferma della registrazione.</label>");
+                break;
+            case "max_tentativi_raggiunto":
+                $cPsw.addClass("has-error").append("<label class='error' id='logerr'>Hai raggiunto il limite massimo di tentativi di login con credenziali errate. Riprova tra " +  (10 - parseInt(result.minuti)) + " minuti.</label>");
+                break;
+            case "errore_db_idpersona":
+            case "errore_db_insert_tentativilogin":
+            case "errore_delete_tentativi":
+                $cPsw.addClass("has-error").append("<label class='error' id='logerr'>Ci sono dei problemi nella comunicazione con il database.</label>");
+                break;
         }
     });
 }
