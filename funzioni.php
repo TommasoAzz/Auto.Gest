@@ -373,6 +373,18 @@ function getSessioniCorso($db, $idCorso, $giorno = 0, $ora = 0) {
     return $sc;
 } //RESTITUITO: array con lista sessioni corsi del corso di id=$idCorso o messaggio di errore. Viene interrogato il database
 
+function invioMailCambioPassword($evento, $nome, $cognome, $destinatario) {
+    $subject = $evento . " - Auto.Gest - Modifica della password"; //oggetto della mail 
+
+    $message = "<p>Ciao " . $nome. " " . $cognome . ",<br />"; //messaggio della mail
+    $message .= "la tua password di accesso al sistema di gestione di " . $evento . " è stata recentemente modificata.</p>";
+    $message .= "<p>Se non è stata un'operazione svolta da te, ma a tua insaputa, contatta immediatamente i tuoi Rappresentati degli Studenti.</p>";
+    $headers = 'From:auto.gest.ag@gmail.com' . "\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8" . "\r\n";
+
+    mail($destinatario, $subject, $message, $headers);
+}
+
 function cambioPassword($db, $id_persona, $nuovapwd) { //!!! (da cambiare)
     $cambioEff = $db->queryDB("UPDATE `Persone` SET `Pwd`='" . $nuovapwd . "' WHERE `ID_Persona`=$id_persona");
     

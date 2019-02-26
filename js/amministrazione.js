@@ -144,6 +144,11 @@ function cambioPasswordUtente() {
                                         "Cambio password effettuato",
                                         `Il cambio della password all'utente di codice <strong>${id}</strong> è stato effettuato correttamente.`
                                     );
+                                } else if(result === "cambio-effettuato-senza-avviso") {
+                                    $alert(
+                                        "Cambio password effettuato senza avviso",
+                                        `Il cambio della password all'utente di codice <strong>${id}</strong> è stato effettuato ma non è stato possibile inviare una comunicazione per mail.`
+                                    );
                                 } else {
                                     $alert(
                                         "Cambio password non effettuato",
