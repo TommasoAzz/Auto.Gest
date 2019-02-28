@@ -168,6 +168,18 @@ function getRegistroPresenzeSessioneCorso($db, $id) {
     return $regPresenze;
 } //RESTITUITO: registro presenze della sessione corso con ID_SessioneCorso=$id o messaggio di errore. Viene interrogato il database.
 
+function cambioPasswordUtente($db, $id_persona, $vecchiapwd, $nuovapwd) {
+    $data = $db->queryDB("SELECT Pwd FROM Persone WHERE (ID_Persona=$id_persona)");
+    if(!$data) return "errore-id-persona";
+    
+    $pw_db = $data[0]["Pwd"];
+    if(!password_verify($vecchiapwd, $pw_db)) return "errore-vecchia-pwd";
+
+    $cambioEff = $db->queryDB("UPDATE `Persone` SET `Pwd`='" . $nuovapwd . "' WHERE `ID_Persona`=$id_persona");
+    if(!$cambioEff) return "cambio-non-effettuato";
+    
+    return "cambio-effettuato";
+} //RESTITUITO: true se cambio password a persona di ID_Persona = $id_persona è stato fatto, false altrimenti. Viene interrogato il database.
 
 /*************************************************************************************************/
 /*                                          SEZIONE: Accesso                                     */

@@ -72,8 +72,98 @@ $(document).ready(function() {
         }
     });
 
+    $("a#cambioPwModal").click(()=>{
+        cambioPasswordUtente();
+    });
+
 });
 
 $.validator.addMethod('strongPassword', function(value, element) {
     return this.optional(element) || value.length >= 8 && /\d/.test(value) && /[a-z]/.test(value) && /[A-Z]/.test(value);
 }, "La password deve essere lunga almeno 8 caratteri e deve contenere almeno un carattere minuscolo, uno maiuscolo e una cifra numerica.");
+
+function cambioPasswordUtente() {
+    try{
+        $.post("/modal/script/getIdUtente.php", function(result) {
+            if(result==="errore_sessione_utente") throw result;
+            let id = result;
+            $.confirm({
+                escapeKey: true,
+                backgroundDismiss: true,
+                theme: "modern",
+                title: "Modifica la tua password",
+                content:"<form id='promptNuovaPsw'><div class='form-group'>" +
+                        "<label>Inserisci la tua password attuale:</label>" +
+                        "<input type='password' class='form-control' id='txtVecchiaPsw' placeholder='Password attuale' required />" +
+                        "<label>Inserisci la nuova password:</label>" +
+                        "<input type='password' class='form-control' id='txtNuovaPsw' placeholder='Nuova password' required />" +
+                        "<label>Inserisci nuovamente la nuova password:</label>" +
+                        "<input type='password' class='form-control' id='txtConfermaNuovaPsw' placeholder='Ripeti la nuova password' required />" +
+                        "</div></form>",
+                buttons: {
+                    formSubmit: {
+                        text: 'Conferma',
+                        btnClass: 'btn-success',
+                        action: function() {
+                            const vecchiaPsw = this.$content.find('input#txtVecchiaPsw').val();
+                            const nuovaPsw = this.$content.find('input#txtNuovaPsw').val();
+                            const confermaNuovaPsw = this.$content.find('input#txtConfermaNuovaPsw').val();
+                            if(!vecchiaPsw) {
+                                $alert("Attenzione", "Inserisci la tua password attuale.");
+                                return false;
+                            } else if(!nuovaPsw) {
+                                $alert("Attenzione", "Inserisci una nuova password.");
+                                return false;
+                            } else if(!confermaNuovaPsw) {
+                                $alert("Attenzione", "Come conferma di digitazione corretta devi inserire nuovamente la nuova password.");
+                                return false;
+                            } else if(confermaNuovaPsw !== nuovaPsw) {
+                                $alert("Attenzione", "Le due password non combaciano. Inseriscile nuovamente.");
+                                return false;
+                            } else if(nuovaPsw.length < 8) {
+                                $alert("Attenzione", "La nuova password deve contenere almeno 8 caratteri.");
+                                return false;
+                            } else {
+                                $.post("/modal/script/cambioPasswordUtente.php", {ID: id, vecchiaPwd: vecchiaPsw, nuovaPwd: nuovaPsw}, function(result) {
+                                    result = result.trim();
+                                    if(result === "cambio-effettuato") {
+                                        $alert(
+                                            "Cambio password effettuato",
+                                            `Il cambio della password è stato effettuato correttamente.`
+                                        );
+                                    }else if(result === "errore-vecchia-pwd"){
+                                        $alert(
+                                            "Cambio password non effettuato",
+                                            `La password attuale non è corretta.`
+                                        );
+                                    }else {
+                                        $alert(
+                                            "Cambio password non effettuato",
+                                            `Il cambio della password non è stato effettuato correttamente.`
+                                        );
+                                    }
+                                });
+                            }
+                        }
+                    },
+                    cancel: {
+                        text: "Annulla",
+                        btnClass: "btn-danger"
+                    }
+                },
+                onContentReady: function() {
+                    let prompt = this;
+                    this.$content.find('form').on('submit', function(e) {
+                        e.preventDefault();
+                        prompt.$$formSubmit.trigger('click');
+                    });
+                }
+            });
+        });
+    }catch(error){
+        $alert(
+            "Attenzione",
+            "C'è stato un errore nella lettura della sessione. Riprova!"
+        );
+    }
+}

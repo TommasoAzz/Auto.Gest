@@ -67,11 +67,7 @@ function aggiornaLista(gg_hh) {
                 //console.log(corsi[i].Informazioni);
                 $tbody.append(
                     "<tr>" +
-                    `<td id='corso_${i}'>`+
-                    ((corsi[i].Informazioni !== null) ? 
-                        `<a class="btn btn-primary btn-xs showInfo" data-info="${corsi[i].Informazioni}"><i class="fa fa-info"></i></a>` :
-                         ``) +
-                    `&nbsp;${corsi[i].Nome}</td>` +
+                    `<td id='corso_${i}'>${corsi[i].Nome}</td>` +
                     `<td id='aula_${i}'>${corsi[i].Aula}</td>` +
                     `<td id='durata_${i}'>${corsi[i].Durata}</td>` +
                     `<td id='pTotali_${i}'>${corsi[i].PostiTotali}</td>` +
