@@ -317,13 +317,15 @@ function usernameEsistente($db, $username_utente) {
 function invioMailConfermaAttivazione($evento, $nome, $cognome, $username, $destinatario, $activation_hash) {
     $subject = $evento . " - Auto.Gest - Conferma iscrizione"; //oggetto della mail 
 
-    $message = "<p>Ciao " . $nome. " " . $cognome . ",<br />"; //messaggio della mail
-    $message .= "abbiamo ricevuto la tua richiesta di iscrizione al sistema di gestione di " . $evento . "in cui ti sei registrato con:</p>";
+    $message = "<p style='text-align:center'><img alt='autogest_logo' src='" . getURL("/img/AutoGest-Logo.png") . "' /></p>";
+    $message .= "<p>Ciao " . $nome. " " . $cognome . ",<br />"; //messaggio della mail
+    $message .= "abbiamo ricevuto la tua richiesta di iscrizione al sistema di gestione di " . $evento . ", in cui ti sei registrato con:</p>";
     $message .= "<ul><li>Mail: " . $destinatario . "</li><li>Username: " . $username . "</li></ul>";
-    $message .= "<p>Per proseguire con l'attivazione del tuo account clicca sul link seguente:<br />";
+    $message .= "<p>Per proseguire con l'attivazione del tuo account clicca il link seguente:<br />";
     $message .= "<a href='" . getURL("/") . "verificaAccount.php?mail=" . $destinatario ."&hashattivazione=" . $activation_hash . "'>Attiva il tuo profilo per " . $evento . "</a></p>";
                         
-    $headers = 'From:auto.gest.ag@gmail.com' . "\r\n";
+    $headers = 'From: auto.gest.ag@gmail.com' . "\r\n";
+    $headers .= 'Reply-To: auto.gest.ag@gmail.com' . "\r\n";
     $headers .= "Content-Type: text/html; charset=UTF-8" . "\r\n";
 
     mail($destinatario, $subject, $message, $headers);
@@ -376,10 +378,13 @@ function getSessioniCorso($db, $idCorso, $giorno = 0, $ora = 0) {
 function invioMailCambioPassword($evento, $nome, $cognome, $destinatario) {
     $subject = $evento . " - Auto.Gest - Modifica della password"; //oggetto della mail 
 
-    $message = "<p>Ciao " . $nome. " " . $cognome . ",<br />"; //messaggio della mail
+    $message = "<p style='text-align:center'><img alt='autogest_logo' src='" . getURL("/img/AutoGest-Logo.png") . "' /></p>";
+    $message .= "<p>Ciao " . $nome. " " . $cognome . ",<br />"; //messaggio della mail
     $message .= "la tua password di accesso al sistema di gestione di " . $evento . " è stata recentemente modificata.</p>";
     $message .= "<p>Se non è stata un'operazione svolta da te, ma a tua insaputa, contatta immediatamente i tuoi Rappresentati degli Studenti.</p>";
-    $headers = 'From:auto.gest.ag@gmail.com' . "\r\n";
+    
+    $headers = 'From: auto.gest.ag@gmail.com' . "\r\n";
+    $headers .= 'Reply-To: auto.gest.ag@gmail.com' . "\r\n";
     $headers .= "Content-Type: text/html; charset=UTF-8" . "\r\n";
 
     mail($destinatario, $subject, $message, $headers);
