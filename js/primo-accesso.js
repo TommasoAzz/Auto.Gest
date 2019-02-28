@@ -82,7 +82,9 @@ function controlloDatiRegistrazione(datiRegistrazione) {
             case "profilo_creato":
                 $alert(
                     "Operazione effettuata",
-                    "Profilo creato con successo. Ti è stata inviata una mail all'indirizzo " + datiRegistrazione.mail_utente + " con il link per poter procedere all'iscrizione."
+                    "Profilo creato con successo. Ti è stata inviata una mail all'indirizzo " + datiRegistrazione.mail_utente + " con il link per poter procedere " +
+                    "all'iscrizione. <br />La mail proviene dall'indirizzo <a href='mailto:auto.gest.ag@gmail.com'>auto.gest.ag@gmail.com</a> e se non la trovi " +
+                    "nella Posta in arrivo, cercala nella cartella Spam. Se non la ricevi, contattaci (usando i link che trovi nel piè di pagina)."
                 );
                 $("div#registrazioneUtente").modal("hide");
                 break;
