@@ -19,7 +19,7 @@ $password_nuova_utente = $db->escape(GlobalVar::POST("password_nuova_utente"));
 $password_nuova2_utente = $db->escape(GlobalVar::POST("password_nuova2_utente"));
 
 //cambiare MD5 assolutamente
-$ID_Persona = $db->queryDB("SELECT ID_Persona FROM Persone WHERE Nome = '" . $registrazione_nome . "' AND Cognome = '" . $registrazione_cognome . "' AND Pwd = '" . md5($password_vecchia_utente) . "'");
+$ID_Persona = $db->queryDB("SELECT ID_Persona FROM Persone WHERE Nome = '" . $registrazione_nome . "' AND Cognome = '" . $registrazione_cognome . "' AND Pwd = '" . hash('sha256', $password_vecchia_utente) . "'");
 
 if(!$ID_Persona) {
    echo "errore_db_corrispondenza_nome_cognome_password"; 

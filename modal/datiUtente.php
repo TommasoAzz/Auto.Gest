@@ -44,9 +44,9 @@
                 </div>
                 <?php endif; ?>
                 <div class="row">
-                <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
-                    <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"></div>
-                    <div class="col-xs-9 col-sm-9 col-md-8 col-lg-8"><a role="button" id="cambioPwModal">Modifica password</a></div>
+                    <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
+                    <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><p><strong>Modifica password</strong></p></div>
+                    <div class="col-xs-9 col-sm-9 col-md-8 col-lg-8"><a role="button" id="cambioPwModal">Clicca qui</a></div>
                     <div class="hidden-xs hidden-sm col-md-1 col-lg-11"></div>
                 </div>
             </div>

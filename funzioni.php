@@ -170,15 +170,15 @@ function getRegistroPresenzeSessioneCorso($db, $id) {
 
 function cambioPasswordUtente($db, $id_persona, $vecchiapwd, $nuovapwd) {
     $data = $db->queryDB("SELECT Pwd FROM Persone WHERE (ID_Persona=$id_persona)");
-    if(!$data) return "errore-id-persona";
+    if(!$data) return "errore_id_persona";
     
     $pw_db = $data[0]["Pwd"];
-    if(!password_verify($vecchiapwd, $pw_db)) return "errore-vecchia-pwd";
+    if(!password_verify($vecchiapwd, $pw_db)) return "errore_vecchia_pwd";
 
-    $cambioEff = $db->queryDB("UPDATE `Persone` SET `Pwd`='" . $nuovapwd . "' WHERE `ID_Persona`=$id_persona");
-    if(!$cambioEff) return "cambio-non-effettuato";
+    $cambioEff = $db->queryDB("UPDATE `Persone` SET `Pwd`='" . password_hash($nuovapwd, PASSWORD_DEFAULT) . "' WHERE `ID_Persona`=$id_persona");
+    if(!$cambioEff) return "cambio_non_effettuato";
     
-    return "cambio-effettuato";
+    return "cambio_effettuato";
 } //RESTITUITO: true se cambio password a persona di ID_Persona = $id_persona è stato fatto, false altrimenti. Viene interrogato il database.
 
 /*************************************************************************************************/
@@ -215,7 +215,7 @@ function inizializzaUtente($db, $ID_Persona) {
 } //RESTITUITO: oggetto di classe Utente se l'interrogazione è andata a buon fine, false altrimenti. Viene interrogato il database.
 
 function primoAccesso($db, $cl, $s, $ind, $postPass) {
-    $password = md5($postPass); // DA CAMBIARE
+    $password = hash('sha256', $postPass); // DA CAMBIARE
     $id_paf = $db->queryDB("SELECT ID_Persona, PrimoAccessoEffettuato FROM Persone P INNER JOIN Classi C ON P.ID_Classe=C.ID_Classe WHERE Classe='".$cl."' AND Sezione='".$s."' AND Indirizzo='".$ind."' AND Pwd='".$password."'");
     if(!$id_paf) return "errore_db_dati_input";
 

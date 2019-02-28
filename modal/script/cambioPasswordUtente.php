@@ -7,6 +7,6 @@ if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST" || (!(GlobalVar::issetPOST("ID
 
 $ID = intval(GlobalVar::POST("ID"));
 $vecchiapwd = GlobalVar::POST("vecchiaPwd");
-$nuovapwd = password_hash(GlobalVar::POST("nuovaPwd"), PASSWORD_DEFAULT);
+$nuovapwd = GlobalVar::POST("nuovaPwd");
 
 echo cambioPasswordUtente($db, $ID, $vecchiapwd, $nuovapwd);

@@ -83,9 +83,9 @@ $.validator.addMethod('strongPassword', function(value, element) {
 }, "La password deve essere lunga almeno 8 caratteri e deve contenere almeno un carattere minuscolo, uno maiuscolo e una cifra numerica.");
 
 function cambioPasswordUtente() {
-    try{
+    try {
         $.post("/modal/script/getIdUtente.php", function(result) {
-            if(result==="errore_sessione_utente") throw result;
+            if(result === "errore_sessione_utente") throw result;
             let id = result;
             $.confirm({
                 escapeKey: true,
@@ -105,9 +105,9 @@ function cambioPasswordUtente() {
                         text: 'Conferma',
                         btnClass: 'btn-success',
                         action: function() {
-                            const vecchiaPsw = this.$content.find('input#txtVecchiaPsw').val();
-                            const nuovaPsw = this.$content.find('input#txtNuovaPsw').val();
-                            const confermaNuovaPsw = this.$content.find('input#txtConfermaNuovaPsw').val();
+                            const vecchiaPsw = this.$content.find('input#txtVecchiaPsw').val().trim();
+                            const nuovaPsw = this.$content.find('input#txtNuovaPsw').val().trim();
+                            const confermaNuovaPsw = this.$content.find('input#txtConfermaNuovaPsw').val().trim();
                             if(!vecchiaPsw) {
                                 $alert("Attenzione", "Inserisci la tua password attuale.");
                                 return false;
@@ -120,27 +120,21 @@ function cambioPasswordUtente() {
                             } else if(confermaNuovaPsw !== nuovaPsw) {
                                 $alert("Attenzione", "Le due password non combaciano. Inseriscile nuovamente.");
                                 return false;
-                            } else if(nuovaPsw.length < 8) {
-                                $alert("Attenzione", "La nuova password deve contenere almeno 8 caratteri.");
+                            } else if(!(value.length >= 8 && /\d/.test(value) && /[a-z]/.test(value) && /[A-Z]/.test(value))) {
+                                $alert("Attenzione", "La password deve essere lunga almeno 8 caratteri e deve contenere almeno un carattere minuscolo, uno maiuscolo e una cifra numerica.");
                                 return false;
                             } else {
                                 $.post("/modal/script/cambioPasswordUtente.php", {ID: id, vecchiaPwd: vecchiaPsw, nuovaPwd: nuovaPsw}, function(result) {
                                     result = result.trim();
-                                    if(result === "cambio-effettuato") {
-                                        $alert(
-                                            "Cambio password effettuato",
-                                            `Il cambio della password è stato effettuato correttamente.`
-                                        );
-                                    }else if(result === "errore-vecchia-pwd"){
-                                        $alert(
-                                            "Cambio password non effettuato",
-                                            `La password attuale non è corretta.`
-                                        );
-                                    }else {
-                                        $alert(
-                                            "Cambio password non effettuato",
-                                            `Il cambio della password non è stato effettuato correttamente.`
-                                        );
+                                    switch(result) {
+                                        case "cambio_effettuato":
+                                            $alert("Cambio password effettuato", "Il cambio della password è stato effettuato correttamente.");
+                                            break;
+                                        case "errore_vecchia_pwd":
+                                            $alert("Cambio password effettuato", "Il cambio della password è stato effettuato correttamente.");
+                                            break;
+                                        case "cambio_non_effettuato":
+                                            $alert("Cambio password non effettuato", "Il cambio della password non è stato effettuato correttamente.");
                                     }
                                 });
                             }
@@ -160,7 +154,7 @@ function cambioPasswordUtente() {
                 }
             });
         });
-    }catch(error){
+    } catch(error){
         $alert(
             "Attenzione",
             "C'è stato un errore nella lettura della sessione. Riprova!"
