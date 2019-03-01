@@ -7,9 +7,9 @@ $info = Session::get("info");
 if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST" || !(GlobalVar::issetPOST("ID") && GlobalVar::issetPOST("Pwd"))) header("Location: ../../");
 
 $ID = intval(GlobalVar::POST("ID"));
-$nuovapwd = password_hash(GlobalVar::POST("Pwd"), PASSWORD_DEFAULT);
+$nuovapwd = GlobalVar::POST("Pwd");
 
-$cambioEff = cambioPassword($db, $ID, $nuovapwd);
+$cambioEff = cambioPasswordUtente_Admin($db, $ID, $nuovapwd);
 
 if($cambioEff) {
     $utente = inizializzaUtente($db, $ID);

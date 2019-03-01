@@ -402,8 +402,8 @@ function invioMailCambioPassword($evento, $nome, $cognome, $destinatario) {
     mail($destinatario, $subject, $message, $headers);
 }
 
-function cambioPassword($db, $id_persona, $nuovapwd) { //!!! (da cambiare)
-    $cambioEff = $db->queryDB("UPDATE `Persone` SET `Pwd`='" . $nuovapwd . "' WHERE `ID_Persona`=$id_persona");
+function cambioPasswordUtente_Admin($db, $id_persona, $nuovapwd) {
+    $cambioEff = $db->queryDB("UPDATE `Persone` SET `Pwd`='" . password_has($nuovapwd, PASSWORD_DEFAULT) . "' WHERE `ID_Persona`=$id_persona");
     
     return $cambioEff;
 } //RESTITUITO: true se cambio password a persona di ID_Persona = $id_persona è stato fatto, false altrimenti. Viene interrogato il database.
