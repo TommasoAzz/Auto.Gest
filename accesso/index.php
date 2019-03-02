@@ -43,7 +43,7 @@
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <div class="form-group" id="accesso_spiegazione">
-                                        <p class="text-justify">Se hai già effettuato il primo accesso (tramite il pannello <strong>Primo accesso</strong>), puoi accedere con le credenziali che hai creato.</p>
+                                        <p class="text-justify">Se hai già effettuato il primo accesso (tramite il pannello <strong>Primo accesso e registrazione</strong>), puoi accedere con le credenziali che hai creato.</p>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -71,7 +71,7 @@
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="text-center"><i class="fa fa-sign-in"></i> Primo accesso</h3>
+                        <h3 class="text-center"><i class="fa fa-sign-in"></i> Primo accesso e registrazione</h3>
                     </div>
                     <div id="primo_accesso" class="panel-body">
                         <form id="first_access_login" name="first_access_login" method="post">
@@ -111,7 +111,7 @@
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <div class="form-group" id="extPrimo_accesso_spiegazione">
-                                        <p class="text-justify">Per poter gestire il tuo corso, seleziona dal menu a tendina <code>PERSONALE</code> se fai parte del personale dell'Istituto o <code>ESTERNO</code> se sei una persona esterna all'Istituto, poi inserisci la password che ti è stata consegnata dai Rappresentanti degli Studenti. Nel caso l'avessi smarrita, non esitare a contattarci, provvederemo a dartene una copia.</p>
+                                        <p class="text-justify">Per poter gestire il tuo corso, seleziona dal menu a tendina <code>PERSONALE</code> se fai parte del personale dell'Istituto o <code>ESTERNO</code> se sei una persona esterna all'Istituto, poi inserisci la password che ti è stata consegnata dai Rappresentanti degli Studenti. Nel caso l'avessi smarrita, non esitare a contattarci (usando i link che trovi nel piè di pagina), provvederemo a dartene una copia.</p>
                                         <p class="text-justify">Non fai parte del personale oppure non sei una persona esterno alla scuola? Clicca <a id="visualizza_primo_accesso">qui</a>.</p>
                                     </div>
                                     <div class="form-group" id="extCampo_indirizzo">

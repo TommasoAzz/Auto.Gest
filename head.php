@@ -33,6 +33,9 @@
 		case "amministrazione":
 			$pageName = "Amministrazione";
 			break;
+		case "accesso":
+			$pageName = "Registrazione e accesso";
+			break;
 		default:
 			$pageName = "Auto.Gest";
 			break;

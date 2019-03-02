@@ -22,11 +22,11 @@
             $button = "<p class='text-center'><a class='btn btn-primary btn-lg' href='" . getURL("/accesso/") . "' data-toggle='modal' role='button'>Accedi al sito</a></p>";
         } else {
             switch($utente->getLivello()) {
-                case 1: $button = "<p class='text-center'><a class='btn btn-primary btn-lg' href='" . getURL("/iscrizione/") . "'>Iscriviti qui</a></p>";
+                case 1: $button = "<p class='text-center'><a class='btn btn-primary btn-lg' href='" . getURL("/iscrizione/") . "'>Iscriviti ai corsi</a></p>";
                     break; //studente
-                case 2: $button = "<p class='text-center'><a class='btn btn-primary btn-lg' href='" . getURL("/registro-presenze/") . "'>Gestisci il tuo corso</a></p>";
+                case 2: $button = "<p class='text-center'><a class='btn btn-primary btn-lg' href='" . getURL("/registro-presenze/") . "'>Apri i tuoi registri presenze</a></p>";
                     break;
-                case 3: $button = "<p class='text-center'><a class='btn btn-primary btn-lg' href='" . getURL("/amministrazione/") . "'>Amministra l'evento</a></p>";
+                case 3: $button = "<p class='text-center'><a class='btn btn-primary btn-lg' href='" . getURL("/amministrazione/") . "'>Vai al Pannello di Amministrazione</a></p>";
                     break;
             }
         }
