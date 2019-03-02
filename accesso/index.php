@@ -25,9 +25,14 @@
     <div id="content" class="container">
         <!-- INTESTAZIONE PAGINA -->
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <h1 class="text-center">Accesso ad Auto.Gest</h1>
-                <h4 class="text-center sottotitolo">Accedi al sistema di <?php echo $info["titolo"]; ?></h4>
+            <div class="hidden-xs hidden-sm col-md-12 col-lg-12">
+                <h1 class="text-center">Benvenuto</h1>
+                <h4 class="text-center sottotitolo">Registrati o accedi al sistema di <?php echo $info["titolo"]; ?></h4>
+                <hr>
+            </div>
+            <div class="col-xs-12 col-sm-12 hidden-md hidden-lg">
+                <h2 class="text-center">Benvenuto</h2>
+                <h4 class="text-center sottotitolo">Registrati o accedi al sistema di <?php echo $info["titolo"]; ?></h4>
                 <hr>
             </div>
         </div>

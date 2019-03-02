@@ -1,4 +1,7 @@
-<h4 class="text-center">Benvenuto nel sito per l'iscrizione a <strong><?php echo $info["titolo"]; ?></strong></h4>
+<h4 class="text-center">
+    Benvenuto nel sito di <strong><?php echo $info["titolo"]; ?></strong>
+    <?php if(isset($utente)) echo ", " . $utente->getNome() . " " . $utente->getCognome() . "."; ?>
+</h4>
 
 <hr />
 

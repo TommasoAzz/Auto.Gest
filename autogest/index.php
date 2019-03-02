@@ -18,8 +18,13 @@ $utente=Session::get("utente");
     <div id="content" class="container">
         <!-- INTESTAZIONE PAGINA -->
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="hidden-xs hidden-sm col-md-12 col-lg-12">
                 <h1 class="text-center">Auto.Gest</h1>
+                <h4 class="text-center sottotitolo">Il sistema che permette al sito di <?php echo $info["titolo"]; ?> di funzionare</h4>
+                <hr>
+            </div>
+            <div class="col-xs-12 col-sm-12 hidden-md hidden-lg">
+                <h2 class="text-center">Auto.Gest</h2>
                 <h4 class="text-center sottotitolo">Il sistema che permette al sito di <?php echo $info["titolo"]; ?> di funzionare</h4>
                 <hr>
             </div>

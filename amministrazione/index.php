@@ -38,6 +38,11 @@ $utente = Session::get("utente");
                 <h4 class="text-center sottotitolo">Pannello di controllo di <?php echo $info["titolo"]; ?></h4>
                 <hr>
             </div>
+            <div class="col-xs-12 col-sm-12 hidden-md hidden-lg">
+                <h2 class="text-center">Amministrazione</h2>
+                <h4 class="text-center sottotitolo">Pannello di controllo di <?php echo $info["titolo"]; ?></h4>
+                <hr>
+            </div>
         </div>
         <!-- CORPO PAGINA -->
         <?php
