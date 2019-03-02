@@ -28,7 +28,7 @@ function controlloLogin(password, user_identification) {
                 $cPsw.addClass("has-error").append("<label class='error' id='logerr'>I dati inseriti sono errati. Verifica di aver inserito correttamente il nome utente o l'indirizzo mail e la password.</label>");
                 break;
             case "primo_accesso_non_effettuato":
-                $cPsw.addClass("has-error").append("<label class='error' id='logerr'>Il tuo account non è ancora stato verificato. Per poter accedere, clicca sul link che ti è stato inviato per mail alla conferma della registrazione.</label>");
+                $cPsw.addClass("has-error").append("<label class='error' id='logerr'>Il tuo account non è ancora stato verificato. Per poter accedere, clicca sul link che ti è stato inviato per mail alla conferma della registrazione. Se non trovi la mail, cerca nella cartella Spam.</label>");
                 break;
             case "max_tentativi_raggiunto":
                 $cPsw.addClass("has-error").append("<label class='error' id='logerr'>Hai raggiunto il limite massimo di tentativi di login con credenziali errate. Riprova tra " +  (10 - parseInt(result.minuti)) + " minuti.</label>");

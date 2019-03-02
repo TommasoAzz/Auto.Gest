@@ -36,6 +36,41 @@
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
+                        <h3 class="text-center"><i class="fa fa-sign-in"></i> Accedi</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form id="userlogin" name="userlogin" method="post">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group" id="accesso_spiegazione">
+                                        <p class="text-justify">Se hai già effettuato il primo accesso (tramite il pannello <strong>Primo accesso</strong>), puoi accedere con le credenziali che hai creato.</p>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group" id="campo_username">
+                                        <label for="login_username" class="control-label">Nome utente o indirizzo mail</label>
+                                        <input type="text" class="form-control" name="login_username" id="login_username" placeholder="NomeCognome123 / nomecognome@mail.it" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group" id="campo_psw">
+                                        <label for="login_password" class="control-label">Password</label>
+                                        <input type="password" class="form-control" name="login_password" id="login_password" placeholder="********">
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <button class="btn btn-success btn-lg btn-block" type="button" id="btnAccedi" name="btnAccedi">Accedi</button>
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
                         <h3 class="text-center"><i class="fa fa-sign-in"></i> Primo accesso</h3>
                     </div>
                     <div id="primo_accesso" class="panel-body">
@@ -93,41 +128,6 @@
                                 <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                     <button class="btn btn-success btn-lg btn-block" type="button" id="extBtnProcedi" name="extBtnProcedi">Procedi</button>
-                                </div>
-                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="text-center"><i class="fa fa-sign-in"></i> Accedi</h3>
-                    </div>
-                    <div class="panel-body">
-                        <form id="userlogin" name="userlogin" method="post">
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                    <div class="form-group" id="accesso_spiegazione">
-                                        <p class="text-justify">Se hai già effettuato il primo accesso (tramite il pannello <strong>Primo accesso</strong>), puoi accedere con le credenziali che hai creato.</p>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                    <div class="form-group" id="campo_username">
-                                        <label for="login_username" class="control-label">Nome utente o indirizzo mail</label>
-                                        <input type="text" class="form-control" name="login_username" id="login_username" placeholder="NomeCognome123 / nomecognome@mail.it" />
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                    <div class="form-group" id="campo_psw">
-                                        <label for="login_password" class="control-label">Password</label>
-                                        <input type="password" class="form-control" name="login_password" id="login_password" placeholder="********">
-                                    </div>
-                                </div>
-                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
-                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                    <button class="btn btn-success btn-lg btn-block" type="button" id="btnAccedi" name="btnAccedi">Accedi</button>
                                 </div>
                                 <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
                             </div>

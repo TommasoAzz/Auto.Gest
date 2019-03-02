@@ -12,7 +12,7 @@ if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST" || !(GlobalVar::issetPOST("reg
 
 $registrazione_nome = $db->escape(GlobalVar::POST("registrazione_nome"));
 $registrazione_cognome = $db->escape(GlobalVar::POST("registrazione_cognome"));
-$mail_utente = $db->escape(GlobalVar::POST("mail_utente"));
+$mail_utente = $db->escape(mb_strtolower(GlobalVar::POST("mail_utente")));
 $username_utente = $db->escape(GlobalVar::POST("username_utente"));
 $password_vecchia_utente = $db->escape(GlobalVar::POST("password_vecchia_utente"));
 $password_nuova_utente = $db->escape(GlobalVar::POST("password_nuova_utente"));
