@@ -14,7 +14,4 @@ $nuovapwd = GlobalVar::POST("nuovaPwd");
 $cambio = cambioPasswordUtente($db, $utente->getID(), $vecchiapwd, $nuovapwd);
 
 if($cambio === "errore_id_persona" || $cambio === "cambio_non_effettuato") echo $cambio;
-else {
-    invioMailCambioPassword($info['titolo'], $utente->getNome(), $utente->getCognome(), $utente->getMail());
-    echo "cambio_effettuato";
-}
+else echo "cambio_effettuato";

@@ -12,7 +12,6 @@ function controlloLogin(password, user_identification) {
             Stringhe errore:
             - DATI INPUT: errore_db_dati_input (dati input potrebbero essere errati)
             - ID PERSONA: errore_db_idpersona (errore nella connessione col db possibilmente)
-            - 1° ACCESSO NON EFFETTUATO: primo_accesso_non_effettuato (l'utente non si è ancora registrato al sistema)
         */
         $cPsw.removeClass("has-success has-error");
         $("label#logerr").remove();
@@ -25,10 +24,7 @@ function controlloLogin(password, user_identification) {
                 break;
             case "errore_db_dati_input":
             case "errore_db_password_errata":
-                $cPsw.addClass("has-error").append("<label class='error' id='logerr'>I dati inseriti sono errati. Verifica di aver inserito correttamente il nome utente o l'indirizzo mail e la password.</label>");
-                break;
-            case "primo_accesso_non_effettuato":
-                $cPsw.addClass("has-error").append("<label class='error' id='logerr'>Il tuo account non è ancora stato verificato. Per poter accedere, clicca sul link che ti è stato inviato per mail alla conferma della registrazione.<br /><span class='label label-danger>Attenzione</span> Se non trovi la mail, cerca nella cartella <strong>Spam</strong>.</label>");
+                $cPsw.addClass("has-error").append("<label class='error' id='logerr'>I dati inseriti sono errati. Verifica di aver inserito correttamente il nome utente e la password.</label>");
                 break;
             case "max_tentativi_raggiunto":
                 $cPsw.addClass("has-error").append("<label class='error' id='logerr'>Hai raggiunto il limite massimo di tentativi di login con credenziali errate. Riprova tra " +  (10 - parseInt(result.minuti)) + " minuti.</label>");

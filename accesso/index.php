@@ -53,8 +53,8 @@
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <div class="form-group" id="campo_username">
-                                        <label for="login_username" class="control-label">Nome utente o indirizzo mail</label>
-                                        <input type="text" class="form-control" name="login_username" id="login_username" placeholder="NomeCognome123 / nomecognome@mail.it" />
+                                        <label for="login_username" class="control-label">Nome utente</label>
+                                        <input type="text" class="form-control" name="login_username" id="login_username" placeholder="NomeCognome123" />
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -144,8 +144,6 @@
     </div>
     <!-- FOOTER -->
     <?php require_once "../footer.php"; ?>
-    <!-- REGISTRAZIONE MODAL -->
-    <?php //require_once "modal/registrazione.php"; ?>
     </div><!-- fine wrapper -->
     </body>
 </html>

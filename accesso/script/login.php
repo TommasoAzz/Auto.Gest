@@ -6,9 +6,9 @@ Session::open();
 
 if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST" || !(GlobalVar::issetPOST("user_identification") && GlobalVar::issetPOST("psw"))) header("Location: ../../");
 
-$user_identification = $db->escape(GlobalVar::POST("user_identification"));
+$username = $db->escape(GlobalVar::POST("user_identification"));
 $psw = $db->escape(GlobalVar::POST("psw"));
 
-$risultatoLogin = login($db, $user_identification, $psw);
+$risultatoLogin = login($db, $username, $psw);
 
 echo json_encode($risultatoLogin);

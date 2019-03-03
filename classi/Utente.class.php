@@ -15,7 +15,6 @@ class Utente extends AutoGestDB {
     private $cognome; //string - 30 caratteri - cognome della persona
     public $classe; //string - 1 carattere - classe della persona (da 1 a 5, A, E, P)
     private $username; //string  - 32 caratteri - username della persona
-    private $mail; //string - 254 caratteri - indirizzo mail della persona
     private $primoAccessoEffettuato; //int - 1/0 - effettuato/non effettuato il primo accesso
     private $giornoIscritto; //int - 1 cifra - (0 a n) n=numero giorni evento
     private $oraIscritta; //int - 1 cifra - (0 a n) n=numero ore giornata
@@ -23,13 +22,12 @@ class Utente extends AutoGestDB {
 
     //metodi
     //--costruttore
-    public function __construct($id=0, $n="", $c="", $classe=null, $un="", $m="", $pae = 0, $gi=0, $oi=0, $l=1) {
+    public function __construct($id=0, $n="", $c="", $classe=null, $un="", $pae = 0, $gi=0, $oi=0, $l=1) {
         $this->setID($id);
         $this->setNome($n);
         $this->setCognome($c);
         $this->classe = $classe;
         $this->setUsername($un);
-        $this->setMail($m);
         $this->setPrimoAccessoEffettuato($pae);
         $this->setGiornoIscritto($gi);
         $this->setOraIscritta($oi);
@@ -73,10 +71,6 @@ class Utente extends AutoGestDB {
         $this->username = $this->preparaDato($un, "Username");
     }
 
-    public function setMail($m) {
-        $this->mail = $this->preparaDato($m, "Mail");
-    }
-
     public function setPrimoAccessoEffettuato($pae) {
         $this->primoAccessoEffettuato = $this->preparaDato($pae, "PrimoAccessoEffettuato");
     }
@@ -108,10 +102,6 @@ class Utente extends AutoGestDB {
 
     public function getUsername() {
         return $this->username;
-    }
-
-    public function getMail() {
-        return $this->mail;
     }
 
     public function getPrimoAccessoEffettuato() {

@@ -42,16 +42,6 @@ function stampaDatiUtente($dato) {
                 <div class="row">
                     <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
                     <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
-                        <div class="form-group" id="campo_mail_utente">
-                            <label for="mail_utente" class="control-label">Indirizzo e-mail (lo useremo forse, intanto metto il campo)</label>
-                            <input type="text" class="form-control" name="mail_utente" id="mail_utente" placeholder="nomecognome@mail.it" />
-                        </div>
-                    </div>
-                    <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
-                </div>
-                <div class="row">
-                    <div class="hidden-xs hidden-sm col-md-1 col-lg-1"></div>
-                    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
                         <div class="form-group" id="campo_username_utente">
                             <label for="username_utente" class="control-label">Crea un nome utente con cui potrai accedere in <?php echo $info["titolo"]; ?>. Crealo in modo da riuscire a ricordartelo. </label>
                             <input type="text" class="form-control" name="username_utente" id="username_utente" placeholder="NomeCognome123" />

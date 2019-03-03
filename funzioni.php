@@ -204,7 +204,6 @@ function inizializzaUtente($db, $ID_Persona) {
             $dati["Indirizzo"]
         ),
         $dati["Username"],
-        $dati["Mail"],
         $dati["PrimoAccessoEffettuato"],
         $dati["GiornoIscritto"],
         $dati["OraIscritta"],
@@ -216,12 +215,12 @@ function inizializzaUtente($db, $ID_Persona) {
 
 function primoAccesso($db, $cl, $s, $ind, $postPass) {
     $password = hash('sha256', $postPass); // DA CAMBIARE
-    $id_paf = $db->queryDB("SELECT ID_Persona, PrimoAccessoEffettuato FROM Persone P INNER JOIN Classi C ON P.ID_Classe=C.ID_Classe WHERE Classe='".$cl."' AND Sezione='".$s."' AND Indirizzo='".$ind."' AND Pwd='".$password."'");
+    $id_paf = $db->queryDB("SELECT ID_Persona, PrimoAccessoEffetuato FROM Persone P INNER JOIN Classi C ON P.ID_Classe=C.ID_Classe WHERE Classe='".$cl."' AND Sezione='".$s."' AND Indirizzo='".$ind."' AND Pwd='".$password."'");
     if(!$id_paf) return "errore_db_dati_input";
 
     $id = intval($id_paf[0]["ID_Persona"]);
-    $pae = intval($id_paf[0]["PrimoAccessoEffettuato"]);
-    
+    $pae = intval($id_paf[0]["PrimoAccessoEffetuato"]);
+
     if($pae > 0) return "primo_accesso_effettuato";
 
     $utente = inizializzaUtente($db, $id);
@@ -233,17 +232,14 @@ function primoAccesso($db, $cl, $s, $ind, $postPass) {
         "classe" => $utente->classe->getClasse() . "°" . $utente->classe->getSezione() . " " . $utente->classe->getIndirizzo(),
         "ruolo" => $utente->getLivello() == 1 ? "Studente" : ($utente->getLivello() == 2 ? "Responsabile di corso" : "Amministratore dell'evento")
     );
-} //RESTITUITO: array contenente i dati da mostrare nel form di registrazione se il login è stato effettuato, "errore_db_idpersona" se l'id è non trovato, "errore_db_dati_input" se i dati input non corrispondono. Viene interrogato il database.
+} //RESTITUITO: array contenente i dati da mostrare nel form di registrazione se il login è stato effettuato, "errore_db_idpersona" se l'id è non trovato, "errore_db_dati_input" se i dati input non corrispondono, "primo_accesso_effettuato" se ha già effettuato il primo accesso. Viene interrogato il database.
 
-function login($db, $user_identification, $pwd_user) {
-    $data = $db->queryDB("SELECT ID_Persona, Pwd, PrimoAccessoEffettuato FROM Persone WHERE (Mail = '" . $user_identification . "' OR Username = '" . $user_identification . "')");
+function login($db, $username, $pwd_user) {
+    $data = $db->queryDB("SELECT ID_Persona, Pwd FROM Persone WHERE Username = '" . $username . "'");
     if(!$data) return ["msg" => "errore_db_dati_input"];
     
     $id = intval($data[0]["ID_Persona"]);
-    $pae = intval($data[0]["PrimoAccessoEffettuato"]);
     $pwd_db = $data[0]["Pwd"];
-
-    if($pae == 0) return ["msg" => "primo_accesso_non_effettuato"];
 
     if(!password_verify($pwd_user, $pwd_db)) {
         $verificaTentativi = verificaTentativi($db, $id, false); //SE LA PASSWORD E' ERRATA
@@ -266,9 +262,7 @@ function login($db, $user_identification, $pwd_user) {
         return ["msg" => "accesso_effettuato"];
 
     } else return $verificaTentativi;
-} //RESTITUITO: "accesso_effettuato" se il login è stato effettuato, "primo_accesso_non_effettuato" se l'utente non ha effettuato la registrazione, 
-//"errore_db_idpersona" se l'id è non trovato, "errore_db_dati_input" se i dati input non corrispondono, 
-//"errore_db_delete_tentativi" se non si riescono ad eliminare i dati nella tabella 'TentativiLogin', "max_tentativi_raggiunto" se l'utente ha raggiunto il limite di tentativi consentito. Viene interrogato il database.
+} //RESTITUITO: "accesso_effettuato" se il login è stato effettuato, "errore_db_idpersona" se l'id è non trovato, "errore_db_dati_input" se i dati input non corrispondono, "errore_db_delete_tentativi" se non si riescono ad eliminare i dati nella tabella 'TentativiLogin', "max_tentativi_raggiunto" se l'utente ha raggiunto il limite di tentativi consentito. Viene interrogato il database.
 
 function verificaTentativi($db, $id, $pwGiusta) {
 	$tentativi = $db->queryDB("SELECT ID_Persona, Tempo FROM TentativiLogin WHERE (ID_Persona = $id ) ORDER BY ID DESC");
@@ -314,34 +308,11 @@ function getClassi($db, $indirizzo) {
     return $classi;
 } //RESTITUITO: array con 'classi, sezioni' dell'indirizzo = $indirizzo o messaggio di errore. Viene interrogato il database.
 
-function mailEsistente($db, $mail_utente) {
-    $result = $db->queryDB("SELECT * FROM Persone WHERE Mail = '" . $mail_utente . "'");
-    
-    return $result ? true : false;
-} //RESTITUITO: true se mail presente nel database, false altrimenti. Viene interrogato il database.
-
 function usernameEsistente($db, $username_utente) {
     $result = $db->queryDB("SELECT * FROM Persone WHERE Username = '" . $username_utente . "'");
 
     return $result ? true : false;
-} //RESTITUITO: true se mail presente nel database, false altrimenti. Viene interrogato il database.
-
-function invioMailConfermaAttivazione($evento, $nome, $cognome, $username, $destinatario, $activation_hash) {
-    $subject = $evento . " - Auto.Gest - Conferma iscrizione"; //oggetto della mail 
-
-    $message = "<p style='text-align:center'><img alt='autogest_logo' src='" . getURL("/img/AutoGest-Logo.png") . "' /></p>";
-    $message .= "<p>Ciao " . $nome. " " . $cognome . ",<br />"; //messaggio della mail
-    $message .= "abbiamo ricevuto la tua richiesta di iscrizione al sistema di gestione di " . $evento . ", in cui ti sei registrato con:</p>";
-    $message .= "<ul><li>Mail: " . $destinatario . "</li><li>Username: " . $username . "</li></ul>";
-    $message .= "<p>Per proseguire con l'attivazione del tuo account clicca il link seguente:<br />";
-    $message .= "<a href='" . getURL("/") . "verificaAccount.php?mail=" . $destinatario ."&hashattivazione=" . $activation_hash . "'>Attiva il tuo profilo per " . $evento . "</a></p>";
-                        
-    $headers = 'From: auto.gest.ag@gmail.com' . "\r\n";
-    $headers .= 'Reply-To: auto.gest.ag@gmail.com' . "\r\n";
-    $headers .= "Content-Type: text/html; charset=UTF-8" . "\r\n";
-
-    mail($destinatario, $subject, $message, $headers);
-}
+} //RESTITUITO: true se username presente nel database, false altrimenti. Viene interrogato il database.
 
 /*************************************************************************************************/
 /*                                      SEZIONE: Amministrazione                                 */
@@ -386,21 +357,6 @@ function getSessioniCorso($db, $idCorso, $giorno = 0, $ora = 0) {
 
     return $sc;
 } //RESTITUITO: array con lista sessioni corsi del corso di id=$idCorso o messaggio di errore. Viene interrogato il database
-
-function invioMailCambioPassword($evento, $nome, $cognome, $destinatario) {
-    $subject = $evento . " - Auto.Gest - Modifica della password"; //oggetto della mail 
-
-    $message = "<p style='text-align:center'><img alt='autogest_logo' src='" . getURL("/img/AutoGest-Logo.png") . "' /></p>";
-    $message .= "<p>Ciao " . $nome. " " . $cognome . ",<br />"; //messaggio della mail
-    $message .= "la tua password di accesso al sistema di gestione di " . $evento . " è stata recentemente modificata.</p>";
-    $message .= "<p>Se non è stata un'operazione svolta da te, ma a tua insaputa, contatta immediatamente i tuoi Rappresentati degli Studenti.</p>";
-    
-    $headers = 'From: auto.gest.ag@gmail.com' . "\r\n";
-    $headers .= 'Reply-To: auto.gest.ag@gmail.com' . "\r\n";
-    $headers .= "Content-Type: text/html; charset=UTF-8" . "\r\n";
-
-    mail($destinatario, $subject, $message, $headers);
-}
 
 function cambioPasswordUtente_Admin($db, $id_persona, $nuovapwd) {
     $cambioEff = $db->queryDB("UPDATE `Persone` SET `Pwd`='" . password_has($nuovapwd, PASSWORD_DEFAULT) . "' WHERE `ID_Persona`=$id_persona");
