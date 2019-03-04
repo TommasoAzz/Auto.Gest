@@ -23,13 +23,13 @@ $ID_Persona = $db->queryDB("SELECT ID_Persona FROM Persone WHERE Nome = '" . $re
 if(!$ID_Persona) {
    echo "errore_db_corrispondenza_nome_cognome_password"; 
 } else if(usernameEsistente($db, $username_utente)) {
-    echo "errore_db_username_esistenti";
+    echo "errore_db_mail_username_esistenti";
 } else if($password_nuova_utente !== $password_nuova2_utente) {
     echo "errore_db_corrispondenza_password";
 } else {
-    $activation_hash = hash('sha256', random_int(PHP_INT_MIN, PHP_INT_MAX));
     $ID_Persona = $ID_Persona[0]['ID_Persona'];
-    $aggiornamento = $db->queryDB("UPDATE Persone SET PrimoAccessoEffettuato = 1, Pwd = '" . password_hash($password_nuova_utente, PASSWORD_DEFAULT) . "', Username = '". $username_utente ."' WHERE ID_Persona = $ID_Persona");
+    $aggiornamento = $db->queryDB("UPDATE Persone SET Pwd = '" . password_hash($password_nuova_utente, PASSWORD_DEFAULT) . "', Username = '". $username_utente ."' WHERE ID_Persona = $ID_Persona");
     
-    echo ($aggiornamento) ? "profilo_creato" : "errore_db_profilo_non_creato";
+    echo $aggiornamento ? "profilo_creato" : "errore_db_profilo_non_creato";
 }
+

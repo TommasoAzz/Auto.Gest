@@ -144,6 +144,8 @@
     </div>
     <!-- FOOTER -->
     <?php require_once "../footer.php"; ?>
+    <!-- REGISTRAZIONE MODAL -->
+    <?php //require_once "modal/registrazione.php"; ?>
     </div><!-- fine wrapper -->
     </body>
 </html>

@@ -11,4 +11,4 @@ $nuovapwd = GlobalVar::POST("Pwd");
 
 $cambioEff = cambioPasswordUtente_Admin($db, $ID, $nuovapwd);
 
-echo ($cambioEff) ? "cambio-effettuato" : "cambio-non-effettuato";
+echo $cambioEff ? "cambio-effettuato" : "cambio-non-effettuato";

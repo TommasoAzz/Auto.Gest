@@ -215,12 +215,12 @@ function inizializzaUtente($db, $ID_Persona) {
 
 function primoAccesso($db, $cl, $s, $ind, $postPass) {
     $password = hash('sha256', $postPass); // DA CAMBIARE
-    $id_paf = $db->queryDB("SELECT ID_Persona, PrimoAccessoEffetuato FROM Persone P INNER JOIN Classi C ON P.ID_Classe=C.ID_Classe WHERE Classe='".$cl."' AND Sezione='".$s."' AND Indirizzo='".$ind."' AND Pwd='".$password."'");
+    $id_paf = $db->queryDB("SELECT ID_Persona, PrimoAccessoEffettuato FROM Persone P INNER JOIN Classi C ON P.ID_Classe=C.ID_Classe WHERE Classe='".$cl."' AND Sezione='".$s."' AND Indirizzo='".$ind."' AND Pwd='".$password."'");
     if(!$id_paf) return "errore_db_dati_input";
 
     $id = intval($id_paf[0]["ID_Persona"]);
-    $pae = intval($id_paf[0]["PrimoAccessoEffetuato"]);
-
+    $pae = intval($id_paf[0]["PrimoAccessoEffettuato"]);
+    
     if($pae > 0) return "primo_accesso_effettuato";
 
     $utente = inizializzaUtente($db, $id);
@@ -232,10 +232,10 @@ function primoAccesso($db, $cl, $s, $ind, $postPass) {
         "classe" => $utente->classe->getClasse() . "°" . $utente->classe->getSezione() . " " . $utente->classe->getIndirizzo(),
         "ruolo" => $utente->getLivello() == 1 ? "Studente" : ($utente->getLivello() == 2 ? "Responsabile di corso" : "Amministratore dell'evento")
     );
-} //RESTITUITO: array contenente i dati da mostrare nel form di registrazione se il login è stato effettuato, "errore_db_idpersona" se l'id è non trovato, "errore_db_dati_input" se i dati input non corrispondono, "primo_accesso_effettuato" se ha già effettuato il primo accesso. Viene interrogato il database.
+} //RESTITUITO: array contenente i dati da mostrare nel form di registrazione se il login è stato effettuato, "errore_db_idpersona" se l'id è non trovato, "errore_db_dati_input" se i dati input non corrispondono. Viene interrogato il database.
 
-function login($db, $username, $pwd_user) {
-    $data = $db->queryDB("SELECT ID_Persona, Pwd FROM Persone WHERE Username = '" . $username . "'");
+function login($db, $user_identification, $pwd_user) {
+    $data = $db->queryDB("SELECT ID_Persona, Pwd FROM Persone WHERE Username = '" . $user_identification . "'");
     if(!$data) return ["msg" => "errore_db_dati_input"];
     
     $id = intval($data[0]["ID_Persona"]);
@@ -262,7 +262,8 @@ function login($db, $username, $pwd_user) {
         return ["msg" => "accesso_effettuato"];
 
     } else return $verificaTentativi;
-} //RESTITUITO: "accesso_effettuato" se il login è stato effettuato, "errore_db_idpersona" se l'id è non trovato, "errore_db_dati_input" se i dati input non corrispondono, "errore_db_delete_tentativi" se non si riescono ad eliminare i dati nella tabella 'TentativiLogin', "max_tentativi_raggiunto" se l'utente ha raggiunto il limite di tentativi consentito. Viene interrogato il database.
+} //RESTITUITO: "accesso_effettuato" se il login è stato effettuato, "errore_db_idpersona" se l'id è non trovato, "errore_db_dati_input" se i dati input non corrispondono, 
+//"errore_db_delete_tentativi" se non si riescono ad eliminare i dati nella tabella 'TentativiLogin', "max_tentativi_raggiunto" se l'utente ha raggiunto il limite di tentativi consentito. Viene interrogato il database.
 
 function verificaTentativi($db, $id, $pwGiusta) {
 	$tentativi = $db->queryDB("SELECT ID_Persona, Tempo FROM TentativiLogin WHERE (ID_Persona = $id ) ORDER BY ID DESC");
@@ -313,6 +314,7 @@ function usernameEsistente($db, $username_utente) {
 
     return $result ? true : false;
 } //RESTITUITO: true se username presente nel database, false altrimenti. Viene interrogato il database.
+
 
 /*************************************************************************************************/
 /*                                      SEZIONE: Amministrazione                                 */

@@ -2,7 +2,6 @@
 require_once "../../caricaClassi.php";
 Session::open();
 $utente=Session::get("utente");
-$login=Session::get("login");
-unset($utente,$login);
+unset($utente);
 Session::close();
 header("Location: ../../");

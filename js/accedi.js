@@ -24,7 +24,7 @@ function controlloLogin(password, user_identification) {
                 break;
             case "errore_db_dati_input":
             case "errore_db_password_errata":
-                $cPsw.addClass("has-error").append("<label class='error' id='logerr'>I dati inseriti sono errati. Verifica di aver inserito correttamente il nome utente e la password.</label>");
+                $cPsw.addClass("has-error").append("<label class='error' id='logerr'>I dati inseriti sono errati. Verifica di aver inserito correttamente il nome utente o l'indirizzo mail e la password.</label>");
                 break;
             case "max_tentativi_raggiunto":
                 $cPsw.addClass("has-error").append("<label class='error' id='logerr'>Hai raggiunto il limite massimo di tentativi di login con credenziali errate. Riprova tra " +  (10 - parseInt(result.minuti)) + " minuti.</label>");

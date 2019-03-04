@@ -15,7 +15,5 @@ $psw = $db->escape(GlobalVar::POST("psw"));
 $risultatoLogin = primoAccesso($db, $cla, $sez, $ind, $psw); //stringa
 
 if($risultatoLogin === "errore_db_dati_input" || $risultatoLogin === "errore_db_idpersona" || $risultatoLogin === "primo_accesso_effettuato") echo $risultatoLogin;
-else {
-    echo json_encode($risultatoLogin);
-}
+else echo json_encode($risultatoLogin);
 

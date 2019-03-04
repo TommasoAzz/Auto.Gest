@@ -11,7 +11,4 @@ if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST" || (!(GlobalVar::issetPOST("ve
 $vecchiapwd = GlobalVar::POST("vecchiaPwd");
 $nuovapwd = GlobalVar::POST("nuovaPwd");
 
-$cambio = cambioPasswordUtente($db, $utente->getID(), $vecchiapwd, $nuovapwd);
-
-if($cambio === "errore_id_persona" || $cambio === "cambio_non_effettuato") echo $cambio;
-else echo "cambio_effettuato";
+echo cambioPasswordUtente($db, $utente->getID(), $vecchiapwd, $nuovapwd);
