@@ -247,7 +247,7 @@ function login($db, $user_identification, $pwd_user) {
         if($verificaTentativi['msg'] !== "aggiungi_tentativo") return $verificaTentativi;
         
         $insert = $db->queryDB("INSERT INTO TentativiLogin (ID_Persona, Tempo)  VALUES ('" . $id . "', '" . date("Y-m-d H:i:s") . "')");
-        if(!$insert) return "errore_db_insert_tentativilogin";
+        if(!$insert) return ["msg" => "errore_db_insert_tentativilogin"];
 
         return ["msg" => "errore_db_password_errata"];
     } 

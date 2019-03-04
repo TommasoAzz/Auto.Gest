@@ -55,18 +55,12 @@ function controlloDatiRegistrazione(datiRegistrazione) {
                     "Non c'è nessuna corrispondenza fra nome, cognome e password consegnata dai Rappresentanti degli Studenti nel database. Controlla i dati inseriti. Se il problema persiste, contattaci (usando i link che trovi nel piè di pagina)."
                 );
                 break;
-            case "errore_db_mail_username_esistenti":
+            case "errore_db_username_esistente":
                 $alert(
                     "Operazione non effettuata",
-                    "La mail o l'username inseriti sono già presenti nel database. Controlla i dati inseriti."
+                    "L'username inseriti sono già presenti nel database. Controlla i dati inseriti."
                 );
-                break;
-            case "errore_db_formato_mail_errato":
-                $alert(
-                    "Operazione non effettuata",
-                    "Il fomato della mail inserita non è corretto. Controlla i dati inseriti."
-                );
-                break;    
+                break;  
             case "errore_db_corrispondenza_password":
                 $alert(
                     "Operazione non effettuata",
@@ -82,9 +76,7 @@ function controlloDatiRegistrazione(datiRegistrazione) {
             case "profilo_creato":
                 $alert(
                     "Operazione effettuata",
-                    "Profilo creato con successo. Ti è stata inviata una mail all'indirizzo " + datiRegistrazione.mail_utente + " con il link per poter procedere " +
-                    "all'iscrizione. <br />La mail proviene dall'indirizzo <a href='mailto:auto.gest.ag@gmail.com'>auto.gest.ag@gmail.com</a> e se non la trovi " +
-                    "nella Posta in arrivo, cercala nella cartella Spam. Se non la ricevi, contattaci (usando i link che trovi nel piè di pagina)."
+                    "Profilo creato con successo."
                 );
                 $("div#registrazioneUtente").modal("hide");
                 break;
@@ -319,14 +311,6 @@ $(document).ready(function() {
         e.preventDefault();
     }).validate({
         rules: {
-            mail_utente: {
-                required: true,
-                email: true,
-                remote: {
-                    url: "/accesso/script/verificaEsistenzaDati.php",
-                    type: "POST"
-                }
-            },
             username_utente: {
                 required: true,
                 remote: {
@@ -347,11 +331,6 @@ $(document).ready(function() {
             }
         },
         messages: {
-            mail_utente: {
-                required: "Questo campo deve essere compilato.",
-                email: "Inserisci un valido indirizzo mail.",
-                remote: $.validator.format("Con l'indirizzo mail {0} c'è già un profilo collegato. Se è il tuo, accedi tramite il pannello Accedi. Se invece non lo è, contattaci (usando i link che trovi nel piè di pagina).")
-            },
             username_utente: {
                 required: "Questo campo deve essere compilato.",
                 remote: $.validator.format("Ci dispiace, ma {0} è già stato usato come nome utente. Creane un altro.")
@@ -373,7 +352,6 @@ $(document).ready(function() {
         const datiRegistrazione = {
             registrazione_nome: $("p#registrazione_nome").html(),
             registrazione_cognome: $("p#registrazione_cognome").html(),
-            mail_utente: $("input#mail_utente").val().trim(),
             username_utente: $("input#username_utente").val().trim(),
             password_vecchia_utente: $("input#password_vecchia_utente").val().trim(),
             password_nuova_utente: $("input#password_nuova_utente").val().trim(),

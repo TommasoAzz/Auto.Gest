@@ -23,7 +23,7 @@ $ID_Persona = $db->queryDB("SELECT ID_Persona FROM Persone WHERE Nome = '" . $re
 if(!$ID_Persona) {
    echo "errore_db_corrispondenza_nome_cognome_password"; 
 } else if(usernameEsistente($db, $username_utente)) {
-    echo "errore_db_mail_username_esistenti";
+    echo "errore_db_username_esistente";
 } else if($password_nuova_utente !== $password_nuova2_utente) {
     echo "errore_db_corrispondenza_password";
 } else {

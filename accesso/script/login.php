@@ -4,9 +4,9 @@ require_once "../../connettiAlDB.php";
 require_once "../../funzioni.php";
 Session::open();
 
-if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST" || !(GlobalVar::issetPOST("user_identification") && GlobalVar::issetPOST("psw"))) header("Location: ../../");
+if(GlobalVar::SERVER("REQUEST_METHOD") !== "POST" || !(GlobalVar::issetPOST("username") && GlobalVar::issetPOST("psw"))) header("Location: ../../");
 
-$username = $db->escape(GlobalVar::POST("user_identification"));
+$username = $db->escape(GlobalVar::POST("username"));
 $psw = $db->escape(GlobalVar::POST("psw"));
 
 $risultatoLogin = login($db, $username, $psw);
