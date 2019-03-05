@@ -22,7 +22,7 @@ class Utente extends AutoGestDB {
 
     //metodi
     //--costruttore
-    public function __construct($id=0, $n="", $c="", $classe=null, $un="", $m="", $pae = 0, $gi=0, $oi=0, $l=1) {
+    public function __construct($id=0, $n="", $c="", $classe=null, $un="", $pae = 0, $gi=0, $oi=0, $l=1) {
         $this->setID($id);
         $this->setNome($n);
         $this->setCognome($c);

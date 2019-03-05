@@ -43,7 +43,7 @@
         <!-- CORPO PAGINA -->
         <div class="row">
           <div class="hidden-xs hidden-sm col-md-3 col-lg-3"></div>
-              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6"><?php include "testoHome.php"; ?></div>
+              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6"><?php include "testoHome.php";?></div>
           <div class="hidden-xs hidden-sm col-md-3 col-lg-3"></div>
         </div>
     </div>

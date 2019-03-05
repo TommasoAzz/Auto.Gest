@@ -41,6 +41,7 @@ function controlloLogin(password, username) {
 $(document).ready(function() {
     $login_psw = $("input#login_password");
     $username = $("input#login_username");
+    let form_firstAccessLogin = $('form#first_access_login');
 
     $login_psw.change(function() { //tolgo has-success / has-error se le ha
         $("div#campo_psw").removeClass("has-success has-error");
@@ -50,7 +51,14 @@ $(document).ready(function() {
     });
 
     $("button#btnAccedi").click(function() { //click del pulsante Accedi tramite mouse
-        controlloLogin($login_psw.val(), $username.val());
+        if(form_firstAccessLogin.valid())
+            controlloLogin($login_psw.val(), $username.val());
+        else{
+            $cPsw.removeClass("has-success has-error");
+            $("label#logerr").remove();
+            $cPsw.addClass("has-error");
+            $cPsw.append("<label class='error' id='logerr'>Errore nell'inserimento dei dati, riprova!</label>");
+        }
     });
 
     $("form#userlogin").submit(function(e) { // rimossa funzionalità input[type='submit']

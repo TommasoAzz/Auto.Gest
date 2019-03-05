@@ -28,7 +28,7 @@ if(!$ID_Persona) {
     echo "errore_db_corrispondenza_password";
 } else {
     $ID_Persona = $ID_Persona[0]['ID_Persona'];
-    $aggiornamento = $db->queryDB("UPDATE Persone SET Pwd = '" . password_hash($password_nuova_utente, PASSWORD_DEFAULT) . "', Username = '". $username_utente ."' WHERE ID_Persona = $ID_Persona");
+    $aggiornamento = $db->queryDB("UPDATE Persone SET PrimoAccessoEffettuato = 1, Pwd = '" . password_hash($password_nuova_utente, PASSWORD_DEFAULT) . "', Username = '". $username_utente ."' WHERE ID_Persona = $ID_Persona");
     
     echo $aggiornamento ? "profilo_creato" : "errore_db_profilo_non_creato";
 }

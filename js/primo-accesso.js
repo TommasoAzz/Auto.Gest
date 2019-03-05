@@ -195,6 +195,8 @@ $(document).ready(function() {
         "sezione": ""
     }; // dati per il modulo di login
 
+    let form_firstAccessLogin = $('form#first_access_login');
+
     // -- GESTIONE 1° ACCESSO PER STUDENTI -- //
     $("form#first_access_login").submit(function(e) { // rimossa funzionalità input[type='submit']
         e.preventDefault();
@@ -253,7 +255,14 @@ $(document).ready(function() {
     });
 
     $("button#btnProcedi").click(function() { //click del pulsante Accedi tramite mouse
-        controlloPrimoAccesso($("input#first_access_login_password").val(), datiLogin);
+        if(form_firstAccessLogin.valid())
+            controlloPrimoAccesso($("input#first_access_login_password").val(), datiLogin);
+        else{
+            $cPsw.removeClass("has-success has-error");
+            $("label#logerr").remove();
+            $cPsw.addClass("has-error");
+            $cPsw.append("<label class='error' id='logerr'>Errore nell'inserimento dei dati, riprova!</label>");
+        }
     });
 
     // -- GESTIONE 1° ACCESSO PER STUDENTI -- //
@@ -303,7 +312,14 @@ $(document).ready(function() {
     });
 
     $("button#extBtnProcedi").click(function() {
-        controlloPrimoAccesso($("input#extFirst_access_login_password").val(), datiLogin);
+        if(form_firstAccessLogin.valid())
+            controlloPrimoAccesso($("input#extFirst_access_login_password").val(), datiLogin);
+        else{
+            $cPsw.removeClass("has-success has-error");
+            $("label#logerr").remove();
+            $cPsw.addClass("has-error");
+            $cPsw.append("<label class='error' id='logerr'>Errore nell'inserimento dei dati, riprova!</label>");
+        }
     });
 
     // -- VALIDAZIONE FORM #registrazione_nuovo_utente -- //
