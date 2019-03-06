@@ -189,96 +189,21 @@ function extRichiestaIndirizzi($extIndirizzo) { //richiesta delle provenienze (n
 }
 
 $(document).ready(function() {
+    const $first_access_login = $("form#first_access_login");
+    const $extFirst_access_login = $("form#extFirst_access_login");
+    const $registrazione_nuovo_utente = $("form#registrazione_nuovo_utente");
+    const $cPsw = $("div#campo_first_access_psw");
+    const $extCPsw = $("div#extCampo_first_access_psw");
+
     let datiLogin = {
         "indirizzo": "",
         "classe": "",
         "sezione": ""
     }; // dati per il modulo di login
-
-    let form_firstAccessLogin = $('form#first_access_login');
-
-    // -- GESTIONE 1° ACCESSO PER STUDENTI -- //
-    $("form#first_access_login").submit(function(e) { // rimossa funzionalità input[type='submit']
-        e.preventDefault();
-    }).validate({
-        rules: {
-            first_access_login_password: {
-                required: true
-            }
-        },
-        messages: {
-            first_access_login_password: {
-                required: "Questo campo deve essere compilato.",
-            }
-        }
-    });
-
+    
     $("a#visualizza_extPrimo_accesso").click(function() {
         $("div.panel-body#primo_accesso").fadeOut();
         $("div.panel-body#extPrimo_accesso").fadeIn("slow");
-    });
-
-    // load iniziale
-    $("select#indirizzo, select#classe, input#first_access_login_password").prop('disabled', true); //disabilito le select e input della psw (non devono funzionare fino a che non contengono dati)
-
-    richiestaIndirizzi($("select#indirizzo")); //popolamento select#indirizzo e ottenimento lista indirizzi
-
-    $("select#indirizzo").change(function() { //richiesta classi dato l'indirizzo e animazioni
-        datiLogin = recuperaDati($(this));
-        const $selettori = $("select#classe, input#first_access_login_password");
-
-        $selettori.html("").prop('disabled', true);
-
-        if(datiLogin.indirizzo !== "")
-            richiestaClassi($("select#classe"), datiLogin);
-        else
-            $selettori.prop('disabled', true);
-    });
-
-    $("select#classe").change(function() { //concessione inserimento password
-        datiLogin = recuperaDati($("select#indirizzo"), $(this));
-        const $inputPsw = $("input#first_access_login_password");
-
-        $inputPsw.html("").prop('disabled', true);
-
-        if(datiLogin.classe !== "" && datiLogin.sezione !== "" && datiLogin.indirizzo !== "")
-            $inputPsw.prop('disabled', false);
-        else
-            $inputPsw.prop('disabled', true);
-    });
-
-    $("input#first_access_login_password").change(function() { //tolgo has-success / has-error se le ha
-        $("div#campo_first_access_psw").removeClass("has-success has-error");
-        $('label#logerr').remove(); //reset dei messaggi di errore
-    }).keypress(function(e) {
-        if(e.which == 13) controlloPrimoAccesso($(this).val(), datiLogin);
-    });
-
-    $("button#btnProcedi").click(function() { //click del pulsante Accedi tramite mouse
-        if(form_firstAccessLogin.valid())
-            controlloPrimoAccesso($("input#first_access_login_password").val(), datiLogin);
-        else{
-            $cPsw.removeClass("has-success has-error");
-            $("label#logerr").remove();
-            $cPsw.addClass("has-error");
-            $cPsw.append("<label class='error' id='logerr'>Errore nell'inserimento dei dati, riprova!</label>");
-        }
-    });
-
-    // -- GESTIONE 1° ACCESSO PER STUDENTI -- //
-    $("form#extFirst_access_login").submit(function(e) {
-        e.preventDefault();
-    }).validate({
-        rules: {
-            extFirst_access_login_password: {
-                required: true
-            }
-        },
-        messages: {
-            extFirst_access_login_password: {
-                required: "Questo campo deve essere compilato.",
-            }
-        }
     });
 
     $("a#visualizza_primo_accesso").click(function() {
@@ -286,44 +211,37 @@ $(document).ready(function() {
         $("div.panel-body#primo_accesso").fadeIn("slow");
     });
 
-    // load iniziale
-    $("select#extIndirizzo, input#extFirst_access_login_password").prop('disabled', true);
-    
-    extRichiestaIndirizzi($("select#extIndirizzo")); //popolamento select#extIndirizzo e ottenimento lista provenienze
-    
-    $("select#extIndirizzo").change(function() { //richiesta cognomi e nomi data la provenienza e animazioni
-        datiLogin = extRecuperaDati($(this));
-        const $inputPsw = $("input#extFirst_access_login_password");
-
-        $inputPsw.html("").prop('disabled', true);
-
-        if(datiLogin !== null && datiLogin.indirizzo) {
-            $inputPsw.prop('disabled', false); //riabilito il menu-tendina delle classi in quanto è caricato
-		} else
-		    $inputPsw.prop('disabled', true);
-    });
-    
-    
-    $("input#extFirst_access_login_password").change(function() {
-        $("div#extCampo_first_access_psw").removeClass("has-success has-error"); //tolgo has-success / has-error se le ha
-        $('label#logerr').remove(); //reset dei messaggi di errore
-    }).keypress(function(e) {
-        if(e.which == 13) controlloPrimoAccesso($(this).val(), datiLogin);
-    });
-
-    $("button#extBtnProcedi").click(function() {
-        if(form_firstAccessLogin.valid())
-            controlloPrimoAccesso($("input#extFirst_access_login_password").val(), datiLogin);
-        else{
-            $cPsw.removeClass("has-success has-error");
-            $("label#logerr").remove();
-            $cPsw.addClass("has-error");
-            $cPsw.append("<label class='error' id='logerr'>Errore nell'inserimento dei dati, riprova!</label>");
+    $first_access_login.submit(function(e) { // rimossa funzionalità input[type='submit']
+        e.preventDefault();
+    }).validate({
+        rules: {
+            first_access_login_password: {
+                required: true
+            }
+        },
+        messages: {
+            first_access_login_password: {
+                required: "Questo campo deve essere compilato.",
+            }
         }
     });
 
-    // -- VALIDAZIONE FORM #registrazione_nuovo_utente -- //
-    $("form#registrazione_nuovo_utente").submit(function(e) { // rimossa funzionalità input[type='submit']
+    $extFirst_access_login.submit(function(e) {
+        e.preventDefault();
+    }).validate({
+        rules: {
+            extFirst_access_login_password: {
+                required: true
+            }
+        },
+        messages: {
+            extFirst_access_login_password: {
+                required: "Questo campo deve essere compilato.",
+            }
+        }
+    });
+
+    $registrazione_nuovo_utente.submit(function(e) { // rimossa funzionalità input[type='submit']
         e.preventDefault();
     }).validate({
         rules: {
@@ -363,7 +281,102 @@ $(document).ready(function() {
             }
         }
     });
+    
+    // load iniziale
+    $("select#indirizzo, select#classe, input#first_access_login_password").prop('disabled', true); //disabilito le select e input della psw (non devono funzionare fino a che non contengono dati)
+    
+    $("select#extIndirizzo, input#extFirst_access_login_password").prop('disabled', true);
+    
+    richiestaIndirizzi($("select#indirizzo")); //popolamento select#indirizzo e ottenimento lista indirizzi
 
+    extRichiestaIndirizzi($("select#extIndirizzo")); //popolamento select#extIndirizzo e ottenimento lista provenienze
+    
+    $("select#indirizzo").change(function() { //richiesta classi dato l'indirizzo e animazioni
+        datiLogin = recuperaDati($(this));
+        const $selettori = $("select#classe, input#first_access_login_password");
+
+        $selettori.html("").prop('disabled', true);
+
+        if(datiLogin.indirizzo !== "")
+            richiestaClassi($("select#classe"), datiLogin);
+        else
+            $selettori.prop('disabled', true);
+    });
+
+    $("select#extIndirizzo").change(function() { //richiesta cognomi e nomi data la provenienza e animazioni
+        datiLogin = extRecuperaDati($(this));
+        const $inputPsw = $("input#extFirst_access_login_password");
+
+        $inputPsw.html("").prop('disabled', true);
+
+        if(datiLogin !== null && datiLogin.indirizzo) {
+            $inputPsw.prop('disabled', false); //riabilito il menu-tendina delle classi in quanto è caricato
+		} else
+		    $inputPsw.prop('disabled', true);
+    });
+
+    $("select#classe").change(function() { //concessione inserimento password
+        datiLogin = recuperaDati($("select#indirizzo"), $(this));
+        const $inputPsw = $("input#first_access_login_password");
+
+        $inputPsw.html("").prop('disabled', true);
+
+        if(datiLogin.classe !== "" && datiLogin.sezione !== "" && datiLogin.indirizzo !== "")
+            $inputPsw.prop('disabled', false);
+        else
+            $inputPsw.prop('disabled', true);
+    });
+
+    $("input#first_access_login_password").change(function() { //tolgo has-success / has-error se le ha
+        $cPsw.removeClass("has-success has-error");
+        $('label#logerr').remove(); //reset dei messaggi di errore
+    }).keypress(function(e) {
+        if(e.which == 13) {
+            if($first_access_login.valid())
+                controlloPrimoAccesso($(this).val(), datiLogin);
+            else {
+                $cPsw.addClass("has-error");
+                $cPsw.append("<label class='error' id='logerr'>Errore nell'inserimento dei dati, riprova!</label>");
+            }
+        }
+    });
+
+    $("input#extFirst_access_login_password").change(function() {
+        $extCPsw.removeClass("has-success has-error"); //tolgo has-success / has-error se le ha
+        $('label#logerr').remove(); //reset dei messaggi di errore
+    }).keypress(function(e) {
+        if(e.which == 13) {
+            if($first_access_login.valid())
+                controlloPrimoAccesso($(this).val(), datiLogin);
+            else {
+                $extCPsw.addClass("has-error");
+                $extCPsw.append("<label class='error' id='logerr'>Errore nell'inserimento dei dati, riprova!</label>");
+            }
+        }
+    });
+
+    $("button#btnProcedi").click(function() { //click del pulsante Accedi tramite mouse
+        $cPsw.removeClass("has-success has-error");
+        $("label#logerr").remove();
+        if($first_access_login.valid())
+            controlloPrimoAccesso($("input#first_access_login_password").val(), datiLogin);
+        else {
+            $cPsw.addClass("has-error");
+            $cPsw.append("<label class='error' id='logerr'>Errore nell'inserimento dei dati, riprova!</label>");
+        }
+    });
+
+    $("button#extBtnProcedi").click(function() {
+        if($extFirst_access_login.valid())
+            controlloPrimoAccesso($("input#extFirst_access_login_password").val(), datiLogin);
+        else{
+            $extCPsw.removeClass("has-success has-error");
+            $("label#logerr").remove();
+            $extCPsw.addClass("has-error");
+            $extCPsw.append("<label class='error' id='logerr'>Errore nell'inserimento dei dati, riprova!</label>");
+        }
+    }); 
+    
     $("a#btnProsegui").click(function() {
         const datiRegistrazione = {
             registrazione_nome: $("p#registrazione_nome").html(),
@@ -374,6 +387,13 @@ $(document).ready(function() {
             password_nuova2_utente: $("input#password_nuova2_utente").val().trim()
         };
         
-        controlloDatiRegistrazione(datiRegistrazione);
+        $cPsw.removeClass("has-success has-error");
+        $("label#logerr").remove();
+        if($registrazione_nuovo_utente.valid()) {
+            controlloDatiRegistrazione(datiRegistrazione);
+        } else {
+            $extCPsw.addClass("has-error");
+            $extCPsw.append("<label class='error' id='logerr'>Errore nell'inserimento dei dati, riprova!</label>");
+        }
     });
 });

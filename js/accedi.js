@@ -39,29 +39,12 @@ function controlloLogin(password, username) {
 }
 
 $(document).ready(function() {
-    $login_psw = $("input#login_password");
-    $username = $("input#login_username");
-    let form_firstAccessLogin = $('form#first_access_login');
+    const $username = $("input#login_username");
+    const $login_psw = $("input#login_password");
+    const $userlogin = $("form#userlogin");
+    const $cLoginPsw = $("div#campo_psw");
 
-    $login_psw.change(function() { //tolgo has-success / has-error se le ha
-        $("div#campo_psw").removeClass("has-success has-error");
-        $('label#logerr').remove(); //reset dei messaggi di errore
-    }).keypress(function(e) {
-        if(e.which == 13) controlloLogin($login_psw.val(), $username.val());
-    });
-
-    $("button#btnAccedi").click(function() { //click del pulsante Accedi tramite mouse
-        if(form_firstAccessLogin.valid())
-            controlloLogin($login_psw.val(), $username.val());
-        else{
-            $cPsw.removeClass("has-success has-error");
-            $("label#logerr").remove();
-            $cPsw.addClass("has-error");
-            $cPsw.append("<label class='error' id='logerr'>Errore nell'inserimento dei dati, riprova!</label>");
-        }
-    });
-
-    $("form#userlogin").submit(function(e) { // rimossa funzionalità input[type='submit']
+    $userlogin.submit(function(e) { // rimossa funzionalità input[type='submit']
         e.preventDefault();
     }).validate({
         rules: {
@@ -81,4 +64,33 @@ $(document).ready(function() {
             }
         }
     });
+
+    $login_psw.change(function() { //tolgo has-success / has-error se le ha
+        $cLoginPsw.removeClass("has-success has-error");
+        $('label#logerr').remove(); //reset dei messaggi di errore
+    }).keypress(function(e) {
+        if(e.which == 13) {
+            if($userlogin.valid())
+                controlloLogin($login_psw.val(), $username.val());
+            else {
+                $cLoginPsw.removeClass("has-success has-error");
+                $("label#logerr").remove();
+                $cLoginPsw.addClass("has-error");
+                $cLoginPsw.append("<label class='error' id='logerr'>Errore nell'inserimento dei dati, riprova!</label>");
+            }
+        }
+    });
+
+    $("button#btnAccedi").click(function() { //click del pulsante Accedi tramite mouse
+        if($userlogin.valid())
+            controlloLogin($login_psw.val(), $username.val());
+        else {
+            $cLoginPsw.removeClass("has-success has-error");
+            $("label#logerr").remove();
+            $cLoginPsw.addClass("has-error");
+            $cLoginPsw.append("<label class='error' id='logerr'>Errore nell'inserimento dei dati, riprova!</label>");
+        }
+    });
+
+    
 });
