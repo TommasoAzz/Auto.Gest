@@ -361,7 +361,7 @@ function getSessioniCorso($db, $idCorso, $giorno = 0, $ora = 0) {
 } //RESTITUITO: array con lista sessioni corsi del corso di id=$idCorso o messaggio di errore. Viene interrogato il database
 
 function cambioPasswordUtente_Admin($db, $id_persona, $nuovapwd) {
-    $cambioEff = $db->queryDB("UPDATE `Persone` SET `Pwd`='" . password_has($nuovapwd, PASSWORD_DEFAULT) . "' WHERE `ID_Persona`=$id_persona");
+    $cambioEff = $db->queryDB("UPDATE `Persone` SET `Pwd`='" . password_hash($nuovapwd, PASSWORD_DEFAULT) . "' WHERE `ID_Persona`=$id_persona");
     
     return $cambioEff;
 } //RESTITUITO: true se cambio password a persona di ID_Persona = $id_persona è stato fatto, false altrimenti. Viene interrogato il database.
