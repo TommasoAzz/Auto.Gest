@@ -7,7 +7,8 @@ Session::open();
 $info = Session::get("info");
 $utente = Session::get("utente");
 ?>
-<html>
+<!doctype html>
+<html lang="it">
     <head>
         <?php require_once "../head.php"; ?>
         <link rel="stylesheet" type="text/css" href="../css/amministrazione.css" />
@@ -51,7 +52,7 @@ $utente = Session::get("utente");
             /* righe di separazione fra un pannello e un altro */
             const riga_soloMobile = "<div class='col-xs-12 col-sm-12 hidden-md hidden-lg'><hr></div>";
             const riga_noMobile = "<div class='hidden-xs hidden-sm col-md-12 col-lg-12'><hr></div>";
-            const riga_tutti = "<div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'><hr></div>"
+            const riga_tutti = "<div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'><hr></div>";
         ?>
         <div class="row" id="noPrint">
         <?php include "pannelli/ricercaID_Persona.html"; ?>     <!-- PANNELLO A -->

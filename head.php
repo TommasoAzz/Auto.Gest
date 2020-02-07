@@ -48,8 +48,8 @@
 <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css" />
 <link rel="stylesheet" type="text/css" href="/css/jquery-confirm.min.css" />
 <link rel="stylesheet" type="text/css" href="/css/style.css" />
-<script type="text/javascript" src="/js/jquery.min.js"></script>
-<script type="text/javascript" src="/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/js/jquery-confirm.min.js"></script>
-<script type="text/javascript" src="/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="/js/script.js"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery-confirm.min.js"></script>
+<script src="/js/jquery.validate.min.js"></script>
+<script src="/js/script.js"></script>

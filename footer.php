@@ -20,7 +20,7 @@
             </div>
             <div id="logoAutoGest" class="hidden-xs hidden-sm col-md-2 col-lg-2">
                 <p class="navbar-text pull-right">
-                    <a href="https://github.com/tommasoazz/Auto.Gest/" target="_blank" alt="logoAutoGest" title="<?php echo $info['titolo']; ?> utilizza Auto.Gest"><img class="img-responsive" src="/img/AutoGest-Logo.png" /></a>
+                    <a href="https://github.com/tommasoazz/Auto.Gest/" target="_blank" title="<?php echo $info['titolo']; ?> utilizza Auto.Gest"><img alt="Logo AutoGest" class="img-responsive" src="/img/AutoGest-Logo.png" /></a>
                 </p>
             </div>
         </div>

@@ -7,7 +7,8 @@
     $info = Session::get("info");
     $utente = Session::get("utente");
 ?>
-<html>
+<!doctype html>
+<html lang="it">
     <head>
         <?php require_once "../head.php"; ?>
         <script type='text/javascript' src="../js/primo-accesso.js"></script>
@@ -17,7 +18,7 @@
     <div id="wrapper" class="clearfix"><!-- inizio wrapper -->
     <!-- NAVBAR -->
     <?php
-        if(isset($utente)) header("Location: ../");
+        if(isset($utente) || strtotime($info["aperturaiscrizioni"]) - (new DateTime())->getTimestamp() >= 0) header("Location: ../");
         require_once "../caricaNavbar.php";
         require_once "modal/registrazione.php";
     ?>

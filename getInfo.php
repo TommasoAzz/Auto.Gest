@@ -4,13 +4,14 @@ require_once "connettiAlDB.php";
 Session::open();
 header("Content-Type: text/html;charset=utf-8");
 
-$queryInfo = "SELECT Titolo,PeriodoSvolgimento,NomeContatto1,NomeContatto2,NomeContatto3,LinkContatto1,LinkContatto2,LinkContatto3,Istituto FROM InfoEvento WHERE ID=1";
+$queryInfo = "SELECT Titolo,PeriodoSvolgimento,AperturaIscrizioni,NomeContatto1,NomeContatto2,NomeContatto3,LinkContatto1,LinkContatto2,LinkContatto3,Istituto FROM InfoEvento WHERE ID=1";
 $result_info = $db->queryDB($queryInfo);
 
 if($resInfo = $result_info[0]) {
     $info=array(
         "titolo" => $resInfo["Titolo"],
         "periodosvolgimento" => $resInfo["PeriodoSvolgimento"],
+        "aperturaiscrizioni" => date("Y-m-d H:i:s", strtotime($resInfo["AperturaIscrizioni"])), // aaaa-mm-gg oo:mm:ss
         "nomecontatto1" => $resInfo["NomeContatto1"],
         "linkcontatto1" => $resInfo["LinkContatto1"],
         "nomecontatto2" => $resInfo["NomeContatto2"],
@@ -23,6 +24,7 @@ if($resInfo = $result_info[0]) {
     $info=array(
         "titolo" => "Err. titolo",
         "periodosvolgimento" => "Err. periodo-svolgimento",
+        "aperturaiscrizioni" => "Err. apertura-iscrizioni",
         "nomecontatto1" => "Err. nomecontatto1",
         "linkcontatto1" => "Err. linkcontatto1",
         "nomecontatto2" => "Err. nomecontatto2",

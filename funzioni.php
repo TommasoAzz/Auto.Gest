@@ -540,7 +540,7 @@ function creazioneBloccoIscrizione($db, $nGiorno, $nOra) {
                 "<div class='panel-body'>" .
                     "<div class='input-group input-group-lg'>" .
                         "<select class='form-control' id='corso' name='corso'>" .
-                            "<option value=''></option>";
+                            "<option value=\"\"></option>";
 
     if($sessioniCorsi !== "errore_db_lista_corsi") {
         for ($i = 0, $l = sizeof($sessioniCorsi); $i < $l; $i++) {
@@ -553,7 +553,7 @@ function creazioneBloccoIscrizione($db, $nGiorno, $nOra) {
             else $stringCorso = htmlspecialchars($corso['Nome'], ENT_QUOTES) . " - " . $durata . " ore";
 
             $stringCorsoVal = htmlspecialchars($corso['Nome'], ENT_QUOTES) . "_" . $nOra;
-            $blocco .= "<option value='" . $stringCorsoVal . "' data-info='" .$info. "'>$stringCorso</option>";
+            $blocco .= "<option value=\"" . $stringCorsoVal . "\" data-info=\"" .$info. "\">$stringCorso</option>";
         }
     }
 

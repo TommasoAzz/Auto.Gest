@@ -84,6 +84,7 @@ CREATE TABLE `InfoEvento` (
   `Titolo` varchar(30) NOT NULL COMMENT 'Titolo dell evento',
   `Durata` int(1) NOT NULL COMMENT 'Numero giorni dell evento',
   `PeriodoSvolgimento` varchar(255) NOT NULL COMMENT 'Data dell evento (gg/mm/aaaa-gg/mm/aaaa)',
+  `AperturaIscrizioni` datetime NOT NULL COMMENT 'Data di apertura delle iscrizioni',
   `NomeContatto1` varchar(100) NOT NULL COMMENT 'Nome della persona da contattare per problemi, 1',
   `LinkContatto1` varchar(255) NOT NULL COMMENT 'Link della persona da contattare per problemi, 1',
   `NomeContatto2` varchar(100) NOT NULL COMMENT 'Nome della persona da contattare per problemi, 2',

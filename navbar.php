@@ -6,5 +6,12 @@
             <li><a href="<?php echo getURL('/licenza/'); ?>">Licenza</a></li>
         </ul>
     </li>
+    <?php
+    /**
+     * Mostro il blocco THEN solo se passa il controllo (sono aperte le iescrizioni) altrimenti mostro il blocco ELSE
+     */
+    if(strtotime($info["aperturaiscrizioni"]) - (new DateTime())->getTimestamp() < 0):
+    ?>
     <li><a href="<?php echo getURL('/accesso/'); ?>"><span class="fa fa-sign-in"></span> Accedi</a></li>
+    <?php endif; ?>
 </ul>

@@ -7,7 +7,8 @@ Session::open();
 $info=Session::get("info");
 $utente=Session::get("utente");
 ?>
-<html>
+<!doctype html>
+<html lang="it">
     <head>
         <?php require_once "../head.php"; ?>
         <link rel="stylesheet" type="text/css" href="../css/i-miei-corsi.css" />
