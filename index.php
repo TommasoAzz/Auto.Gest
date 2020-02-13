@@ -19,6 +19,9 @@
     <?php
         require_once "caricaNavbar.php";
         //scelta pulsante per Jumbotron -> viene inserito nel div.jumbotron
+        if(strtotime($info["aperturaiscrizioni"]) - (new DateTime())->getTimestamp() >= 0) {
+            $button = "";
+        }
         if(!isset($utente)) {
             $button = "<p class='text-center'><a class='btn btn-primary btn-lg' href='" . getURL("/accesso/") . "' data-toggle='modal' role='button'>Accedi al sito</a></p>";
         } else {
