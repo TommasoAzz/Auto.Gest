@@ -110,6 +110,12 @@ $(document).ready(function() {
         aggiornaLista(giorno_ora);
     });
 
+    //aggiornamento della lista delle ore ogni volta che viene selezionato un giorno diverso
+    $( "select#scelta_giorno" ).change(function() {
+        giorno_ora = aggiornaDati(giorno_ora);
+        richiestaOre(giorno_ora);
+    });
+
     /*$("a.showInfo").click(function() {
         console.log('ddd');
         console.log($(this).html());

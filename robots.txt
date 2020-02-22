@@ -8,4 +8,4 @@ Disallow: /fonts/
 Disallow: /iscrizione/
 Disallow: /modal/
 Disallow: /accesso/
-Sitemap: https://autoges.razzbe.it/sitemap.xml
+Sitemap: https://autogest.razzbe.it/sitemap.xml
