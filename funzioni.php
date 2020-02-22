@@ -221,7 +221,7 @@ function primoAccesso($db, $cl, $s, $ind, $postPass) {
     $id = intval($id_paf[0]["ID_Persona"]);
     $pae = intval($id_paf[0]["PrimoAccessoEffettuato"]);
     
-    if($pae == 0) return "primo_accesso_effettuato";
+    if($pae == 1) return "primo_accesso_effettuato";
 
     $utente = inizializzaUtente($db, $id);
     if(!$utente) return "errore_db_idpersona";
